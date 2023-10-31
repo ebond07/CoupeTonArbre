@@ -1,0 +1,45 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title System Context Diagram for Coupe Ton Arbre
+
+Person(client, "Client", "A client of Coupe Ton Arbre.")
+
+System_Boundary(c4,) {
+Container(web, "Web Application", "JavaScript, HTML, CSS, React", "The web frontend for the Coupe Ton Arbre system")
+Container(single_page_app, "Single Page Application", "JavaScript, HTML, CSS", "Single page application that communicates with the API Gateway")
+Container(api_gateway, "API Gateway", "Java, Spring Boot", "The point of access for all microservices", $tags = "microService")
+
+Container(appointment_service, "Appointment Service", "Java, Spring Boot", "The point of access for appointment information", $tags = "microService")
+ContainerDb(agentDb, "Agent Database", "agents-db", "Holds agent information", $sprite="msql_server")
+
+Container(quote_service, "Quote Service", "Java, Spring Boot", "The point of access for listing information", $tags = "microService")
+ContainerDb(quoteDb, "Listing Database", "listing-db", "Holds listing information", $sprite="msql_server")
+
+Container(property_service, "Property Service", "Java, Spring Boot", "The point of access for property information", $tags = "microService")
+ContainerDb(propertyDb, "Property Database", "property-db", "Holds property information", $sprite="msql_server")
+
+Container(aggregator, "Marketplace Aggregator", "Java, Spring Boot", "Aggregates data from all microservices", $tags = "microService")
+ContainerDb(aggregatorDb, "Marketplace Database", "marketplace-db", "Holds fact sheet information", $sprite="msql_server")
+
+}
+Rel(client, web, "Visits using [https]")
+Rel(client, single_page_app, "Views and manages agents, listings and properties using")
+
+Rel(web, single_page_app, "Delivers")
+Rel(single_page_app, api_gateway, "Connects to")
+Rel(api_gateway, aggregator, "Connects to")
+Rel(api_gateway, appointment_service, "Connects to")
+Rel(api_gateway, quote_service, "Connects to")
+Rel(api_gateway, property_service, "Connects to")
+Rel(appointment_service, agentDb, "Reads and writes to")
+Rel(quote_service, quoteDb, "Reads and writes to")
+Rel(property_service, propertyDb, "Reads and writes to")
+Rel(aggregator, appointment_service, "Connects to")
+Rel(aggregator, quote_service, "Connects to")
+Rel(aggregator, property_service, "Connects to")
+Rel(aggregator, aggregatorDb, "Reads and writes to")
+
+SHOW_LEGEND()
+
+@enduml
