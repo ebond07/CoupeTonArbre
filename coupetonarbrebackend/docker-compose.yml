@@ -1,8 +1,13 @@
 services:
-  coupetonarbre:
+  coupetonarbrebackend:
     build: .
     hostname: coupetonarbre
     ports:
       - "8080:8080"
     environment:
       - SPRING_PROFILES_ACTIVE=docker
+  coupetonarbrefrontend:
+    build:
+      context: ../coupetonarbrefrontend
+    ports:
+      - "3000:3000"
