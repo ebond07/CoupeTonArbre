@@ -79,7 +79,3 @@ The contributors who have worked on this project:
 - [David Rallo](https://github.com/drallo22)
 - [Da Zhuo Xie](https://github.com/dazhuox)
 - [Matthew Tan](https://github.com/Matthewtan9)
-
-## License Information
-
-This project is licensed under the MIT License. Feel free to use and modify the code for your own projects.
