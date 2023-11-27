@@ -67,8 +67,6 @@ The project is structured as follows:
 
   - **`docker-compose.yml`**: Docker Compose configuration file for orchestrating the backend and frontend containers.
 
-  - **`LICENSE`**: MIT License file.
-
   - **`README.md`**: Documentation file providing information about the project.
 
 ## Developers
