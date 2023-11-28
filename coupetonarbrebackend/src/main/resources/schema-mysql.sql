@@ -7,6 +7,7 @@ create table if not exists clients (
     first_name VARCHAR(50),
     last_name VARCHAR(50),
     email VARCHAR(50),
+    address VARCHAR(50),
     postal_code VARCHAR (9)
 );
 
