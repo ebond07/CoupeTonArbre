@@ -29,7 +29,7 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
     - name: switch to correct folder
-      run: cd ~/coupetonarbrebackend
+      run: cd coupetonarbrebackend
     - name: make gradlew executable
       run: chmod +x ./gradlew
     - name: Build with Gradle
