@@ -23,6 +23,7 @@ spring:
     hibernate:
       ddl-auto: none
 
+
   config:
     activate:
       on-profile: docker
