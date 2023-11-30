@@ -39,8 +39,8 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
-    implementation 'io.asyncer:r2dbc-mysql:1.0.4'
-    implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
+//    implementation 'io.asyncer:r2dbc-mysql:1.0.4'
+//    implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
     implementation "org.mapstruct:mapstruct:${mapstructVersion}"
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     compileOnly "org.mapstruct:mapstruct-processor:${mapstructVersion}"

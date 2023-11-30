@@ -8,7 +8,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel = "spring")
 public interface ClientRequestMapper {
 
-    @Mapping(target = "clientId", ignore = true)
+    @Mapping(source = "clientId", target="clientId")
     @Mapping(source = "firstName", target = "firstName")
     @Mapping(source = "lastName", target = "lastName")
     @Mapping(source = "email", target = "email")

@@ -11,6 +11,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ClientRequestDTO {
 
+    private String clientId;
     private String firstName;
     private String lastName;
     private String email;
