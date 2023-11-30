@@ -4,7 +4,6 @@ import com.example.coupetonarbrebackend.User.DataLayer.ClientRepository;
 import com.example.coupetonarbrebackend.User.DataMapperLayer.ClientRequestMapper;
 import com.example.coupetonarbrebackend.User.DataMapperLayer.ClientResponseMapper;
 import com.example.coupetonarbrebackend.User.PresentationLayer.ClientResponseDTO;
-import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

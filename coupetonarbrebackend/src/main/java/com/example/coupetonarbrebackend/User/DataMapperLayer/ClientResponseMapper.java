@@ -12,7 +12,6 @@ import java.util.List;
 
 public interface ClientResponseMapper {
 
-    ClientResponseMapper INSTANCE = Mappers.getMapper( ClientResponseMapper.class );
 
     @Mapping(source = "clientId", target = "clientId")
     @Mapping(source = "firstName", target = "firstName")

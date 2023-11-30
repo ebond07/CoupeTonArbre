@@ -13,7 +13,7 @@ import reactor.core.publisher.Flux;
 import java.util.List;
 
 @RestController
-@RequestMapping("client")
+@RequestMapping("clients")
 public class ClientController {
 
     private ClientService clientService;
@@ -23,7 +23,7 @@ public class ClientController {
     }
 
 
-    @GetMapping( "/all")
+    @GetMapping
     public ResponseEntity<List<ClientResponseDTO>> getAllClients(){
         return ResponseEntity.ok().body(clientService.getAllClients());
     }
