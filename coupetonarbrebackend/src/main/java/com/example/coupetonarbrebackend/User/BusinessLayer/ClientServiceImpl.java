@@ -18,7 +18,6 @@ public class ClientServiceImpl implements ClientService{
 
     private  ClientRequestMapper clientRequestMapper;
 
-    @Autowired
     public ClientServiceImpl(ClientRepository clientRepository, ClientResponseMapper clientResponseMapper, ClientRequestMapper clientRequestMapper) {
         this.clientRepository = clientRepository;
         this.clientResponseMapper = clientResponseMapper;
