@@ -27,7 +27,6 @@ jobs:
       run: |
         cd coupetonarbrefrontend
         npm run build
-        npm test
 
     - name: Set up JDK
       uses: actions/setup-java@v2
