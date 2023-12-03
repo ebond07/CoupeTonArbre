@@ -1,7 +1,7 @@
 package com.example.coupetonarbrebackend.User.BusinessLayer;
 
 import com.example.coupetonarbrebackend.User.DataLayer.ClientRepository;
-import com.example.coupetonarbrebackend.User.DataMapperLayer.ClientRequestMapper;
+
 import com.example.coupetonarbrebackend.User.DataMapperLayer.ClientResponseMapper;
 import com.example.coupetonarbrebackend.User.PresentationLayer.ClientResponseDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +16,11 @@ public class ClientServiceImpl implements ClientService{
 
     private  ClientResponseMapper clientResponseMapper;
 
-    private  ClientRequestMapper clientRequestMapper;
 
-    public ClientServiceImpl(ClientRepository clientRepository, ClientResponseMapper clientResponseMapper, ClientRequestMapper clientRequestMapper) {
+    public ClientServiceImpl(ClientRepository clientRepository, ClientResponseMapper clientResponseMapper) {
         this.clientRepository = clientRepository;
         this.clientResponseMapper = clientResponseMapper;
-        this.clientRequestMapper = clientRequestMapper;
+
     }
     @Override
     public List<ClientResponseDTO> getAllClients() {
