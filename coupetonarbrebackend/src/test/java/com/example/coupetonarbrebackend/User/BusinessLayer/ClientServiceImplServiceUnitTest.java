@@ -44,8 +44,8 @@ class ClientServiceImplServiceUnitTest {
         );
 
         List<ClientResponseDTO> expectedResponseDTOList = Arrays.asList(
-                new ClientResponseDTO("c3540a89-cb47-4c96-888e-ff96708db4d8", "Alick", "Ucceli", "aucceli0@dot.gov", "514-837-9347", "73 Shoshone Road, Barraute, Québec, Canada")
-
+                new ClientResponseDTO("c3540a89-cb47-4c96-888e-ff96708db4d8", "Alick", "Ucceli", "aucceli0@dot.gov", "514-837-9347", "73 Shoshone Road, Barraute, Québec, Canada"),
+                new ClientResponseDTO("yetAnotherClientId", "Jane", "Smith", "jane.smith@example.com", "987-654-3210", "456 Secondary St")
         );
 
         when(clientRepository.findAll()).thenReturn(mockClientList);
