@@ -1,25 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 
 function AccountsAdmin() {
-    return (
-        <div>
-          <div id='nav-container'>
-            <nav>
-                <ul>
-                    <li><a href='HomePage.jsx'>Home</a></li>
-                    <li><a href=''>Appointments</a></li>
-                    <li><a href='HomePage.jsx'>Quote Requests</a></li>
-                    <li><a href='AccountsAdmin.jsx'>Accounts</a></li>
-                    <li><a href='HomePage.jsx'>Feedback</a></li>
-                    <li><a href='HomePage.jsx'>Log out</a></li>
-                </ul>
-            </nav>
-          </div>
-          
-          <h2>Accounts</h2>
-          
-        </div>
-    );
+  const [clients, setClients] = useState([]);
+
+  useEffect(() => {
+    axios.get('http://localhost:8080/clients')
+      .then(response => {
+        setClients(response.data);
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }, []);
+
+  return (
+    <table>
+      <thead>
+        <tr>
+          <th>First Name</th>
+          <th>Last Name</th>
+          <th>Email</th>
+          <th>Phone Number</th>
+          <th>Address</th>
+        </tr>
+      </thead>
+      <tbody>
+        {clients.map(client => (
+          <tr key={client.id}>
+            <td>{client.firstName}</td>
+            <td>{client.lastName}</td>
+            <td>{client.email}</td>
+            <td>{client.phoneNumber}</td>
+            <td>{client.address}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
 }
 
 export default AccountsAdmin;

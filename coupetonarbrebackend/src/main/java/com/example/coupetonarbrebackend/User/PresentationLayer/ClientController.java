@@ -3,6 +3,7 @@ package com.example.coupetonarbrebackend.User.PresentationLayer;
 import com.example.coupetonarbrebackend.User.BusinessLayer.ClientService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,6 +14,7 @@ import reactor.core.publisher.Flux;
 import java.util.List;
 
 @RestController
+@CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("clients")
 public class ClientController {
 
