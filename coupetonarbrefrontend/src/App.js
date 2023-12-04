@@ -9,7 +9,7 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/HomePage.jsx" element={<HomePage />} />
           <Route path="/AccountsAdmin.jsx" element={<AccountsAdmin />} />
           {/* <Route path="/register" element={<RegisterPage />} />
           <Route path="/" element={<LandingPage />} /> */}

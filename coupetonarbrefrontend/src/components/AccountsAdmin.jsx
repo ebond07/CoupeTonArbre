@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import Navbar from './Navbar';
 
 function AccountsAdmin() {
   const [clients, setClients] = useState([]);
@@ -15,28 +16,34 @@ function AccountsAdmin() {
   }, []);
 
   return (
-    <table>
-      <thead>
-        <tr>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>Email</th>
-          <th>Phone Number</th>
-          <th>Address</th>
-        </tr>
-      </thead>
-      <tbody>
-        {clients.map(client => (
-          <tr key={client.id}>
-            <td>{client.firstName}</td>
-            <td>{client.lastName}</td>
-            <td>{client.email}</td>
-            <td>{client.phoneNumber}</td>
-            <td>{client.address}</td>
+    <div>
+      <div id='nav-container'>
+        <Navbar />
+      </div>
+
+      <table>
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone Number</th>
+            <th>Address</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {clients.map(client => (
+            <tr key={client.id}>
+              <td>{client.firstName}</td>
+              <td>{client.lastName}</td>
+              <td>{client.email}</td>
+              <td>{client.phoneNumber}</td>
+              <td>{client.address}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
