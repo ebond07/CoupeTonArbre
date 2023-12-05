@@ -13,6 +13,7 @@ import jakarta.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
+
 @Table(name = "clients")
 public class Client {
 
