@@ -1,7 +1,7 @@
 describe('FirstTest', () => {
   it('opens the page and performs e2e testing', () => {
     // Visit the home page
-    cy.visit('localhost:3000/HomePage.jsx');
+    cy.visit('localhost:3000');
 
     // Verify that the Navbar is rendered
     cy.get('#nav-container').should('exist');
@@ -23,7 +23,7 @@ describe('FirstTest', () => {
     cy.get('nav').contains('Accounts').click();
 
     // Validate the URL
-    cy.url().should('include', '/AccountsAdmin');
+    cy.url().should('include', '/accounts');
 
     // Verify the presence of the table and its headers
     cy.get('table').should('exist');
@@ -36,9 +36,23 @@ describe('FirstTest', () => {
     // Verify the presence of client information
     cy.get('tbody').find('tr').should('have.length', 10); 
 
-    cy.get('nav').contains('Home').click();
+    cy.get('nav').contains('Appointments').click();
 
-    cy.url().should('include', '/HomePage');
+    cy.url().should('include', '/appointments');
 
+    cy.contains('Welcome to the Appointments Page').should('exist');
+    cy.contains('This is the content of the appointments page.').should('exist');
+
+    cy.get('nav').contains('Quote Requests').click();
+    cy.url().should('include', '/quotes');
+
+    cy.contains('Welcome to the Quotes Page').should('exist');
+    cy.contains('This is the content of the quote page.').should('exist');
+
+    cy.get('nav').contains('Feedback').click();
+    cy.url().should('include', '/feedback');
+
+    cy.contains('Welcome to the Feedback Page').should('exist');
+    cy.contains('This is the content of the feedback page.').should('exist');
   });
 });
