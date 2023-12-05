@@ -1,7 +1,10 @@
-import { useRoutes } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+
 import HomePage from './components/HomePage';
 import AccountsAdmin from './components/AccountsAdmin';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import AppointmentsAdmin from './components/AppointmentsAdmin';
+import QuotesAdmin from './components/QuotesAdmin';
+import FeedbackAdmin from './components/FeedbackAdmin';
 
 function App() {
   
@@ -9,8 +12,11 @@ function App() {
     <div className="App">
       <BrowserRouter>
         <Routes>
-          <Route path="/HomePage.jsx" element={<HomePage />} />
-          <Route path="/AccountsAdmin.jsx" element={<AccountsAdmin />} />
+          <Route path="/" element={<HomePage />} />
+          <Route path="/appointments" element={<AppointmentsAdmin />} />
+          <Route path="/quotes" element={<QuotesAdmin />} />
+          <Route path="/accounts" element={<AccountsAdmin />} />
+          <Route path="/feedback" element={<FeedbackAdmin />} />
           {/* <Route path="/register" element={<RegisterPage />} />
           <Route path="/" element={<LandingPage />} /> */}
         </Routes>
