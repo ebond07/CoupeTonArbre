@@ -16,7 +16,7 @@ import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient
-class ClientControllerIntegrationTest {
+class UserControllerIntegrationTest {
 
     @Autowired
     private WebTestClient webTestClient;
