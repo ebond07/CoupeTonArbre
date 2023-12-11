@@ -34,7 +34,7 @@ class UserControllerIntegrationTest {
 
 
         webTestClient.get()
-                .uri("/clients")
+                .uri("/users/clients")
                 .accept(MediaType.APPLICATION_JSON)
                 .exchange()
                 .expectStatus().isOk()
