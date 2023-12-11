@@ -6,7 +6,7 @@ function AccountsAdmin() {
   const [clients, setClients] = useState([]);
 
   useEffect(() => {
-    axios.get('http://localhost:8080/clients')
+    axios.get('http://localhost:8080/users/clients')
       .then(response => {
         setClients(response.data);
       })
