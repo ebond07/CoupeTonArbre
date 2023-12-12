@@ -6,7 +6,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.boot.test.autoconfigure.web.reactive.WebFluxTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -16,13 +15,13 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
-class ClientControllerUnitTest {
+class UserControllerUnitTest {
 
     @Mock
     private ClientService clientService;
 
     @InjectMocks
-    private ClientController clientController;
+    private UserController userController;
 
     @BeforeEach
     void setUp() {
@@ -38,7 +37,7 @@ class ClientControllerUnitTest {
 
         when(clientService.getAllClients()).thenReturn(expectedClientResponseDTOList);
 
-        ResponseEntity<List<ClientResponseDTO>> responseEntity = clientController.getAllClients();
+        ResponseEntity<List<ClientResponseDTO>> responseEntity = userController.getAllClients();
 
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
