@@ -7,9 +7,13 @@ import com.example.coupetonarbrebackend.User.DataLayer.Client;
 import com.example.coupetonarbrebackend.User.PresentationLayer.ClientRequestDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.stereotype.Component;
 
 @Mapper(componentModel = "spring")
+@Component
 public interface ClientRequestMapper {
+
+    @Mapping(target = "id", ignore = true)
 
     @Mapping(source = "clientId", target="clientId")
     @Mapping(source = "firstName", target = "firstName")

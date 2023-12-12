@@ -2,8 +2,10 @@ package com.example.coupetonarbrebackend.User.BusinessLayer;
 
 import com.example.coupetonarbrebackend.User.DataLayer.ClientRepository;
 
+import com.example.coupetonarbrebackend.User.DataMapperLayer.ClientRequestMapper;
 import com.example.coupetonarbrebackend.User.DataMapperLayer.ClientResponseMapper;
 import com.example.coupetonarbrebackend.User.DataLayer.Client;
+import com.example.coupetonarbrebackend.User.PresentationLayer.ClientRequestDTO;
 import com.example.coupetonarbrebackend.User.PresentationLayer.ClientResponseDTO;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -19,7 +21,9 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -30,6 +34,9 @@ class ClientServiceImplServiceUnitTest {
 
     @Mock
     private ClientResponseMapper clientResponseMapper;
+
+    @Mock
+    private ClientRequestMapper clientRequestMapper;
 
 
     @InjectMocks
@@ -53,5 +60,49 @@ class ClientServiceImplServiceUnitTest {
         List<ClientResponseDTO> actualResponseDTOList = clientService.getAllClients();
         assertEquals(expectedResponseDTOList.size(), actualResponseDTOList.size());
 
+    }
+
+    @Test
+    void whenValidClientId_thenUpdateClient() {
+        // Arrange
+        String clientId = "C1";
+
+        ClientRequestDTO clientRequestDTO = ClientRequestDTO.builder()
+                .clientId(clientId)
+                .firstName("David")
+                .lastName("Rallo")
+                .email("david@gmail.com")
+                .phoneNumber("514-875-7267")
+                .address("1234 rue de la montagne")
+                .build();
+
+        Client existingClient = Client.builder().build();
+
+        when(clientRepository.findByClientId(clientId)).thenReturn(existingClient);
+        when(clientRequestMapper.requestModelToEntity(clientRequestDTO)).thenReturn(existingClient);
+
+        Client updatedClient = Client.builder()
+                .clientId(clientId)
+                .firstName("David")
+                .lastName("Rallo")
+                .email("david@gmail.com")
+                .phoneNumber("514-875-7267")
+                .address("1234 rue de la montagne")
+                .build();
+
+        when(clientRepository.save(any(Client.class))).thenReturn(updatedClient);
+
+        // Act
+        ClientResponseDTO clientResponseDTO = clientService.updateClient(clientRequestDTO, clientId);
+
+        // Assert
+        assertEquals(clientId, clientResponseDTO.getClientId());
+
+        // Verify that the repository's findByClientId method and save method were called
+        verify(clientRepository, times(1)).findByClientId(clientId);
+        verify(clientRepository, times(1)).save(any(Client.class));
+
+        // Verify that the request mapper's method was called
+        verify(clientRequestMapper, times(1)).requestModelToEntity(clientRequestDTO);
     }
 }

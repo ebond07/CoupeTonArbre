@@ -1,9 +1,9 @@
 services:
-  frontend:
-    build:
-      context: ../coupetonarbrefrontend
-    ports:
-      - "3000:3000"
+#  frontend:
+#    build:
+#      context: ../coupetonarbrefrontend
+#    ports:
+#      - "3000:3000"
   backend:
     build:
       context: .
