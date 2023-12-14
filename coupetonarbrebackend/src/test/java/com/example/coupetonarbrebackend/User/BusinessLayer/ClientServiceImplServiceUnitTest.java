@@ -58,6 +58,23 @@ class ClientServiceImplServiceUnitTest {
     }
 
     @Test
+    void getClientById_shouldReturnClientResponseDTO() {
+        // Arrange
+        String clientId = "c3540a89-cb47-4c96-888e-ff96708db4d8";
+        Client mockClient = new Client();
+        ClientResponseDTO expectedResponseDTO = new ClientResponseDTO(clientId, "Alick", "Ucceli", "aucceli0@dot.gov", "514-837-9347", "73 Shoshone Road, Barraute, Québec, Canada");
+
+        when(clientRepository.findClientByClientId(clientId)).thenReturn(mockClient);
+        when(clientResponseMapper.entityToResponseModel(mockClient)).thenReturn(expectedResponseDTO);
+
+        // Act
+        ClientResponseDTO actualResponseDTO = clientService.getClientById(clientId);
+
+        // Assert
+        assertEquals(expectedResponseDTO, actualResponseDTO);
+    }
+
+    @Test
     void deleteClientByClientId_shouldDeleteClient() {
         // Arrange
         String clientIdToDelete = "c3540a89-cb47-4c96-888e-ff96708db4d8";

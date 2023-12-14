@@ -10,17 +10,19 @@ import java.util.List;
 @CrossOrigin(origins = "http://localhost:3000")
 @RequestMapping("users")
 public class UserController {
-
     private ClientService clientService;
 
     public UserController(ClientService clientService) {
         this.clientService = clientService;
     }
 
-
     @GetMapping("/clients")
     public ResponseEntity<List<ClientResponseDTO>> getAllClients(){
         return ResponseEntity.ok().body(clientService.getAllClients());
+    }
+    @GetMapping("/clients/{clientId}")
+    public ResponseEntity<ClientResponseDTO> getClientById(@PathVariable String clientId){
+        return ResponseEntity.ok().body(clientService.getClientById(clientId));
     }
     @DeleteMapping("/clients/{clientId}")
     public ResponseEntity<Void> deleteClientByClientId(@PathVariable String clientId) {

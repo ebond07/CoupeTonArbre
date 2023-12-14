@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ClientRepository extends JpaRepository<Client, Integer> {
+    Client findClientByClientId(String clientId);
 
     void deleteByClientId(String clientId);
 

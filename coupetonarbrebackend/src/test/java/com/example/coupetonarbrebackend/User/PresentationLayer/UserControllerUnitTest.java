@@ -52,6 +52,17 @@ class UserControllerUnitTest {
     }
 
     @Test
+    void getClientById_shouldReturnClientResponseDTO() {
+        ClientResponseDTO expectedClientResponseDTO = new ClientResponseDTO("c3540a89-cb47-4c96-888e-ff96708db4d8", "Alick", "Ucceli", "aucceli0@dot.gov", "514-837-9347", "73 Shoshone Road, Barraute, Québec, Canada");
+
+        when(clientService.getClientById("c3540a89-cb47-4c96-888e-ff96708db4d8")).thenReturn(expectedClientResponseDTO);
+
+        ResponseEntity<ClientResponseDTO> responseEntity = userController.getClientById("c3540a89-cb47-4c96-888e-ff96708db4d8");
+
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(expectedClientResponseDTO, responseEntity.getBody());
+    }
+    @Test
     void deleteClientByClientId_shouldDeleteClient() {
         // Arrange
         String clientIdToDelete = "1";

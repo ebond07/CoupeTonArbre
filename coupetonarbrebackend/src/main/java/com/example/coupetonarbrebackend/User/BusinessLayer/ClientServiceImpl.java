@@ -28,11 +28,14 @@ public class ClientServiceImpl implements ClientService{
         return clientResponseMapper.entityListToResponseModelList(clientRepository.findAll()) ;
 
     }
+
+    @Override
+    public ClientResponseDTO getClientById(String id) {
+        return clientResponseMapper.entityToResponseModel(clientRepository.findClientByClientId(id));
+    }
     @Override
     @Transactional
     public void deleteClientByClientId(String clientId) {
         clientRepository.deleteByClientId(clientId);
     }
 }
-
-
