@@ -35,26 +35,18 @@ function AccountsAdmin() {
     axios.delete(`http://localhost:8080/users/clients/${clientId}`)
       .then(response => {
         console.log('Delete successful:', response);
-        setClients(clients => clients.filter(client => client.clientId !== clientId));
+        axios.get('http://localhost:8080/users/clients')
+          .then(response => {
+            setClients(response.data);
+          })
+          .catch(error => {
+            console.error('Error fetching updated clients:', error);
+          });
       })
       .catch(error => {
         console.error('Error:', error);
       });
   };
-
-  useEffect(() => {
-    const fetchClients = () => {
-      axios.get('http://localhost:8080/users/clients')
-        .then(response => {
-          setClients(response.data);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-    };
-
-    fetchClients();
-  }, [clients]);
 
   useEffect(() => {
     if (selectedClientId !== null) {
