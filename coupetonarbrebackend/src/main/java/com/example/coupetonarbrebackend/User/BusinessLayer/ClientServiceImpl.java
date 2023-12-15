@@ -59,8 +59,6 @@ public class ClientServiceImpl implements ClientService{
         return clientResponseMapper.entityToResponseModel(clientRepository.save(newClient));
     }
 
-//    @Override
-//    public ClientResponseDTO updateClient(ClientRequestDTO clientRequestDTO) {
-//        return clientResponseMapper.entityToResponseModel(clientRepository.save(clientRequest.requestDTOToEntity(clientRequestDTO)));
-//    }
+
+
 }

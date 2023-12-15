@@ -21,6 +21,11 @@ public class UserController {
         return ResponseEntity.ok().body(clientService.getAllClients());
     }
 
+    @PutMapping("/clients/{clientId}")
+    public ResponseEntity<ClientResponseDTO> updateClients(@PathVariable String clientId, @RequestBody ClientRequestDTO clientRequestDTO){
+        return ResponseEntity.ok().body(clientService.updateClient(clientRequestDTO,clientId));
+    }
+
     @GetMapping("/clients/{clientId}")
     public ResponseEntity<ClientResponseDTO> getClientById(@PathVariable String clientId){
         return ResponseEntity.ok().body(clientService.getClientById(clientId));
