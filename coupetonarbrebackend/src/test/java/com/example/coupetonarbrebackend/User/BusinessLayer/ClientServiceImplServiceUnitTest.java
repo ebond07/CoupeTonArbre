@@ -19,7 +19,9 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.client.ExpectedCount.times;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -54,4 +56,17 @@ class ClientServiceImplServiceUnitTest {
         assertEquals(expectedResponseDTOList.size(), actualResponseDTOList.size());
 
     }
+
+    @Test
+    void deleteClientByClientId_shouldDeleteClient() {
+        // Arrange
+        String clientIdToDelete = "c3540a89-cb47-4c96-888e-ff96708db4d8";
+
+        // Act
+        clientService.deleteClientByClientId(clientIdToDelete);
+
+        // Assert
+        verify(clientRepository).deleteByClientId(clientIdToDelete);
+    }
+
 }
