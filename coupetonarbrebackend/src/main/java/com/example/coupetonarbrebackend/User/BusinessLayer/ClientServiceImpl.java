@@ -28,7 +28,7 @@ public class ClientServiceImpl implements ClientService{
 
     }
     @Override
-   // @Transactional
+   @Transactional
     public void deleteClientByClientId(String clientId) {
         clientRepository.deleteByClientId(clientId);
     }
