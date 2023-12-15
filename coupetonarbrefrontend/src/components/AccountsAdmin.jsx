@@ -21,11 +21,10 @@ function AccountsAdmin() {
       console.error('Client ID is undefined. Cannot delete.');
       return;
     }
-   
+  
     const isConfirmed = window.confirm('Are you sure you want to delete this client?');
   
     if (!isConfirmed) {
-    
       return;
     }
   
@@ -34,29 +33,19 @@ function AccountsAdmin() {
     axios.delete(`http://localhost:8080/users/clients/${clientId}`)
       .then(response => {
         console.log('Delete successful:', response);
-        setClients(clients => clients.filter(client => client.id !== clientId));
+        // Fetch the updated list of clients after successful delete
+        axios.get('http://localhost:8080/users/clients')
+          .then(response => {
+            setClients(response.data);
+          })
+          .catch(error => {
+            console.error('Error fetching updated clients:', error);
+          });
       })
       .catch(error => {
         console.error('Error:', error);
       });
-  };
-  
-  useEffect(() => {
-    const fetchClients = () => {
-      axios.get('http://localhost:8080/users/clients')
-        .then(response => {
-          setClients(response.data);
-        })
-        .catch(error => {
-          console.error('Error:', error);
-        });
-    };
-  
-    fetchClients();
-  }, [clients]);
-  
-  
-  
+  };  
   return (
     <div>
       <div id='nav-container'>
