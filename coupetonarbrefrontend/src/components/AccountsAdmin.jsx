@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from './Navbar';
-
+import Footer from './Footer';
 
 function AccountsAdmin() {
   const [clients, setClients] = useState([]);
+  const [selectedClientId, setSelectedClientId] = useState(null);
+  const [selectedClientDetails, setSelectedClientDetails] = useState(null);
 
   useEffect(() => {
     axios.get('http://localhost:8080/users/clients')
@@ -21,42 +23,51 @@ function AccountsAdmin() {
       console.error('Client ID is undefined. Cannot delete.');
       return;
     }
-   
+
     const isConfirmed = window.confirm('Are you sure you want to delete this client?');
-  
+
     if (!isConfirmed) {
-    
       return;
     }
-  
+
     console.log('Deleting client with id:', clientId);
-  
+
     axios.delete(`http://localhost:8080/users/clients/${clientId}`)
       .then(response => {
         console.log('Delete successful:', response);
-        setClients(clients => clients.filter(client => client.id !== clientId));
+        axios.get('http://localhost:8080/users/clients')
+          .then(response => {
+            setClients(response.data);
+          })
+          .catch(error => {
+            console.error('Error fetching updated clients:', error);
+          });
       })
       .catch(error => {
         console.error('Error:', error);
       });
   };
-  
+
   useEffect(() => {
-    const fetchClients = () => {
-      axios.get('http://localhost:8080/users/clients')
+    if (selectedClientId !== null) {
+      axios.get(`http://localhost:8080/users/clients/${selectedClientId}`)
         .then(response => {
-          setClients(response.data);
+          setSelectedClientDetails(response.data);
         })
         .catch(error => {
           console.error('Error:', error);
         });
-    };
-  
-    fetchClients();
-  }, [clients]);
-  
-  
-  
+    }
+  }, [selectedClientId]);
+
+  const handleClientClick = (clientId) => {
+    setSelectedClientId(clientId);
+  };
+
+  const closeDetails = () => {
+    setSelectedClientId(null);
+  };
+
   return (
     <div>
       <div id='nav-container'>
@@ -74,27 +85,50 @@ function AccountsAdmin() {
           </tr>
         </thead>
         <tbody>
-          {clients.map(client => (
-            <tr key={client.clientId}>
-              <td>{client.firstName}</td>
-              <td>{client.lastName}</td>
-              <td>{client.email}</td>
-              <td>{client.phoneNumber}</td>
-              <td>{client.address}</td>
-              <td>
-                <button onClick={() => handleDelete(client.clientId)}>Delete</button>
-              </td>
-              
-            </tr>
+          {clients.map((client) => (
+            <React.Fragment key={client.clientId}>
+              <tr>
+                <td
+                  onClick={() => handleClientClick(client.clientId)}
+                  style={{ cursor: 'pointer', color: 'blue' }}
+                >
+                  {client.firstName}
+                </td>
+                <td>{client.lastName}</td>
+                <td>{client.email}</td>
+                <td>{client.phoneNumber}</td>
+                <td>{client.address}</td>
+                <td>
+                  <button onClick={() => handleDelete(client.clientId)}>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+              {selectedClientId === client.clientId && selectedClientDetails && (
+                <tr>
+                  <td colSpan="5">
+                    <div className="additional-details">
+                      <h2>Selected Client Details:</h2>
+                      <p>Client ID: {selectedClientDetails.clientId}</p>
+                      <p>Name: {selectedClientDetails.firstName} {selectedClientDetails.lastName}</p>
+                      <p>Email: {selectedClientDetails.email}</p>
+                      <p>Phone Number: {selectedClientDetails.phoneNumber}</p>
+                      <p>Address: {selectedClientDetails.address}</p>
+                      <button onClick={closeDetails}>Close</button>
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </React.Fragment>
           ))}
         </tbody>
       </table>
-  
-      
+
+      <div>
+        <Footer />
+      </div>
     </div>
-    
-    
   );
-}
+};
 
 export default AccountsAdmin;

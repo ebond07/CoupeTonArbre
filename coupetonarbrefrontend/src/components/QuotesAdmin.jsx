@@ -1,7 +1,6 @@
 import React from 'react';
 import Navbar from './Navbar';
-
-
+import Footer from './Footer';
 function QuotesAdmin() {
   return (
     <div>
@@ -11,7 +10,9 @@ function QuotesAdmin() {
       
       <h2>Welcome to the Quotes Page</h2>
       <p>This is the content of the quote page.</p>
-  
+      <div>
+        <Footer />
+      </div>
     </div>
   );
 }

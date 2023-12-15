@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from './Navbar';
-
+import Footer from './Footer';
 
 function AppointmentsAdmin() {
   return (
@@ -12,9 +12,10 @@ function AppointmentsAdmin() {
       <h2>Welcome to the Appointments Page</h2>
       <p>This is the content of the appointments page.</p>
 
- 
+      <div>
+        <Footer />
+      </div>
     </div>
-  
   );
 }
 
