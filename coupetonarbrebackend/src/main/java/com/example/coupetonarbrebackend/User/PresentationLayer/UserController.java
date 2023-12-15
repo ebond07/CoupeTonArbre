@@ -1,6 +1,7 @@
 package com.example.coupetonarbrebackend.User.PresentationLayer;
 
 import com.example.coupetonarbrebackend.User.BusinessLayer.ClientService;
+import com.example.coupetonarbrebackend.User.DataLayer.Client;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
@@ -30,9 +31,16 @@ public class UserController {
     public ResponseEntity<ClientResponseDTO> getClientById(@PathVariable String clientId){
         return ResponseEntity.ok().body(clientService.getClientById(clientId));
     }
+
+    @PostMapping()
+    public ResponseEntity<ClientResponseDTO> addClient(@RequestBody Client newClient) {
+        return ResponseEntity.ok().body(clientService.addClient(newClient));
+    }
+
     @DeleteMapping("/clients/{clientId}")
     public ResponseEntity<Void> deleteClientByClientId(@PathVariable String clientId) {
         clientService.deleteClientByClientId(clientId);
         return ResponseEntity.noContent().build();
     }
 }
+
