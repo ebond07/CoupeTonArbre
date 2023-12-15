@@ -1,11 +1,14 @@
 package com.example.coupetonarbrebackend.User.PresentationLayer;
 
 import com.example.coupetonarbrebackend.User.BusinessLayer.ClientService;
+import com.example.coupetonarbrebackend.User.DataLayer.ClientRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -13,12 +16,16 @@ import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 class UserControllerUnitTest {
 
     @Mock
     private ClientService clientService;
+
+    @MockBean
+    private ClientRepository clientRepository;
 
     @InjectMocks
     private UserController userController;
@@ -42,5 +49,17 @@ class UserControllerUnitTest {
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(expectedClientResponseDTOList, responseEntity.getBody());
+    }
+
+    @Test
+    void deleteClientByClientId_shouldDeleteClient() {
+        // Arrange
+        String clientIdToDelete = "1";
+
+        // Act
+        userController.deleteClientByClientId(clientIdToDelete);
+
+        // Assert
+        verify(clientService).deleteClientByClientId(clientIdToDelete);
     }
 }

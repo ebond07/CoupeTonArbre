@@ -47,6 +47,18 @@ class UserControllerIntegrationTest {
                     assert clientResponseDTOS.get(1).getClientId().equals("2");
                 });
     }
+    @Test
+    void deleteClientById_shouldSucceed() {
+        // Arrange
+        String clientIdToDelete = "1";
 
-
+        // Perform the actual HTTP request and assert the response
+        webTestClient.delete()
+                .uri("/users/clients/{clientId}", clientIdToDelete)
+                .exchange()
+                .expectStatus().isNoContent();
+    }
 }
+
+
+
