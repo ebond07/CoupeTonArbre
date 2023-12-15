@@ -5,6 +5,8 @@ import Footer from './Footer';
 
 function AccountsAdmin() {
   const [clients, setClients] = useState([]);
+  const [selectedClientId, setSelectedClientId] = useState(null);
+  const [selectedClientDetails, setSelectedClientDetails] = useState(null);
 
   useEffect(() => {
     axios.get('http://localhost:8080/users/clients')
@@ -57,6 +59,27 @@ function AccountsAdmin() {
 
 
 
+  useEffect(() => {
+    // Fetch details when selectedClientId changes
+    if (selectedClientId) {
+      axios.get(`http://localhost:8080/users/clients/${selectedClientId}`)
+        .then(response => {
+          setSelectedClientDetails(response.data);
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+    }
+  }, [selectedClientId]);
+
+  const handleClientClick = (clientId) => {
+    setSelectedClientId(clientId);
+  };
+
+  const closeModal = () => {
+    setSelectedClientId(null);
+  };
+
   return (
     <div>
       <div id='nav-container'>
@@ -76,7 +99,7 @@ function AccountsAdmin() {
         <tbody>
           {clients.map(client => (
             <tr key={client.clientId}>
-              <td>{client.firstName}</td>
+              <td onClick={() => handleClientClick(client.clientId)} style={{ cursor: 'pointer', color: 'blue' }}>{client.firstName}</td>
               <td>{client.lastName}</td>
               <td>{client.email}</td>
               <td>{client.phoneNumber}</td>
@@ -89,6 +112,20 @@ function AccountsAdmin() {
           ))}
         </tbody>
       </table>
+
+      {selectedClientDetails && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <span className="close-modal" onClick={closeModal}>&times;</span>
+            {/* Display additional details about the selected client */}
+            <h2>Selected Client Details:</h2>
+            <p>Client ID: {selectedClientDetails.clientId}</p>
+            <p>Additional Details: {selectedClientDetails.address}</p>
+            {/* Add more details as needed */}
+          </div>
+        </div>
+      )}
+
       <div>
         <Footer />
       </div>

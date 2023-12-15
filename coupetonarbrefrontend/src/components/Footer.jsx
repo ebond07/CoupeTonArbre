@@ -16,12 +16,13 @@ const Footer = () => {
         <>
             <Box style={{ background: `url(${background})` }}>
                 <FooterContainer>
-                    {/* Add Row and CTALogo */}
                     <Row>
-                        {/* CTALogo */}
-                        <img src={CTALogo} alt="CTA Logo" className={styles.ctaLogo} />
+                        {/* CTA Logo Column */}
+                        <Column>
+                            <img src={CTALogo} alt="CTA Logo" className={styles.ctaLogo} />
+                        </Column>
                         
-                        {/* Columns */}
+                        {/* Other Columns */}
                         <Column>
                             <Heading>Website</Heading>
                             <FooterLink href="localhost:3000">
