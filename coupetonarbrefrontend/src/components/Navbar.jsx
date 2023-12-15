@@ -13,6 +13,7 @@ function Navbar() {
        <li><Link to='/quotes' className={styles.li}>Quote Requests</Link></li>
        <li><Link to='/accounts' className={styles.li}>Accounts</Link></li>
        <li><Link to='/feedback' className={styles.li}>Feedback</Link></li>
+       <li><Link to='/profile' className={styles.li}>Profile</Link></li>
        <li className={styles.li}>Log out</li>
      </ul>
    </nav>
