@@ -1,7 +1,7 @@
-import styled from "styled-components";
-
+import styled from 'styled-components';
+import BebasNeueTTF from './fonts/BebasNeue-Regular.ttf';
 export const Box = styled.div`
-	padding: 5% 2.5%;
+	padding: 2.5% 2.5% 0 2.5%;;
 	background: black;
 	// position: absolute;
 	bottom: 0;
@@ -10,6 +10,19 @@ export const Box = styled.div`
 	@media (max-width: 1000px) {
 		// padding: 70px 30px;
 	}
+
+	@font-face {
+		font-family: 'Bebas Neue';
+		src: url(${BebasNeueTTF}) format('truetype');
+		font-weight: normal;
+		font-style: normal;
+	  }
+	
+	  body {
+		font-family: 'Bebas Neue', sans-serif;
+		margin: 0;
+		padding: 0;
+	  }
 `;
 
 export const FooterContainer = styled.div`

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from './Navbar';
-
+import Footer from './Footer';
 
 function AccountsAdmin() {
   const [clients, setClients] = useState([]);
@@ -21,16 +21,16 @@ function AccountsAdmin() {
       console.error('Client ID is undefined. Cannot delete.');
       return;
     }
-   
+
     const isConfirmed = window.confirm('Are you sure you want to delete this client?');
-  
+
     if (!isConfirmed) {
-    
+
       return;
     }
-  
+
     console.log('Deleting client with id:', clientId);
-  
+
     axios.delete(`http://localhost:8080/users/clients/${clientId}`)
       .then(response => {
         console.log('Delete successful:', response);
@@ -40,7 +40,7 @@ function AccountsAdmin() {
         console.error('Error:', error);
       });
   };
-  
+
   useEffect(() => {
     const fetchClients = () => {
       axios.get('http://localhost:8080/users/clients')
@@ -51,12 +51,12 @@ function AccountsAdmin() {
           console.error('Error:', error);
         });
     };
-  
+
     fetchClients();
   }, [clients]);
-  
-  
-  
+
+
+
   return (
     <div>
       <div id='nav-container'>
@@ -84,16 +84,15 @@ function AccountsAdmin() {
               <td>
                 <button onClick={() => handleDelete(client.clientId)}>Delete</button>
               </td>
-              
+
             </tr>
           ))}
         </tbody>
       </table>
-  
-      
+      <div>
+        <Footer />
+      </div>
     </div>
-    
-    
   );
 }
 
