@@ -1,11 +1,8 @@
 package com.example.coupetonarbrebackend.User.PresentationLayer;
 
 import com.example.coupetonarbrebackend.User.BusinessLayer.ClientService;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -24,5 +21,10 @@ public class UserController {
     @GetMapping("/clients")
     public ResponseEntity<List<ClientResponseDTO>> getAllClients(){
         return ResponseEntity.ok().body(clientService.getAllClients());
+    }
+
+    @PutMapping("/clients/{clientId}")
+    public ResponseEntity<ClientResponseDTO> updateClients(@PathVariable String clientId, @RequestBody ClientRequestDTO clientRequestDTO){
+        return ResponseEntity.ok().body(clientService.updateClient(clientRequestDTO,clientId));
     }
 }

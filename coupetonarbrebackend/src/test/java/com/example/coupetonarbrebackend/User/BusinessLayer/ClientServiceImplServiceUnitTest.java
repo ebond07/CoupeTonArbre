@@ -20,8 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -63,7 +62,7 @@ class ClientServiceImplServiceUnitTest {
     }
 
     @Test
-    void whenValidClientId_thenUpdateClient() {
+    void updateClient_withValidClientId_shouldReturnUpdatedClient() {
         // Arrange
         String clientId = "C1";
 
@@ -76,12 +75,45 @@ class ClientServiceImplServiceUnitTest {
                 .address("1234 rue de la montagne")
                 .build();
 
-        Client existingClient = Client.builder().build();
+        Client existingClient = Client.builder()
+                .clientId(clientId)
+                .firstName("John")
+                .lastName("Doe")
+                .email("john.doe@example.com")
+                .phoneNumber("555-1234")
+                .address("123 Main St")
+                .build();
 
         when(clientRepository.findByClientId(clientId)).thenReturn(existingClient);
         when(clientRequestMapper.requestModelToEntity(clientRequestDTO)).thenReturn(existingClient);
+        when(clientRepository.save(any(Client.class))).thenReturn(existingClient);
+        when(clientResponseMapper.entityToResponseModel(existingClient)).thenReturn(ClientResponseDTO.builder()
+                .clientId(clientId)
+                .firstName("David")
+                .lastName("Rallo")
+                .email("david@gmail.com")
+                .phoneNumber("514-875-7267")
+                .address("1234 rue de la montagne")
+                .build());
 
-        Client updatedClient = Client.builder()
+        // Act
+        ClientResponseDTO updatedClient = clientService.updateClient(clientRequestDTO, clientId);
+
+        // Assert
+        assertNotNull(updatedClient);
+        assertEquals(clientId, updatedClient.getClientId());
+        assertEquals("David", updatedClient.getFirstName());
+        assertEquals("Rallo", updatedClient.getLastName());
+        assertEquals("david@gmail.com", updatedClient.getEmail());
+        assertEquals("514-875-7267", updatedClient.getPhoneNumber());
+        assertEquals("1234 rue de la montagne", updatedClient.getAddress());
+    }
+
+    @Test
+    void updateClient_withNonexistentClientId_shouldReturnNull() {
+        // Arrange
+        String clientId = "NonexistentId";
+        ClientRequestDTO clientRequestDTO = ClientRequestDTO.builder()
                 .clientId(clientId)
                 .firstName("David")
                 .lastName("Rallo")
@@ -90,19 +122,16 @@ class ClientServiceImplServiceUnitTest {
                 .address("1234 rue de la montagne")
                 .build();
 
-        when(clientRepository.save(any(Client.class))).thenReturn(updatedClient);
+        when(clientRepository.findByClientId(clientId)).thenReturn(null);
 
         // Act
-        ClientResponseDTO clientResponseDTO = clientService.updateClient(clientRequestDTO, clientId);
+        ClientResponseDTO updatedClient = clientService.updateClient(clientRequestDTO, clientId);
 
         // Assert
-        assertEquals(clientId, clientResponseDTO.getClientId());
-
-        // Verify that the repository's findByClientId method and save method were called
-        verify(clientRepository, times(1)).findByClientId(clientId);
-        verify(clientRepository, times(1)).save(any(Client.class));
-
-        // Verify that the request mapper's method was called
-        verify(clientRequestMapper, times(1)).requestModelToEntity(clientRequestDTO);
+        assertNull(updatedClient);
     }
+
+
+
+
 }

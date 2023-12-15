@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import HomePage from './components/HomePage';
 import AccountsAdmin from './components/AccountsAdmin';
 import AppointmentsAdmin from './components/AppointmentsAdmin';
-import QuotesAdmin from './components/QuotesAdmin';
+import QuotesAdmin from './pages/QuotesAdmin';
 import FeedbackAdmin from './components/FeedbackAdmin';
 
 function App() {

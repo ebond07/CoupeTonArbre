@@ -48,5 +48,39 @@ class UserControllerIntegrationTest {
                 });
     }
 
+    @Test
+    void updateClient_shouldSucceed() {
+        // Mock data
+        String clientId = "1";
+        ClientRequestDTO requestDTO = ClientRequestDTO.builder()
+                .clientId(clientId)
+                .firstName("John")
+                .build();
+
+        ClientResponseDTO responseDTO = ClientResponseDTO.builder()
+                .clientId(clientId)
+                .firstName("John")
+                .build();
+
+        // Mock service method
+        when(clientService.updateClient(requestDTO, clientId)).thenReturn(responseDTO);
+
+        // Perform the request and validate the response
+        webTestClient.put()
+                .uri("/users/clients/{clientId}", clientId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(requestDTO)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody(ClientResponseDTO.class)
+                .value(clientResponseDTO -> {
+                    assert clientResponseDTO != null;
+                    assert clientResponseDTO.getClientId().equals(clientId);
+                    assert clientResponseDTO.getFirstName().equals("John");
+                });
+    }
+
 
 }
