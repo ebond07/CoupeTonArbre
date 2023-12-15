@@ -27,7 +27,6 @@ function AccountsAdmin() {
     const isConfirmed = window.confirm('Are you sure you want to delete this client?');
 
     if (!isConfirmed) {
-
       return;
     }
 
@@ -36,7 +35,7 @@ function AccountsAdmin() {
     axios.delete(`http://localhost:8080/users/clients/${clientId}`)
       .then(response => {
         console.log('Delete successful:', response);
-        setClients(clients => clients.filter(client => client.id !== clientId));
+        setClients(clients => clients.filter(client => client.clientId !== clientId));
       })
       .catch(error => {
         console.error('Error:', error);
@@ -57,11 +56,8 @@ function AccountsAdmin() {
     fetchClients();
   }, [clients]);
 
-
-
   useEffect(() => {
-    // Fetch details when selectedClientId changes
-    if (selectedClientId) {
+    if (selectedClientId !== null) {
       axios.get(`http://localhost:8080/users/clients/${selectedClientId}`)
         .then(response => {
           setSelectedClientDetails(response.data);
@@ -76,7 +72,7 @@ function AccountsAdmin() {
     setSelectedClientId(clientId);
   };
 
-  const closeModal = () => {
+  const closeDetails = () => {
     setSelectedClientId(null);
   };
 
@@ -97,40 +93,50 @@ function AccountsAdmin() {
           </tr>
         </thead>
         <tbody>
-          {clients.map(client => (
-            <tr key={client.clientId}>
-              <td onClick={() => handleClientClick(client.clientId)} style={{ cursor: 'pointer', color: 'blue' }}>{client.firstName}</td>
-              <td>{client.lastName}</td>
-              <td>{client.email}</td>
-              <td>{client.phoneNumber}</td>
-              <td>{client.address}</td>
-              <td>
-                <button onClick={() => handleDelete(client.clientId)}>Delete</button>
-              </td>
-
-            </tr>
+          {clients.map((client) => (
+            <React.Fragment key={client.clientId}>
+              <tr>
+                <td
+                  onClick={() => handleClientClick(client.clientId)}
+                  style={{ cursor: 'pointer', color: 'blue' }}
+                >
+                  {client.firstName}
+                </td>
+                <td>{client.lastName}</td>
+                <td>{client.email}</td>
+                <td>{client.phoneNumber}</td>
+                <td>{client.address}</td>
+                <td>
+                  <button onClick={() => handleDelete(client.clientId)}>
+                    Delete
+                  </button>
+                </td>
+              </tr>
+              {selectedClientId === client.clientId && selectedClientDetails && (
+                <tr>
+                  <td colSpan="5">
+                    <div className="additional-details">
+                      <h2>Selected Client Details:</h2>
+                      <p>Client ID: {selectedClientDetails.clientId}</p>
+                      <p>Name: {selectedClientDetails.firstName} {selectedClientDetails.lastName}</p>
+                      <p>Email: {selectedClientDetails.email}</p>
+                      <p>Phone Number: {selectedClientDetails.phoneNumber}</p>
+                      <p>Address: {selectedClientDetails.address}</p>
+                      <button onClick={closeDetails}>Close</button>
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </React.Fragment>
           ))}
         </tbody>
       </table>
-
-      {selectedClientDetails && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <span className="close-modal" onClick={closeModal}>&times;</span>
-            {/* Display additional details about the selected client */}
-            <h2>Selected Client Details:</h2>
-            <p>Client ID: {selectedClientDetails.clientId}</p>
-            <p>Additional Details: {selectedClientDetails.address}</p>
-            {/* Add more details as needed */}
-          </div>
-        </div>
-      )}
 
       <div>
         <Footer />
       </div>
     </div>
   );
-}
+};
 
 export default AccountsAdmin;
