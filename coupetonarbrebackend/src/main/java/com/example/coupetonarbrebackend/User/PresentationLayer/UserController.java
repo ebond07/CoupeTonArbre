@@ -20,6 +20,7 @@ public class UserController {
     public ResponseEntity<List<ClientResponseDTO>> getAllClients(){
         return ResponseEntity.ok().body(clientService.getAllClients());
     }
+
     @GetMapping("/clients/{clientId}")
     public ResponseEntity<ClientResponseDTO> getClientById(@PathVariable String clientId){
         return ResponseEntity.ok().body(clientService.getClientById(clientId));
@@ -30,4 +31,3 @@ public class UserController {
         return ResponseEntity.noContent().build();
     }
 }
-
