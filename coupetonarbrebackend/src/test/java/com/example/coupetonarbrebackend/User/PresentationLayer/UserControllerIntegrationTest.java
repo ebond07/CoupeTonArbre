@@ -102,7 +102,6 @@ class UserControllerIntegrationTest {
                 });
     }
 
-        // Act & Assert
 
     @Test
     void deleteClientById_shouldSucceed() {

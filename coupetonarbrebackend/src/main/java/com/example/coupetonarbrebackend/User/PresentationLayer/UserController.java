@@ -22,7 +22,7 @@ public class UserController {
     }
 
     @PutMapping("/clients/{clientId}")
-    public ResponseEntity<ClientResponseDTO> updateClients(@PathVariable String clientId, @RequestBody ClientRequestDTO clientRequestDTO){
+    public ResponseEntity<ClientResponseDTO> updateClient(@PathVariable String clientId, @RequestBody ClientRequestDTO clientRequestDTO){
         return ResponseEntity.ok().body(clientService.updateClient(clientRequestDTO,clientId));
     }
 

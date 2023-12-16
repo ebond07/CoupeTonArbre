@@ -21,7 +21,6 @@ describe('Update Client Admin Page', () => {
 
     // Verify that the client information has been updated
     cy.url().should('include', '/accounts'); // Assuming successful update redirects to the Accounts page
-    cy.get('td:contains("UpdatedFirstName")').should('exist'); // Adjust based on your updated data
-    // Add more assertions for other fields if needed
+    cy.get('td:contains("UpdatedFirstName")').should('exist');
   });
 });
