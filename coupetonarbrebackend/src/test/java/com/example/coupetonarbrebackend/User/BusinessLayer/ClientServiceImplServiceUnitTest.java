@@ -138,11 +138,6 @@ class ClientServiceImplServiceUnitTest {
 
 
 
-
-        // Verify that the request mapper's method was called
-        verify(clientRequestMapper, times(1)).requestModelToEntity(clientRequestDTO);
-    }
-
     @Test
     void getClientById_shouldReturnClientResponseDTO() {
         // Arrange

@@ -1,9 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
+import { useParams } from 'react-router-dom';
+import '../styles/UpdateClientAdmin.css'; // Import your CSS file for styling
+import Footer from '../components/Footer';
+
 
 function UpdateClientAdmin() {
-  const [clients, setClients] = useState([]);
+  const { clientId } = useParams();
+  const [selectedClientDetails, setSelectedClientDetails] = useState(null);
   const [updateFormData, setUpdateFormData] = useState({
     clientId: '',
     firstName: '',
@@ -14,10 +19,22 @@ function UpdateClientAdmin() {
   });
 
   useEffect(() => {
-    axios.get('http://localhost:8080/users/clients')
-      .then(response => setClients(response.data))
-      .catch(error => console.error('Error fetching clients:', error));
-  }, []);
+    axios.get(`http://localhost:8080/users/clients/${clientId}`)
+      .then(response => {
+        setSelectedClientDetails(response.data);
+        setUpdateFormData({
+          clientId: response.data.clientId,
+          firstName: response.data.firstName,
+          lastName: response.data.lastName,
+          email: response.data.email,
+          phoneNumber: response.data.phoneNumber,
+          address: response.data.address,
+        });
+      })
+      .catch(error => {
+        console.error('Error:', error);
+      });
+  }, [clientId]);
 
   const handleUpdateFormChange = (e) => {
     setUpdateFormData({
@@ -34,6 +51,8 @@ function UpdateClientAdmin() {
       .then(response => {
         // Handle the response, e.g., update state or show a success message
         console.log('Client updated successfully:', response.data);
+        window.location.href = `/accounts`;
+
       })
       .catch(error => console.error('Error updating client:', error));
   };
@@ -42,76 +61,75 @@ function UpdateClientAdmin() {
     <div id='nav-container'>
       <Navbar />
 
-      {/* Display the list of clients */}
-      <ul>
-        {clients.map(client => (
-          <li key={client.clientId}>
-            {client.clientId} {client.firstName} {client.lastName} 
-          </li>
-        ))}
-      </ul>
+      <div className='text-align center'>
+        <h1> Update Client</h1>
+      </div>
+      <br></br>
 
-      {/* Form for updating a client */}
-      <form>
-        <label>
-          Client ID:
-          <input
-            type="text"
-            name="clientId"
-            value={updateFormData.clientId}
-            onChange={handleUpdateFormChange}
-          />
-        </label>
-        <label>
-          First Name:
-          <input
-            type="text"
-            name="firstName"
-            value={updateFormData.firstName}
-            onChange={handleUpdateFormChange}
-          />
-        </label>
-        <label>
-          Last Name:
-          <input
-            type="text"
-            name="lastName"
-            value={updateFormData.lastName}
-            onChange={handleUpdateFormChange}
-          />
-        </label>
-        <label>
-          Email:
-          <input
-            type="text"
-            name="email"
-            value={updateFormData.email}
-            onChange={handleUpdateFormChange}
-          />
-        </label>
-        <label>
-          Phone Number:
-          <input
-            type="text"
-            name="phoneNumber"
-            value={updateFormData.phoneNumber}
-            onChange={handleUpdateFormChange}
-          />
-        </label>
-        <label>
-          Address:
-          <input
-            type="text"
-            name="address"
-            value={updateFormData.address}
-            onChange={handleUpdateFormChange}
-          />
-        </label>
-        <button type="button" onClick={handleUpdateButtonClick}>
-          Update Client
-        </button>
-      </form>
+      <div>
+      {/* Conditionally render the form */}
+      {selectedClientDetails && (
+        <form className="update-client-form">
+          
+          <div className="form-group">
+            <label>First Name:</label>
+            <input
+              type="text"
+              name="firstName"
+              placeholder={selectedClientDetails.firstName}
+              value={updateFormData.firstName}
+              onChange={handleUpdateFormChange}
+            />
+          </div>
+          <div className="form-group">
+            <label>Last Name:</label>
+            <input
+              type="text"
+              name="lastName"
+              value={updateFormData.lastName}
+              onChange={handleUpdateFormChange}
+            />
+          </div>
+          <div className="form-group">
+            <label>Email:</label>
+            <input
+              type="text"
+              name="email"
+              value={updateFormData.email}
+              onChange={handleUpdateFormChange}
+            />
+          </div>
+          <div className="form-group">
+            <label>Phone Number:</label>
+            <input
+              type="text"
+              name="phoneNumber"
+              value={updateFormData.phoneNumber}
+              onChange={handleUpdateFormChange}
+            />
+          </div>
+          <div className="form-group">
+            <label>Address:</label>
+            <input
+              type="text"
+              name="address"
+              value={updateFormData.address}
+              onChange={handleUpdateFormChange}
+            />
+          </div>
+          <button type="button" onClick={handleUpdateButtonClick}>
+            Update Client
+          </button>
+        </form>
+      )}
+      </div>
+      <br></br>
+
+        <div>
+        <Footer />
+      </div>
     </div>
+    
   );
 }
 

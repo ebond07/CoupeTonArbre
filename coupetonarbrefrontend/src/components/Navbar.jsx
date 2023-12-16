@@ -4,12 +4,17 @@ import React from 'react';
 import background from "../images/navbackground.png";
 import styles from "../styles/Navbar.module.css"
 import GlobalStyles from '../styles/GlobalStyles';
+import CTALogo from "../images/ctaLogo.png";
+
 
 function Navbar() {
   return (
     <>
     <GlobalStyles />
+
+    
    <nav style={{ backgroundImage: `url(${background})` }} className={styles.nav}>
+
      <ul className={styles.ul}>
        <li><Link to='/' className={styles.li}>Home</Link></li>
        <li><Link to='/appointments' className={styles.li}>Appointments</Link></li>
