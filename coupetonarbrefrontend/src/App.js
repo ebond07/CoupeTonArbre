@@ -1,11 +1,12 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 
-import HomePage from './components/HomePage';
-import AccountsAdmin from './components/AccountsAdmin';
-import AppointmentsAdmin from './components/AppointmentsAdmin';
-import QuotesAdmin from './components/QuotesAdmin';
-import FeedbackAdmin from './components/FeedbackAdmin';
-import Profile from './components/Profile';
+import HomePage from './pages/HomePage';
+import AccountsAdmin from './pages/AccountsAdmin';
+import AppointmentsAdmin from './pages/AppointmentsAdmin';
+import QuotesAdmin from './pages/QuotesAdmin';
+import FeedbackAdmin from './pages/FeedbackAdmin';
+import Profile from './pages/Profile';
+import UpdateClientAdmin from './pages/UpdateClientAdmin';
 
 function App() {
   
@@ -19,6 +20,8 @@ function App() {
           <Route path="/accounts" element={<AccountsAdmin />} />
           <Route path="/feedback" element={<FeedbackAdmin />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/updateClientAdmin/:clientId" element={<UpdateClientAdmin />} />
+
           {/* <Route path="/register" element={<RegisterPage />} />
           <Route path="/" element={<LandingPage />} /> */}
         </Routes>

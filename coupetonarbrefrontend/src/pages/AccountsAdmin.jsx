@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import Navbar from './Navbar';
-import Footer from './Footer';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+import '../styles/AccountsAdmin.css'; // Import your CSS file for styling
+
 
 function AccountsAdmin() {
   const [clients, setClients] = useState([]);
@@ -64,6 +66,12 @@ function AccountsAdmin() {
     setSelectedClientId(clientId);
   };
 
+  const handleUpdate = (clientId) => {
+
+    window.location.href = `/updateClientAdmin/${clientId}`;
+
+  };
+
   const closeDetails = () => {
     setSelectedClientId(null);
   };
@@ -72,6 +80,10 @@ function AccountsAdmin() {
     <div>
       <div id='nav-container'>
         <Navbar />
+      </div>
+
+      <div>
+        <h1>Clients</h1>
       </div>
 
       <table>
@@ -101,6 +113,11 @@ function AccountsAdmin() {
                 <td>
                   <button onClick={() => handleDelete(client.clientId)}>
                     Delete
+                  </button>
+                </td>
+                <td>
+                  <button onClick={() => handleUpdate(client.clientId)}>
+                    Edit
                   </button>
                 </td>
               </tr>

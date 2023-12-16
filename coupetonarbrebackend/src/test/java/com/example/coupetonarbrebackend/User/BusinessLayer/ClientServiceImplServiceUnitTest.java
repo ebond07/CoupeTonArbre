@@ -2,8 +2,10 @@ package com.example.coupetonarbrebackend.User.BusinessLayer;
 
 import com.example.coupetonarbrebackend.User.DataLayer.ClientRepository;
 
+import com.example.coupetonarbrebackend.User.DataMapperLayer.ClientRequestMapper;
 import com.example.coupetonarbrebackend.User.DataMapperLayer.ClientResponseMapper;
 import com.example.coupetonarbrebackend.User.DataLayer.Client;
+import com.example.coupetonarbrebackend.User.PresentationLayer.ClientRequestDTO;
 import com.example.coupetonarbrebackend.User.PresentationLayer.ClientResponseDTO;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -18,10 +20,14 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.client.ExpectedCount.times;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -32,6 +38,9 @@ class ClientServiceImplServiceUnitTest {
 
     @Mock
     private ClientResponseMapper clientResponseMapper;
+
+    @Mock
+    private ClientRequestMapper clientRequestMapper;
 
 
     @InjectMocks
@@ -56,6 +65,78 @@ class ClientServiceImplServiceUnitTest {
         assertEquals(expectedResponseDTOList.size(), actualResponseDTOList.size());
 
     }
+
+    @Test
+    void updateClient_withValidClientId_shouldReturnUpdatedClient() {
+        // Arrange
+        String clientId = "C1";
+
+        ClientRequestDTO clientRequestDTO = ClientRequestDTO.builder()
+                .clientId(clientId)
+                .firstName("David")
+                .lastName("Rallo")
+                .email("david@gmail.com")
+                .phoneNumber("514-875-7267")
+                .address("1234 rue de la montagne")
+                .build();
+
+        Client existingClient = Client.builder()
+                .clientId(clientId)
+                .firstName("John")
+                .lastName("Doe")
+                .email("john.doe@example.com")
+                .phoneNumber("555-1234")
+                .address("123 Main St")
+                .build();
+
+        when(clientRepository.findByClientId(clientId)).thenReturn(existingClient);
+        when(clientRequestMapper.requestModelToEntity(clientRequestDTO)).thenReturn(existingClient);
+        when(clientRepository.save(any(Client.class))).thenReturn(existingClient);
+        when(clientResponseMapper.entityToResponseModel(existingClient)).thenReturn(ClientResponseDTO.builder()
+                .clientId(clientId)
+                .firstName("David")
+                .lastName("Rallo")
+                .email("david@gmail.com")
+                .phoneNumber("514-875-7267")
+                .address("1234 rue de la montagne")
+                .build());
+
+        // Act
+        ClientResponseDTO updatedClient = clientService.updateClient(clientRequestDTO, clientId);
+
+        // Assert
+        assertNotNull(updatedClient);
+        assertEquals(clientId, updatedClient.getClientId());
+        assertEquals("David", updatedClient.getFirstName());
+        assertEquals("Rallo", updatedClient.getLastName());
+        assertEquals("david@gmail.com", updatedClient.getEmail());
+        assertEquals("514-875-7267", updatedClient.getPhoneNumber());
+        assertEquals("1234 rue de la montagne", updatedClient.getAddress());
+    }
+
+    @Test
+    void updateClient_withNonexistentClientId_shouldReturnNull() {
+        // Arrange
+        String clientId = "NonexistentId";
+        ClientRequestDTO clientRequestDTO = ClientRequestDTO.builder()
+                .clientId(clientId)
+                .firstName("David")
+                .lastName("Rallo")
+                .email("david@gmail.com")
+                .phoneNumber("514-875-7267")
+                .address("1234 rue de la montagne")
+                .build();
+
+        when(clientRepository.findByClientId(clientId)).thenReturn(null);
+
+        // Act
+        ClientResponseDTO updatedClient = clientService.updateClient(clientRequestDTO, clientId);
+
+        // Assert
+        assertNull(updatedClient);
+    }
+
+
 
     @Test
     void getClientById_shouldReturnClientResponseDTO() {

@@ -1,4 +1,4 @@
-/*
+
 package com.example.coupetonarbrebackend.User.PresentationLayer;
 
 import lombok.AllArgsConstructor;
@@ -20,4 +20,3 @@ public class ClientRequestDTO {
     private String address;
 }
 
- */

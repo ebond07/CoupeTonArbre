@@ -54,7 +54,6 @@ class UserControllerIntegrationTest {
         when(clientService.getClientById(clientId))
                 .thenReturn(ClientResponseDTO.builder().clientId(clientId).firstName("John").build());
 
-        // Act & Assert
         webTestClient.get()
                 .uri("/users/clients/{clientId}", clientId)
                 .accept(MediaType.APPLICATION_JSON)
@@ -68,6 +67,42 @@ class UserControllerIntegrationTest {
                     // Add more assertions based on your expected response
                 });
     }
+
+    @Test
+    void updateClient_shouldSucceed() {
+        // Mock data
+        String clientId = "1";
+        ClientRequestDTO requestDTO = ClientRequestDTO.builder()
+                .clientId(clientId)
+                .firstName("John")
+                .build();
+
+        ClientResponseDTO responseDTO = ClientResponseDTO.builder()
+                .clientId(clientId)
+                .firstName("John")
+                .build();
+
+        // Mock service method
+        when(clientService.updateClient(requestDTO, clientId)).thenReturn(responseDTO);
+
+        // Perform the request and validate the response
+        webTestClient.put()
+                .uri("/users/clients/{clientId}", clientId)
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .bodyValue(requestDTO)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody(ClientResponseDTO.class)
+                .value(clientResponseDTO -> {
+                    assert clientResponseDTO != null;
+                    assert clientResponseDTO.getClientId().equals(clientId);
+                    assert clientResponseDTO.getFirstName().equals("John");
+                });
+    }
+
+
     @Test
     void deleteClientById_shouldSucceed() {
         // Arrange
