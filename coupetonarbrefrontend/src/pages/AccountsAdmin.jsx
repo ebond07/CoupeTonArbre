@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
-import '../styles/AccountsAdmin.css'; // Import your CSS file for styling
+import '../styles/AccountsAdmin.css';
 
 
 function AccountsAdmin() {
@@ -63,7 +63,7 @@ function AccountsAdmin() {
   }, [selectedClientId]);
 
   const handleClientClick = (clientId) => {
-    setSelectedClientId(clientId);
+    setSelectedClientId((prevClientId) => (prevClientId === clientId ? null : clientId));
   };
 
   const handleUpdate = (clientId) => {
@@ -100,23 +100,24 @@ function AccountsAdmin() {
           {clients.map((client) => (
             <React.Fragment key={client.clientId}>
               <tr>
-                <td
-                  onClick={() => handleClientClick(client.clientId)}
-                  style={{ cursor: 'pointer', color: 'blue' }}
-                >
+                <td onClick={() => handleClientClick(client.clientId)}>
                   {client.firstName}
                 </td>
-                <td>{client.lastName}</td>
-                <td>{client.email}</td>
-                <td>{client.phoneNumber}</td>
-                <td>{client.address}</td>
+                <td onClick={() => handleClientClick(client.clientId)}>
+                  {client.lastName}</td>
+                <td onClick={() => handleClientClick(client.clientId)}>
+                    {client.email}</td>
+                <td onClick={() => handleClientClick(client.clientId)}>
+                  {client.phoneNumber}</td>
+                <td onClick={() => handleClientClick(client.clientId)}>
+                  {client.address}</td>
                 <td>
-                  <button onClick={() => handleDelete(client.clientId)}>
+                  <button className='buttons delete-button' onClick={() => handleDelete(client.clientId)}>
                     Delete
                   </button>
                 </td>
                 <td>
-                  <button onClick={() => handleUpdate(client.clientId)}>
+                  <button className='buttons edit-button' onClick={() => handleUpdate(client.clientId)}>
                     Edit
                   </button>
                 </td>
@@ -131,7 +132,7 @@ function AccountsAdmin() {
                       <p>Email: {selectedClientDetails.email}</p>
                       <p>Phone Number: {selectedClientDetails.phoneNumber}</p>
                       <p>Address: {selectedClientDetails.address}</p>
-                      <button onClick={closeDetails}>Close</button>
+                      <button className='buttons close-button' onClick={closeDetails}>Close</button>
                     </div>
                   </td>
                 </tr>
