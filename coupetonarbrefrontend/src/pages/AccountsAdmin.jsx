@@ -154,7 +154,7 @@ function AccountsAdmin() {
                 <tr>
                   <td colSpan="5">
                     <div className="additional-details">
-                      <h2>Selected Client Details:</h2>
+                      <h2>{selectedClientDetails.firstName} {selectedClientDetails.lastName}'s Details:</h2>
                       <p>Client ID: {selectedClientDetails.clientId}</p>
                       <p>Name: {selectedClientDetails.firstName} {selectedClientDetails.lastName}</p>
                       <p>Email: {selectedClientDetails.email}</p>
