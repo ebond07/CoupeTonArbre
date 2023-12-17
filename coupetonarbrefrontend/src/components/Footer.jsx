@@ -49,12 +49,10 @@ const Footer = () => {
 
             <hr></hr>
 
-            <div className={styles.footer_below}>
-                <div className={styles.footer_copyright}>
-                    <p>
-                        @{new Date().getFullYear()} Coupe Ton Arbre. All rights reserved.
-                    </p>
-                </div>
+            <div className={styles.footer_copyright}>
+                <p>
+                    @{new Date().getFullYear()} Coupe Ton Arbre. All rights reserved.
+                </p>
             </div>
         </div>
     );
