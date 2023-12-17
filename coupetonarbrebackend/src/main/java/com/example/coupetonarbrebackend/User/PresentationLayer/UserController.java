@@ -2,6 +2,9 @@ package com.example.coupetonarbrebackend.User.PresentationLayer;
 
 import com.example.coupetonarbrebackend.User.BusinessLayer.ClientService;
 import com.example.coupetonarbrebackend.User.DataLayer.Client;
+import com.example.coupetonarbrebackend.User.DataLayer.ClientRepository;
+import com.example.coupetonarbrebackend.User.DataMapperLayer.ClientRequestMapper;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
@@ -12,9 +15,11 @@ import java.util.List;
 @RequestMapping("users")
 public class UserController {
     private ClientService clientService;
+    private final ClientRequestMapper clientRequestMapper;
 
-    public UserController(ClientService clientService) {
+    public UserController(ClientService clientService, ClientRequestMapper clientRequestMapper) {
         this.clientService = clientService;
+        this.clientRequestMapper = clientRequestMapper;
     }
 
     @GetMapping("/clients")
@@ -32,9 +37,11 @@ public class UserController {
         return ResponseEntity.ok().body(clientService.getClientById(clientId));
     }
 
-    @PostMapping()
-    public ResponseEntity<ClientResponseDTO> addClient(@RequestBody Client newClient) {
-        return ResponseEntity.ok().body(clientService.addClient(newClient));
+    @PostMapping("/clients")
+    public ResponseEntity<ClientResponseDTO> addClient(@RequestBody ClientRequestDTO clientRequestDTO) {
+        Client newClient = clientRequestMapper.requestModelToEntity(clientRequestDTO);
+        ClientResponseDTO response = clientService.addClient(newClient);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @DeleteMapping("/clients/{clientId}")

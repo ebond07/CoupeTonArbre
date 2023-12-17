@@ -1,5 +1,3 @@
-
-
 package com.example.coupetonarbrebackend.User.DataMapperLayer;
 
 
@@ -25,6 +23,3 @@ public interface ClientRequestMapper {
 
     Client requestModelToEntity(ClientRequestDTO clientRequestDTO);
 }
-
-
-
