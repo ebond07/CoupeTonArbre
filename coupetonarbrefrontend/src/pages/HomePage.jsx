@@ -1,10 +1,14 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 
 function HomePage() {
   return (
     <div>
+      <Helmet>
+        <title>Home - Coupe Ton Arbre</title>
+      </Helmet>
       <div id='nav-container'>
         <Navbar />
       </div>

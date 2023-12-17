@@ -1,10 +1,13 @@
-
 import React from 'react';
+import Helmet from 'react-helmet'
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 function QuotesAdmin() {
   return (
     <div>
+      <Helmet>
+        <title>Quote Requests - CTA</title>
+      </Helmet>
       <div id='nav-container'>
         <Navbar />
       </div>

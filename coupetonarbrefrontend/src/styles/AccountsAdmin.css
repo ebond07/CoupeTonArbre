@@ -18,8 +18,12 @@ h1{
     text-align: center;
 }
 
+.sortable {
+    cursor: pointer;
+}
+
 .additional-details {
-    background-color: #fff; /* Change to your preferred background color */
+    background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);

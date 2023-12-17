@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import Helmet from 'react-helmet'
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import { useParams } from 'react-router-dom';
@@ -58,78 +59,82 @@ function UpdateClientAdmin() {
   };
 
   return (
-    <div id='nav-container'>
-      <Navbar />
+    <div>
+      <Helmet>
+        <title>Update Client - CTA</title>
+      </Helmet>
+      <div id='nav-container'>
+        <Navbar />
 
-      <div className='text-align center'>
-        <h1> Update Client</h1>
-      </div>
-      <br></br>
-
-      <div>
-      {/* Conditionally render the form */}
-      {selectedClientDetails && (
-        <form className="update-client-form">
-          
-          <div className="form-group">
-            <label>First Name:</label>
-            <input
-              type="text"
-              name="firstName"
-              placeholder={selectedClientDetails.firstName}
-              value={updateFormData.firstName}
-              onChange={handleUpdateFormChange}
-            />
-          </div>
-          <div className="form-group">
-            <label>Last Name:</label>
-            <input
-              type="text"
-              name="lastName"
-              value={updateFormData.lastName}
-              onChange={handleUpdateFormChange}
-            />
-          </div>
-          <div className="form-group">
-            <label>Email:</label>
-            <input
-              type="text"
-              name="email"
-              value={updateFormData.email}
-              onChange={handleUpdateFormChange}
-            />
-          </div>
-          <div className="form-group">
-            <label>Phone Number:</label>
-            <input
-              type="text"
-              name="phoneNumber"
-              value={updateFormData.phoneNumber}
-              onChange={handleUpdateFormChange}
-            />
-          </div>
-          <div className="form-group">
-            <label>Address:</label>
-            <input
-              type="text"
-              name="address"
-              value={updateFormData.address}
-              onChange={handleUpdateFormChange}
-            />
-          </div>
-          <button type="button" onClick={handleUpdateButtonClick}>
-            Update Client
-          </button>
-        </form>
-      )}
-      </div>
-      <br></br>
+        <div className='text-align center'>
+          <h1> Update Client</h1>
+        </div>
+        <br></br>
 
         <div>
-        <Footer />
+        {/* Conditionally render the form */}
+        {selectedClientDetails && (
+          <form className="update-client-form">
+            
+            <div className="form-group">
+              <label>First Name:</label>
+              <input
+                type="text"
+                name="firstName"
+                placeholder={selectedClientDetails.firstName}
+                value={updateFormData.firstName}
+                onChange={handleUpdateFormChange}
+              />
+            </div>
+            <div className="form-group">
+              <label>Last Name:</label>
+              <input
+                type="text"
+                name="lastName"
+                value={updateFormData.lastName}
+                onChange={handleUpdateFormChange}
+              />
+            </div>
+            <div className="form-group">
+              <label>Email:</label>
+              <input
+                type="text"
+                name="email"
+                value={updateFormData.email}
+                onChange={handleUpdateFormChange}
+              />
+            </div>
+            <div className="form-group">
+              <label>Phone Number:</label>
+              <input
+                type="text"
+                name="phoneNumber"
+                value={updateFormData.phoneNumber}
+                onChange={handleUpdateFormChange}
+              />
+            </div>
+            <div className="form-group">
+              <label>Address:</label>
+              <input
+                type="text"
+                name="address"
+                value={updateFormData.address}
+                onChange={handleUpdateFormChange}
+              />
+            </div>
+            <button type="button" onClick={handleUpdateButtonClick}>
+              Update Client
+            </button>
+          </form>
+        )}
+        </div>
+        <br></br>
+
+          <div>
+          <Footer />
+        </div>
       </div>
     </div>
-    
   );
 }
 

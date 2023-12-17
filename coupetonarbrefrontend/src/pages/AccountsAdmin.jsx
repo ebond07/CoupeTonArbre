@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet';
 import axios from 'axios';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
@@ -9,6 +10,8 @@ function AccountsAdmin() {
   const [clients, setClients] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState(null);
   const [selectedClientDetails, setSelectedClientDetails] = useState(null);
+  const [sortOrder, setSortOrder] = useState('asc');
+  const [sortedField, setSortedField] = useState('firstName', 'lastName');
 
   useEffect(() => {
     axios.get('http://localhost:8080/users/clients')
@@ -66,6 +69,25 @@ function AccountsAdmin() {
     setSelectedClientId((prevClientId) => (prevClientId === clientId ? null : clientId));
   };
 
+  const handleFieldClick = (field) => {
+    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    setSortedField(field);
+    setSelectedClientId(null);
+  };
+
+  const sortedClients = [...clients].sort((a, b) => {
+    const fieldValueA = a[sortedField];
+    const fieldValueB = b[sortedField];
+
+    if (fieldValueA < fieldValueB) {
+      return sortOrder === 'asc' ? -1 : 1;
+    }
+    if (fieldValueA > fieldValueB) {
+      return sortOrder === 'asc' ? 1 : -1;
+    }
+    return 0;
+  });
+
   const handleUpdate = (clientId) => {
 
     window.location.href = `/updateClientAdmin/${clientId}`;
@@ -78,6 +100,9 @@ function AccountsAdmin() {
 
   return (
     <div>
+      <Helmet>
+        <title>Client Accounts - CTA</title>
+      </Helmet>
       <div id='nav-container'>
         <Navbar />
       </div>
@@ -89,28 +114,31 @@ function AccountsAdmin() {
       <table>
         <thead>
           <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
-            <th>Email</th>
+          <th className='sortable' onClick={() => handleFieldClick('firstName')}>
+              First Name  {sortedField === 'firstName' && sortOrder === 'asc' && '▲'}
+              {sortedField === 'firstName' && sortOrder === 'desc' && '▼'}
+            </th>
+            <th className='sortable' onClick={() => handleFieldClick('lastName')}>
+              Last Name  {sortedField === 'lastName' && sortOrder === 'asc' && '▲'}
+              {sortedField === 'lastName' && sortOrder === 'desc' && '▼'}
+            </th>
+            <th className='sortable' onClick={() => handleFieldClick('email')}>
+              Email  {sortedField === 'email' && sortOrder === 'asc' && '▲'}
+              {sortedField === 'email' && sortOrder === 'desc' && '▼'}
+            </th>
             <th>Phone Number</th>
             <th>Address</th>
           </tr>
         </thead>
         <tbody>
-          {clients.map((client) => (
+          {sortedClients.map((client) => (
             <React.Fragment key={client.clientId}>
-              <tr>
-                <td onClick={() => handleClientClick(client.clientId)}>
-                  {client.firstName}
-                </td>
-                <td onClick={() => handleClientClick(client.clientId)}>
-                  {client.lastName}</td>
-                <td onClick={() => handleClientClick(client.clientId)}>
-                    {client.email}</td>
-                <td onClick={() => handleClientClick(client.clientId)}>
-                  {client.phoneNumber}</td>
-                <td onClick={() => handleClientClick(client.clientId)}>
-                  {client.address}</td>
+              <tr onClick={() => handleClientClick(client.clientId)}>
+                <td>{client.firstName}</td>
+                <td>{client.lastName}</td>
+                <td>{client.email}</td>
+                <td>{client.phoneNumber}</td>
+                <td>{client.address}</td>
                 <td>
                   <button className='buttons delete-button' onClick={() => handleDelete(client.clientId)}>
                     Delete
