@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import React from 'react';
 
-import background from "../images/navbackground.png";
+import background from "../images/navbackgroundDark.png";
 import styles from "../styles/Navbar.module.css"
 import GlobalStyles from '../styles/GlobalStyles';
 import CTALogo from "../images/ctaLogo.png";
