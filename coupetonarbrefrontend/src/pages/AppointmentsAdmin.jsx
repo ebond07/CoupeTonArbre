@@ -11,7 +11,23 @@ function AppointmentsAdmin() {
       
       <h2>Welcome to the Appointments Page</h2>
       <p>This is the content of the appointments page.</p>
-
+      <br/> 
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
       <div>
         <Footer />
       </div>

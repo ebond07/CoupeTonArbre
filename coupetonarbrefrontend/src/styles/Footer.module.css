@@ -1,7 +1,76 @@
-.p {
+.footer {
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: rgb(27, 59, 36);
+    display: flex;
+    flex-direction: column;
+    padding: 1rem 4rem 1rem 4rem;
+}
+
+.links {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    text-align: left;
+}
+
+.links_div {
+    width: 200px;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
     color: white;
 }
 
-.ctaLogo {
-    width: 150px; 
-  }
+.links_div_img {
+    width: 200px;
+    margin-top: 3.5rem;
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: column;
+    color: white;
+}
+
+.links_div h4 {
+    font-size: 20px;
+    line-height: 17px;
+    margin-bottom: 0.9rem;
+}
+
+.links_div p {
+    color: rgb(180, 192, 183);
+    font-size: 16px;
+    line-height: 20px;
+    margin: 0.5rem 0;
+}
+
+.links_div a {
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.links_div a:hover {
+    transition: background-color 0.3s ease;
+    background-color: rgba(204, 204, 204, 0.3);
+    border-radius: 10px;
+}
+
+.footer hr {
+    color: white !important;
+    width: 100%;
+}
+
+.footer_copyright {
+    margin-top: 0.2rem;
+    text-align: center;
+}
+
+.footer_copyright p {
+    font-size: 13px;
+    line-height: 15px;
+    color: white;
+    font-weight: 200;
+}

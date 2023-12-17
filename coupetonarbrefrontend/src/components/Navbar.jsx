@@ -12,8 +12,9 @@ function Navbar() {
     <>
     <GlobalStyles />
 
-    
    <nav style={{ backgroundImage: `url(${background})` }} className={styles.nav}>
+    
+    <img src={CTALogo} alt="CTA Logo" className={styles.CTALogo} />
 
      <ul className={styles.ul}>
        <li><Link to='/' className={styles.li}>Home</Link></li>

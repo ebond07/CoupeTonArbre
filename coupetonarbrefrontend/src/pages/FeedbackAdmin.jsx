@@ -10,6 +10,23 @@ function FeedbackAdmin() {
       
       <h2>Welcome to the Feedback Page</h2>
       <p>This is the content of the feedback page.</p>
+      <br/> 
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
       <div>
         <Footer />
       </div>
