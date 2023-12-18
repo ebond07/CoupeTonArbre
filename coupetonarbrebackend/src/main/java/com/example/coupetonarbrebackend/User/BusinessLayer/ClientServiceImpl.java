@@ -7,7 +7,6 @@ import com.example.coupetonarbrebackend.User.DataMapperLayer.ClientRequestMapper
 import com.example.coupetonarbrebackend.User.DataMapperLayer.ClientResponseMapper;
 import com.example.coupetonarbrebackend.User.PresentationLayer.ClientRequestDTO;
 import com.example.coupetonarbrebackend.User.PresentationLayer.ClientResponseDTO;
-import com.example.coupetonarbrebackend.User.utils.EntityDTOUtil;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
@@ -22,6 +21,8 @@ public class ClientServiceImpl implements ClientService{
     private  ClientResponseMapper clientResponseMapper;
 
     private ClientRequestMapper clientRequestMapper;
+
+    private ClientRequestDTO clientRequestDTO;
 
 
 
@@ -45,7 +46,7 @@ public class ClientServiceImpl implements ClientService{
     @Override
     public ClientResponseDTO addClient(Client newClient) {
         // Generate UUID
-        newClient.setClientId(EntityDTOUtil.generateUUIDString());
+        newClient.setClientId(clientRequestDTO.generateUUIDString());
         // save client entity
         Client savedClient = clientRepository.save(newClient);
         return clientResponseMapper.entityToResponseModel(savedClient);
