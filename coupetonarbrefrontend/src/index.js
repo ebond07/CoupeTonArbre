@@ -12,6 +12,7 @@ ReactDOM.render(
         domain="dev-4hcoszrtvq0f1jnk.us.auth0.com"
         clientId="FUeH3pbF4FmZQ9PVMsmhXniiOLPQTS8v"
         authorizationParams={{
+          audience: '',
           redirect_uri: window.location.origin
         }}
     >

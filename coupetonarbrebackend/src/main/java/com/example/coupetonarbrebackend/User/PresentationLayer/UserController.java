@@ -1,12 +1,17 @@
 package com.example.coupetonarbrebackend.User.PresentationLayer;
 
 import com.example.coupetonarbrebackend.User.BusinessLayer.ClientService;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import com.example.coupetonarbrebackend.User.DataLayer.Client;
 import com.example.coupetonarbrebackend.User.DataLayer.ClientRepository;
 import com.example.coupetonarbrebackend.User.DataMapperLayer.ClientRequestMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
@@ -22,6 +27,8 @@ public class UserController {
         this.clientRequestMapper = clientRequestMapper;
     }
 
+
+    @PreAuthorize("hasAuthority('Admin')")
     @GetMapping("/clients")
     public ResponseEntity<List<ClientResponseDTO>> getAllClients(){
         return ResponseEntity.ok().body(clientService.getAllClients());
