@@ -96,6 +96,7 @@ public class SecurityController {
 
 
         String userId = principal.getSubject();
+        log.info("User id: " + userId);
 
         return ResponseEntity.ok().body(auth0ManagementService.getUserInfo(userId));
     }

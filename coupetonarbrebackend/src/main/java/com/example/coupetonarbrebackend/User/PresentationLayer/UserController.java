@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@CrossOrigin(origins = "http://localhost:3000")
+@CrossOrigin(origins = "http://localhost:3000",allowCredentials = "true", allowedHeaders = {"xsrf-token", "content-type"})
 @RequestMapping("users")
 public class UserController {
     private ClientService clientService;
@@ -28,17 +28,18 @@ public class UserController {
     }
 
 
+
     @PreAuthorize("hasAuthority('Admin')")
     @GetMapping("/clients")
     public ResponseEntity<List<ClientResponseDTO>> getAllClients(){
         return ResponseEntity.ok().body(clientService.getAllClients());
     }
-
+//    @PreAuthorize("hasAuthority('Admin')")
     @PutMapping("/clients/{clientId}")
     public ResponseEntity<ClientResponseDTO> updateClient(@PathVariable String clientId, @RequestBody ClientRequestDTO clientRequestDTO){
         return ResponseEntity.ok().body(clientService.updateClient(clientRequestDTO,clientId));
     }
-
+//    @PreAuthorize("hasAuthority('Admin')")
     @GetMapping("/clients/{clientId}")
     public ResponseEntity<ClientResponseDTO> getClientById(@PathVariable String clientId){
         return ResponseEntity.ok().body(clientService.getClientById(clientId));

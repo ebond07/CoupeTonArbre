@@ -49,7 +49,7 @@ public class SpringSecurityConfigBean {
     @Bean
     public SecurityFilterChain configure(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(authorize -> authorize
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 )
                 .exceptionHandling(exceptionHandling -> exceptionHandling.authenticationEntryPoint(authenticationEntryPoint()))
                 .oauth2Login(httpSecurityOAuth2LoginConfigurer -> httpSecurityOAuth2LoginConfigurer
@@ -80,7 +80,12 @@ public class SpringSecurityConfigBean {
                         .ignoringRequestMatchers(
                                 new AntPathRequestMatcher("/api/v1/cta/logout", HttpMethod.POST.toString()),
                                 new AntPathRequestMatcher("/api/v1/cta/security/redirect", HttpMethod.GET.toString()),
-                                new AntPathRequestMatcher("/users/clients", HttpMethod.GET.toString())
+                                new AntPathRequestMatcher("/users/clients", HttpMethod.GET.toString()),
+                                new AntPathRequestMatcher("/users/clients", HttpMethod.POST.toString()),
+                                new AntPathRequestMatcher("/users/clients/{clientId}", HttpMethod.PUT.toString()),
+                                new AntPathRequestMatcher("/users/clients/{clientId}", HttpMethod.DELETE.toString())
+
+
                         )
                 )
                 .cors(httpSecurityCorsConfigurer -> {

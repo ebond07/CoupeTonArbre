@@ -5,12 +5,15 @@ import './index.css';
 import { Auth0Provider } from '@auth0/auth0-react';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import axios from "axios";
+
+axios.defaults.withCredentials = true;
 
 ReactDOM.render(
   <React.StrictMode>
     <Auth0Provider
         domain="dev-4hcoszrtvq0f1jnk.us.auth0.com"
-        clientId="FUeH3pbF4FmZQ9PVMsmhXniiOLPQTS8v"
+        clientId="EIc8cVj2k1DY1My8oSpdgQhK8Utjk443"
         authorizationParams={{
           audience: '',
           redirect_uri: window.location.origin

@@ -49,6 +49,7 @@ class UserControllerIntegrationTest {
                 .expectStatus().isOk()
                 .expectHeader().contentType(MediaType.APPLICATION_JSON)
                 .expectBodyList(ClientResponseDTO.class)
+
                 .value(clientResponseDTOS -> {
                     assert clientResponseDTOS != null;
                     assert clientResponseDTOS.size() == 2;

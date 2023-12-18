@@ -44,57 +44,57 @@ const AuthProvider = ({children}) => {
     }
 
 
-    // const getUserInfo = async () => {
-    //     if (isAuthenticated) {
-    //         axios.get("http://localhost:8080/api/v1/cta/customers", {
-    //             headers: {
-    //                 // @ts-ignore
-    //                 'X-XSRF-TOKEN': csrfToken
-    //             }
-    //         })
-    //             .then(r => {
-    //                 console.log(r)
-    //                 if (r.status === 200) {
-    //                     console.log(r.data)
-    //                     Cookies.set("username", r.data.name)
-    //                     Cookies.set("email", r.data.email)
-    //                 }else{
-    //                     getInfo()
-    //                 }
-    //             })
-    //             .catch(e => {
-    //                 console.log(e)
-    //                 getInfo()
-    //             })
+    const getUserInfo = async () => {
+        if (isAuthenticated) {
+            axios.get("http://localhost:8080/api/v1/cta/customers", {
+                headers: {
+                    // @ts-ignore
+                    'X-XSRF-TOKEN': csrfToken
+                }
+            })
+                .then(r => {
+                    console.log(r)
+                    if (r.status === 200) {
+                        console.log(r.data)
+                        Cookies.set("username", r.data.name)
+                        Cookies.set("email", r.data.email)
+                    }else{
+                        getInfo()
+                    }
+                })
+                .catch(e => {
+                    console.log(e)
+                    getInfo()
+                })
 
-    //     }
+        }
 
-    //     const getInfo = async () => {
-    //         axios.get("http://localhost:8080/api/v1/cta/security/user-info", {
-    //             headers: {
-    //                 // @ts-ignore
-    //                 'X-XSRF-TOKEN': csrfToken
-    //             }
-    //         })
-    //             .then(r => {
-    //                 if (r.status === 200) {
-    //                     console.log(r.data)
-    //                     Cookies.set("username", r.data.username)
-    //                     Cookies.set("email", r.data.email)
+        const getInfo = async () => {
+            axios.get("http://localhost:8080/api/v1/cta/security/user-info", {
+                headers: {
+                    // @ts-ignore
+                    'X-XSRF-TOKEN': csrfToken
+                }
+            })
+                .then(r => {
+                    if (r.status === 200) {
+                        console.log(r.data)
+                        Cookies.set("username", r.data.username)
+                        Cookies.set("email", r.data.email)
 
-    //                 }
-    //             })
-    //             .catch(e => {
-    //             })
-    //     }
-    // }
+                    }
+                })
+                .catch(e => {
+                })
+        }
+    }
 
-    // useEffect(() => {
-    //     if (isAuthenticated) {
-    //         getUserInfo().then(r => console.log(r))
-    //     }
-    //     // eslint-disable-next-line react-hooks/exhaustive-deps
-    // }, [isAuthenticated]);
+    useEffect(() => {
+        if (isAuthenticated) {
+            getUserInfo().then(r => console.log(r))
+        }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [isAuthenticated]);
 
 
 
@@ -123,7 +123,7 @@ const AuthProvider = ({children}) => {
 
 
     return (
-        <AuthContext.Provider value={{isAuthenticated, login, authError, getXsrfToken, userRoles}}>
+        <AuthContext.Provider value={{isAuthenticated, login, authError, getXsrfToken, userRoles,getUserInfo}}>
             {children}
         </AuthContext.Provider>
     )
