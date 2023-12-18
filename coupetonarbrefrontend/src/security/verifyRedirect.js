@@ -22,7 +22,7 @@ function VerifyRedirect() {
                 </div>
             </div>
 
-            <form method={"post"} action={"http://localhost:8080/api/v1/corso/logout?isLogoutVerify=true"} id="logoutForm">
+            <form method={"post"} action={"http://localhost:8080/api/v1/cta/logout?isLogoutVerify=true"} id="logoutForm">
                 <button id={'submit'} type={"submit"} style={{
                     display: "none",
                     visibility: "hidden"

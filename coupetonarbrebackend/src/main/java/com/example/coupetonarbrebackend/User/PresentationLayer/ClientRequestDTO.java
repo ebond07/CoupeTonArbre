@@ -1,9 +1,6 @@
 package com.example.coupetonarbrebackend.User.PresentationLayer;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.UUID;
 
@@ -20,13 +17,13 @@ public class ClientRequestDTO {
     private String phoneNumber;
     private String address;
 
-    public ClientRequestDTO(String firstName, String lastName, String email, String phoneNumber, String address) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.email = email;
-        this.phoneNumber = phoneNumber;
-        this.address = address;
-    }
+//    public ClientRequestDTO(String firstName, String lastName, String email, String phoneNumber, String address) {
+//        this.firstName = firstName;
+//        this.lastName = lastName;
+//        this.email = email;
+//        this.phoneNumber = phoneNumber;
+//        this.address = address;
+//    }
 
     public static String generateUUIDString(){
         return UUID.randomUUID().toString();

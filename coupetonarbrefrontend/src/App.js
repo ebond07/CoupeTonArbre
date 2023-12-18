@@ -26,6 +26,8 @@ function App() {
           <Route path="/accounts" element={<AccountsAdmin />} />
           <Route path="/feedback" element={<FeedbackAdmin />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/verify" element={<VerifyRedirect />} />
+
           <Route path="/updateClientAdmin/:clientId" element={<UpdateClientAdmin />} />
 
         </Routes>

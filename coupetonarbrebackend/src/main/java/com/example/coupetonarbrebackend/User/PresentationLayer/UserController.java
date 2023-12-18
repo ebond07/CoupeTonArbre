@@ -39,18 +39,21 @@ public class UserController {
     public ResponseEntity<ClientResponseDTO> updateClient(@PathVariable String clientId, @RequestBody ClientRequestDTO clientRequestDTO){
         return ResponseEntity.ok().body(clientService.updateClient(clientRequestDTO,clientId));
     }
-//    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAuthority('Admin')")
     @GetMapping("/clients/{clientId}")
     public ResponseEntity<ClientResponseDTO> getClientById(@PathVariable String clientId){
         return ResponseEntity.ok().body(clientService.getClientById(clientId));
     }
 
+    @PreAuthorize("hasAuthority('Admin')")
     @PostMapping("/clients")
     public ResponseEntity<ClientResponseDTO> addClient(@RequestBody ClientRequestDTO clientRequestDTO) {
         Client newClient = clientRequestMapper.requestModelToEntity(clientRequestDTO);
         ClientResponseDTO response = clientService.addClient(newClient);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+
 
     @DeleteMapping("/clients/{clientId}")
     public ResponseEntity<Void> deleteClientByClientId(@PathVariable String clientId) {
