@@ -9,7 +9,7 @@ describe('Update Client Admin Page', () => {
 
     // Verify that the update form is displayed and contains the correct data
     cy.get('.update-client-form').should('be.visible');
-    cy.get('input[name="firstName"]').should('have.value', 'Alick'); // Adjust based on your initial data
+    cy.get('input[name="firstName"]').should('have.value', 'Alex'); // Adjust based on your initial data
     // Add more assertions for other fields
 
     // Update client information

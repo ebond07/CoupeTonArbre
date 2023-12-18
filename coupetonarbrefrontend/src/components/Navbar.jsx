@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import React from 'react';
 
-import background from "../images/navbackground.png";
+import background from "../images/navbackgroundDark.png";
 import styles from "../styles/Navbar.module.css"
 import GlobalStyles from '../styles/GlobalStyles';
 import CTALogo from "../images/ctaLogo.png";
@@ -12,8 +12,9 @@ function Navbar() {
     <>
     <GlobalStyles />
 
-    
    <nav style={{ backgroundImage: `url(${background})` }} className={styles.nav}>
+    
+    <img src={CTALogo} alt="CTA Logo" className={styles.CTALogo} />
 
      <ul className={styles.ul}>
        <li><Link to='/' className={styles.li}>Home</Link></li>

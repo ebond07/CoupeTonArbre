@@ -1,15 +1,36 @@
 import React from 'react';
+import { Helmet } from 'react-helmet';
 import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 function FeedbackAdmin() {
   return (
     <div>
+      <Helmet>
+        <title>Feedback - CTA</title>
+      </Helmet>
       <div id='nav-container'>
         <Navbar />
       </div>
       
       <h2>Welcome to the Feedback Page</h2>
       <p>This is the content of the feedback page.</p>
+      <br/> 
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
       <div>
         <Footer />
       </div>

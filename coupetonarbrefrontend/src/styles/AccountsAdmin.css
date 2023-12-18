@@ -3,8 +3,67 @@ table {
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 100px;
+    background-color: #f8f8f8;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+th, td {
+    padding: 15px;
+    text-align: left;
 }
 
 h1{
     text-align: center;
+}
+
+.sortable {
+    cursor: pointer;
+}
+
+.additional-details {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 10px;
+}
+
+.additional-details h2 {
+    color: #333;
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.additional-details p {
+    color: #555;
+    font-size: 14px;
+    margin: 10px 0;
+    border-bottom: 1px solid #ddd;
+    padding: 5px 0;
+}
+
+.buttons {
+    background-color: #2e332e;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.delete-button:hover {
+    background-color: #812323;
+}
+
+.edit-button:hover {
+    background-color: #2980b9;
+}
+
+.close-button:hover {
+    background-color: #232523;
 }
