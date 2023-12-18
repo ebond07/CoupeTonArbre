@@ -5,13 +5,20 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import '../styles/AccountsAdmin.css';
 
-
 function AccountsAdmin() {
   const [clients, setClients] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState(null);
   const [selectedClientDetails, setSelectedClientDetails] = useState(null);
   const [sortOrder, setSortOrder] = useState('asc');
-  const [sortedField, setSortedField] = useState('firstName', 'lastName');
+  const [sortedField, setSortedField] = useState('firstName');
+  const [showAddClientForm, setShowAddClientForm] = useState(false);
+  const [newClient, setNewClient] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    phoneNumber: '',
+    address: '',
+  });
 
   useEffect(() => {
     axios.get('http://localhost:8080/users/clients')
@@ -23,30 +30,30 @@ function AccountsAdmin() {
       });
   }, []);
 
+  const handleAddClient = () => {
+    axios.post('http://localhost:8080/users/clients', newClient)
+      .then(response => {
+        setClients([...clients, response.data]);
+        setNewClient({ firstName: '', lastName: '', email: '', phoneNumber: '', address: '' });
+        setShowAddClientForm(false);
+      })
+      .catch(error => {
+        console.error('Error adding client:', error);
+      });
+  };
+
+  const handleFormChange = (event) => {
+    setNewClient({ ...newClient, [event.target.name]: event.target.value });
+  };
+
   const handleDelete = (clientId) => {
-    if (typeof clientId === 'undefined') {
-      console.error('Client ID is undefined. Cannot delete.');
-      return;
-    }
-
     const isConfirmed = window.confirm('Are you sure you want to delete this client?');
-
     if (!isConfirmed) {
       return;
     }
-
-    console.log('Deleting client with id:', clientId);
-
     axios.delete(`http://localhost:8080/users/clients/${clientId}`)
       .then(response => {
-        console.log('Delete successful:', response);
-        axios.get('http://localhost:8080/users/clients')
-          .then(response => {
-            setClients(response.data);
-          })
-          .catch(error => {
-            console.error('Error fetching updated clients:', error);
-          });
+        setClients(clients.filter(client => client.clientId !== clientId));
       })
       .catch(error => {
         console.error('Error:', error);
@@ -89,9 +96,7 @@ function AccountsAdmin() {
   });
 
   const handleUpdate = (clientId) => {
-
     window.location.href = `/updateClientAdmin/${clientId}`;
-
   };
 
   const closeDetails = () => {
@@ -107,74 +112,86 @@ function AccountsAdmin() {
         <Navbar />
       </div>
 
-      <div>
+      <div className="header-container">
         <h1>Clients</h1>
-      </div>
+        <div className="add-client-button">
+          <button onClick={() => setShowAddClientForm(true)}>Add Client</button>
+        </div>
+      
 
-      <table>
-        <thead>
-          <tr>
-          <th className='sortable' onClick={() => handleFieldClick('firstName')}>
-              First Name  {sortedField === 'firstName' && sortOrder === 'asc' && '▲'}
-              {sortedField === 'firstName' && sortOrder === 'desc' && '▼'}
-            </th>
-            <th className='sortable' onClick={() => handleFieldClick('lastName')}>
-              Last Name  {sortedField === 'lastName' && sortOrder === 'asc' && '▲'}
-              {sortedField === 'lastName' && sortOrder === 'desc' && '▼'}
-            </th>
-            <th className='sortable' onClick={() => handleFieldClick('email')}>
-              Email  {sortedField === 'email' && sortOrder === 'asc' && '▲'}
-              {sortedField === 'email' && sortOrder === 'desc' && '▼'}
-            </th>
-            <th>Phone Number</th>
-            <th>Address</th>
-          </tr>
-        </thead>
-        <tbody>
-          {sortedClients.map((client) => (
-            <React.Fragment key={client.clientId}>
-              <tr onClick={() => handleClientClick(client.clientId)}>
-                <td>{client.firstName}</td>
-                <td>{client.lastName}</td>
-                <td>{client.email}</td>
-                <td>{client.phoneNumber}</td>
-                <td>{client.address}</td>
-                <td>
-                  <button className='buttons delete-button' onClick={() => handleDelete(client.clientId)}>
-                    Delete
-                  </button>
-                </td>
-                <td>
-                  <button className='buttons edit-button' onClick={() => handleUpdate(client.clientId)}>
-                    Edit
-                  </button>
-                </td>
-              </tr>
-              {selectedClientId === client.clientId && selectedClientDetails && (
-                <tr>
-                  <td colSpan="5">
-                    <div className="additional-details">
-                      <h2>{selectedClientDetails.firstName} {selectedClientDetails.lastName}'s Details:</h2>
-                      <p>Client ID: {selectedClientDetails.clientId}</p>
-                      <p>Name: {selectedClientDetails.firstName} {selectedClientDetails.lastName}</p>
-                      <p>Email: {selectedClientDetails.email}</p>
-                      <p>Phone Number: {selectedClientDetails.phoneNumber}</p>
-                      <p>Address: {selectedClientDetails.address}</p>
-                      <button className='buttons close-button' onClick={closeDetails}>Close</button>
-                    </div>
+      {showAddClientForm && (
+        <div className="popup-background">
+          <div className="popup-container">
+            <h1>Add a new client</h1>
+            <br></br><br></br><br></br>
+            <input name="firstName" value={newClient.firstName} onChange={handleFormChange} placeholder="First Name" />
+            <input name="lastName" value={newClient.lastName} onChange={handleFormChange} placeholder="Last Name" />
+            <input name="email" value={newClient.email} onChange={handleFormChange} placeholder="Email" />
+            <input name="phoneNumber" value={newClient.phoneNumber} onChange={handleFormChange} placeholder="Phone Number" />
+            <input name="address" value={newClient.address} onChange={handleFormChange} placeholder="Full Address" />
+            <button onClick={handleAddClient}>Submit New Client</button>
+            <button onClick={() => setShowAddClientForm(false)}>Cancel</button>
+          </div>
+        </div>
+      )}
+
+        <table>
+          <thead>
+            <tr>
+              <th className='sortable' onClick={() => handleFieldClick('firstName')}>
+                First Name {sortedField === 'firstName' && (sortOrder === 'asc' ? '▲' : '▼')}
+              </th>
+              <th className='sortable' onClick={() => handleFieldClick('lastName')}>
+                Last Name {sortedField === 'lastName' && (sortOrder === 'asc' ? '▲' : '▼')}
+              </th>
+              <th className='sortable' onClick={() => handleFieldClick('email')}>
+                Email {sortedField === 'email' && (sortOrder === 'asc' ? '▲' : '▼')}
+              </th>
+              <th>Phone Number</th>
+              <th>Address</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {sortedClients.map((client) => (
+              <React.Fragment key={client.clientId}>
+                <tr onClick={() => handleClientClick(client.clientId)}>
+                  <td>{client.firstName}</td>
+                  <td>{client.lastName}</td>
+                  <td>{client.email}</td>
+                  <td>{client.phoneNumber}</td>
+                  <td>{client.address}</td>
+                  <td>
+                    <button className='buttons delete-button' onClick={() => handleDelete(client.clientId)}>Delete</button>
+                    <button className='buttons edit-button' onClick={() => handleUpdate(client.clientId)}>Edit</button>
                   </td>
                 </tr>
-              )}
-            </React.Fragment>
-          ))}
-        </tbody>
-      </table>
+                {selectedClientId === client.clientId && selectedClientDetails && (
+                  <tr>
+                    <td colSpan="6">
+                      <div className="additional-details">
+                        <h2>{selectedClientDetails.firstName} {selectedClientDetails.lastName}'s Details:</h2>
+                        <p>Client ID: {selectedClientDetails.clientId}</p>
+                        <p>Name: {selectedClientDetails.firstName} {selectedClientDetails.lastName}</p>
+                        <p>Email: {selectedClientDetails.email}</p>
+                        <p>Phone Number: {selectedClientDetails.phoneNumber}</p>
+                        <p>Address: {selectedClientDetails.address}</p>
+                        <button className='buttons close-button' onClick={closeDetails}>Close</button>
+                      </div>
+                    </td>
+                  </tr>
+                )}
+              </React.Fragment>
+            ))}
+          </tbody>
+        </table>
+      </div>
 
       <div>
         <Footer />
       </div>
     </div>
   );
-};
+}
 
 export default AccountsAdmin;

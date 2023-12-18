@@ -22,6 +22,7 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.client.ExpectedCount.times;
@@ -152,6 +153,35 @@ class ClientServiceImplServiceUnitTest {
         ClientResponseDTO actualResponseDTO = clientService.getClientById(clientId);
 
         // Assert
+        assertEquals(expectedResponseDTO, actualResponseDTO);
+    }
+
+    @Test
+    void addClient_shouldSucceed() {
+        // Arrange
+        Client newClient = new Client();
+        newClient.setFirstName("John");
+        newClient.setLastName("Doe");
+        newClient.setEmail("john.doe@example.com");
+        newClient.setPhoneNumber("123-456-7890");
+        newClient.setAddress("123 Main St");
+
+        String generatedClientId = "generatedClientId";
+        when(clientRepository.save(any(Client.class))).thenAnswer(invocation -> {
+            Client savedClient = invocation.getArgument(0);
+            savedClient.setClientId(generatedClientId);
+            return savedClient;
+        });
+
+        ClientResponseDTO expectedResponseDTO = new ClientResponseDTO(generatedClientId, "John", "Doe", "john.doe@example.com", "123-456-7890", "123 Main St");
+        when(clientResponseMapper.entityToResponseModel(any(Client.class))).thenReturn(expectedResponseDTO);
+
+        // Act
+        ClientResponseDTO actualResponseDTO = clientService.addClient(newClient);
+
+        // Assert
+        verify(clientRepository).save(any(Client.class));
+        verify(clientResponseMapper).entityToResponseModel(any(Client.class));
         assertEquals(expectedResponseDTO, actualResponseDTO);
     }
 

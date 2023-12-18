@@ -1,6 +1,7 @@
 package com.example.coupetonarbrebackend.User.BusinessLayer;
 
 import com.example.coupetonarbrebackend.User.PresentationLayer.ClientRequestDTO;
+import com.example.coupetonarbrebackend.User.DataLayer.Client;
 import com.example.coupetonarbrebackend.User.PresentationLayer.ClientResponseDTO;
 
 
@@ -10,9 +11,11 @@ public interface ClientService {
 
     List<ClientResponseDTO> getAllClients();
 
-    ClientResponseDTO updateClient(ClientRequestDTO clientRequestDTO, String clientId);
-
     ClientResponseDTO getClientById(String id);
+
+    ClientResponseDTO addClient(Client newClient);
+
+    ClientResponseDTO updateClient(ClientRequestDTO clientRequestDTO, String clientId);
 
     void deleteClientByClientId(String clientId);
 }

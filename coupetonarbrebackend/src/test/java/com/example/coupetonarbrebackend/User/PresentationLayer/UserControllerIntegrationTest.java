@@ -1,17 +1,23 @@
 package com.example.coupetonarbrebackend.User.PresentationLayer;
 
 import com.example.coupetonarbrebackend.User.BusinessLayer.ClientService;
+import com.example.coupetonarbrebackend.User.DataLayer.Client;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 import java.util.Arrays;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -23,6 +29,9 @@ class UserControllerIntegrationTest {
 
     @MockBean
     private ClientService clientService;
+
+    @Autowired
+    private ObjectMapper objectMapper;
 
     @Test
     void getAllClients_shouldSucceed() {
@@ -69,6 +78,41 @@ class UserControllerIntegrationTest {
     }
 
     @Test
+    void addClient_shouldSucceed() throws Exception {
+        // Arrange
+        ClientRequestDTO newClientRequest = new ClientRequestDTO("Da Zhuo", "Xie", "dazhuoxie1024@gmail.com", "514-550-6578", "1175 rue Rembrandt, Brossard, Québec, Canada");
+        ClientResponseDTO expectedResponse = ClientResponseDTO.builder()
+                .clientId("generatedClientId")
+                .firstName("Da Zhuo")
+                .lastName("Xie")
+                .email("dazhuoxie1024@gmail.com")
+                .phoneNumber("514-550-6578")
+                .address("1175 rue Rembrandt, Brossard, Québec, Canada")
+                .build();
+
+        // Mock the service method to return the expected response
+        when(clientService.addClient(any(Client.class))).thenReturn(expectedResponse);
+
+        // Perform the actual HTTP request and assert the response
+        webTestClient.post()
+                .uri("/users/clients")
+                .contentType(MediaType.APPLICATION_JSON)
+                .bodyValue(newClientRequest)
+                .accept(MediaType.APPLICATION_JSON)
+                .exchange()
+                .expectStatus().isEqualTo(HttpStatus.CREATED)
+                .expectHeader().contentType(MediaType.APPLICATION_JSON)
+                .expectBody(ClientResponseDTO.class)
+                .consumeWith(response -> {
+                    ClientResponseDTO responseBody = response.getResponseBody();
+                    assertNotNull(responseBody, "Response body should not be null");
+                    assertEquals(expectedResponse.getClientId(), responseBody.getClientId(), "Client IDs should match");
+                    assertEquals(expectedResponse.getFirstName(), responseBody.getFirstName(), "First names should match");
+                    // Add more assertions as needed for other fields
+                });
+    }
+
+    @Test
     void updateClient_shouldSucceed() {
         // Mock data
         String clientId = "1";
@@ -101,7 +145,6 @@ class UserControllerIntegrationTest {
                     assert clientResponseDTO.getFirstName().equals("John");
                 });
     }
-
 
     @Test
     void deleteClientById_shouldSucceed() {

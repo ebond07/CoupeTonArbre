@@ -22,6 +22,8 @@ public class ClientServiceImpl implements ClientService{
 
     private ClientRequestMapper clientRequestMapper;
 
+    private ClientRequestDTO clientRequestDTO;
+
 
 
     public ClientServiceImpl(ClientRepository clientRepository, ClientResponseMapper clientResponseMapper, ClientRequestMapper clientRequestMapper) {
@@ -40,6 +42,16 @@ public class ClientServiceImpl implements ClientService{
     public ClientResponseDTO getClientById(String id) {
         return clientResponseMapper.entityToResponseModel(clientRepository.findClientByClientId(id));
     }
+
+    @Override
+    public ClientResponseDTO addClient(Client newClient) {
+        // Generate UUID
+        newClient.setClientId(clientRequestDTO.generateUUIDString());
+        // save client entity
+        Client savedClient = clientRepository.save(newClient);
+        return clientResponseMapper.entityToResponseModel(savedClient);
+    }
+
     @Override
     @Transactional
     public void deleteClientByClientId(String clientId) {
@@ -69,3 +81,5 @@ public class ClientServiceImpl implements ClientService{
 //        return clientResponseMapper.entityToResponseModel(clientRepository.save(clientRequest.requestDTOToEntity(clientRequestDTO)));
 //    }
 }
+
+
