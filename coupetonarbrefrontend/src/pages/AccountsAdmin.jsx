@@ -5,6 +5,10 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import '../styles/AccountsAdmin.css';
 
+import {useAuth} from "../security/Components/AuthProvider";
+
+
+
 function AccountsAdmin() {
   const [clients, setClients] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState(null);
@@ -20,14 +24,32 @@ function AccountsAdmin() {
     address: '',
   });
 
+  const auth = useAuth();
+
+  const getAllAccounts = async () => {
+    axios.get("http://localhost:8080/users/clients", {
+        headers: {
+            // @ts-ignore
+            'X-XSRF-TOKEN': auth.getXsrfToken()
+        }
+    })
+        .then(r => {
+            // if (r.status === 200) {
+                console.log("hello")
+                setClients(r.data)
+
+            // }
+        })
+        .catch(e => {
+            // @ts-ignore
+            // auth.authError(e.response.status)
+        })
+}
+
   useEffect(() => {
-    axios.get('http://localhost:8080/users/clients')
-      .then(response => {
-        setClients(response.data);
-      })
-      .catch(error => {
-        console.error('Error:', error);
-      });
+    getAllAccounts().then(r => {
+      console.log("Hellop")
+  })
   }, []);
 
   const handleAddClient = () => {
@@ -47,10 +69,19 @@ function AccountsAdmin() {
   };
 
   const handleDelete = (clientId) => {
+    if (typeof clientId === 'undefined') {
+      console.error('Client ID is undefined. Cannot delete.');
+      return;
+    }
+
     const isConfirmed = window.confirm('Are you sure you want to delete this client?');
+
     if (!isConfirmed) {
       return;
     }
+
+    console.log('Deleting client with id:', clientId);
+
     axios.delete(`http://localhost:8080/users/clients/${clientId}`)
       .then(response => {
         setClients(clients.filter(client => client.clientId !== clientId));
@@ -96,7 +127,9 @@ function AccountsAdmin() {
   });
 
   const handleUpdate = (clientId) => {
+
     window.location.href = `/updateClientAdmin/${clientId}`;
+
   };
 
   const closeDetails = () => {
@@ -117,7 +150,7 @@ function AccountsAdmin() {
         <div className="add-client-button">
           <button onClick={() => setShowAddClientForm(true)}>Add Client</button>
         </div>
-      
+
 
       {showAddClientForm && (
         <div className="popup-background">
