@@ -6,11 +6,15 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.reactive.server.WebTestClient;
+import org.springframework.test.web.servlet.MockMvc;
 
 import java.util.Arrays;
 import java.util.List;
@@ -19,9 +23,21 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
+import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
 
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWebTestClient
+@DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
+@ActiveProfiles("test")
+@AutoConfigureMockMvc//(addFilters = false)
 class UserControllerIntegrationTest {
 
     @Autowired
@@ -29,6 +45,12 @@ class UserControllerIntegrationTest {
 
     @MockBean
     private ClientService clientService;
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    private final String BASE_URI_CLIENTS = "/users/clients";
+
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -56,6 +78,14 @@ class UserControllerIntegrationTest {
                     assert clientResponseDTOS.get(0).getClientId().equals("1");
                     assert clientResponseDTOS.get(1).getClientId().equals("2");
                 });
+    }
+
+    @Test
+    void getAllClients() throws Exception {
+        mockMvc.perform(get(BASE_URI_CLIENTS)
+                        .with(SecurityMockMvcRequestPostProcessors.oidcLogin().idToken(i -> i.subject("google|newuser")).authorities(new SimpleGrantedAuthority("Admin")))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
     @Test
     void getClientById_shouldSucceed() {
@@ -146,6 +176,7 @@ class UserControllerIntegrationTest {
                     assert clientResponseDTO.getFirstName().equals("John");
                 });
     }
+
 
     @Test
     void deleteClientById_shouldSucceed() {

@@ -10,7 +10,7 @@ function ExternalHandling() {
             // @ts-ignore
             document.getElementById('submit').click();
         }else{
-            window.location.href = "http://localhost:3000"
+            window.location.href = "http://localhost:8080/oauth2/authorization/okta"
         }
     }, [])
 
