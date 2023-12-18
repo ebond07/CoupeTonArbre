@@ -44,11 +44,10 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public ClientResponseDTO addClient(Client newClient) {
-        // Generate UUID
-        newClient.setClientId(clientRequestDTO.generateUUIDString());
-        // save client entity
-        Client savedClient = clientRepository.save(newClient);
+    public ClientResponseDTO addClient(ClientRequestDTO clientRequestDTO) {
+        Client client = clientRequestMapper.requestModelToEntity(clientRequestDTO);
+        client.setClientId(ClientRequestDTO.generateUUIDString());
+        Client savedClient = clientRepository.save(client);
         return clientResponseMapper.entityToResponseModel(savedClient);
     }
 

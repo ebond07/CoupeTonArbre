@@ -159,17 +159,26 @@ class ClientServiceImplServiceUnitTest {
     @Test
     void addClient_shouldSucceed() {
         // Arrange
-        Client newClient = new Client();
-        newClient.setFirstName("John");
-        newClient.setLastName("Doe");
-        newClient.setEmail("john.doe@example.com");
-        newClient.setPhoneNumber("123-456-7890");
-        newClient.setAddress("123 Main St");
+        ClientRequestDTO newClientRequestDTO = new ClientRequestDTO();
+        newClientRequestDTO.setFirstName("John");
+        newClientRequestDTO.setLastName("Doe");
+        newClientRequestDTO.setEmail("john.doe@example.com");
+        newClientRequestDTO.setPhoneNumber("123-456-7890");
+        newClientRequestDTO.setAddress("123 Main St");
 
-        String generatedClientId = "generatedClientId";
+        Client newClient = new Client();
+        newClient.setClientId(UUID.randomUUID().toString()); // Assuming UUID is set in the service
+        newClient.setFirstName(newClientRequestDTO.getFirstName());
+        newClient.setLastName(newClientRequestDTO.getLastName());
+        newClient.setEmail(newClientRequestDTO.getEmail());
+        newClient.setPhoneNumber(newClientRequestDTO.getPhoneNumber());
+        newClient.setAddress(newClientRequestDTO.getAddress());
+
+        when(clientRequestMapper.requestModelToEntity(any(ClientRequestDTO.class))).thenReturn(newClient);
+
+        String generatedClientId = newClient.getClientId();
         when(clientRepository.save(any(Client.class))).thenAnswer(invocation -> {
             Client savedClient = invocation.getArgument(0);
-            savedClient.setClientId(generatedClientId);
             return savedClient;
         });
 
@@ -177,13 +186,15 @@ class ClientServiceImplServiceUnitTest {
         when(clientResponseMapper.entityToResponseModel(any(Client.class))).thenReturn(expectedResponseDTO);
 
         // Act
-        ClientResponseDTO actualResponseDTO = clientService.addClient(newClient);
+        ClientResponseDTO actualResponseDTO = clientService.addClient(newClientRequestDTO);
 
         // Assert
+        verify(clientRequestMapper).requestModelToEntity(any(ClientRequestDTO.class));
         verify(clientRepository).save(any(Client.class));
         verify(clientResponseMapper).entityToResponseModel(any(Client.class));
         assertEquals(expectedResponseDTO, actualResponseDTO);
     }
+
 
     @Test
     void deleteClientByClientId_shouldDeleteClient() {

@@ -81,17 +81,17 @@ class UserControllerIntegrationTest {
     void addClient_shouldSucceed() throws Exception {
         // Arrange
         ClientRequestDTO newClientRequest = new ClientRequestDTO("Da Zhuo", "Xie", "dazhuoxie1024@gmail.com", "514-550-6578", "1175 rue Rembrandt, Brossard, Québec, Canada");
-        ClientResponseDTO expectedResponse = ClientResponseDTO.builder()
-                .clientId("generatedClientId")
-                .firstName("Da Zhuo")
-                .lastName("Xie")
-                .email("dazhuoxie1024@gmail.com")
-                .phoneNumber("514-550-6578")
-                .address("1175 rue Rembrandt, Brossard, Québec, Canada")
-                .build();
+        ClientResponseDTO expectedResponse = new ClientResponseDTO(
+                "generatedClientId",
+                "Da Zhuo",
+                "Xie",
+                "dazhuoxie1024@gmail.com",
+                "514-550-6578",
+                "1175 rue Rembrandt, Brossard, Québec, Canada"
+        );
 
         // Mock the service method to return the expected response
-        when(clientService.addClient(any(Client.class))).thenReturn(expectedResponse);
+        when(clientService.addClient(any(ClientRequestDTO.class))).thenReturn(expectedResponse);
 
         // Perform the actual HTTP request and assert the response
         webTestClient.post()
@@ -108,9 +108,13 @@ class UserControllerIntegrationTest {
                     assertNotNull(responseBody, "Response body should not be null");
                     assertEquals(expectedResponse.getClientId(), responseBody.getClientId(), "Client IDs should match");
                     assertEquals(expectedResponse.getFirstName(), responseBody.getFirstName(), "First names should match");
-                    // Add more assertions as needed for other fields
+                    assertEquals(expectedResponse.getLastName(), responseBody.getLastName(), "Last names should match");
+                    assertEquals(expectedResponse.getEmail(), responseBody.getEmail(), "Emails should match");
+                    assertEquals(expectedResponse.getPhoneNumber(), responseBody.getPhoneNumber(), "Phone numbers should match");
+                    assertEquals(expectedResponse.getAddress(), responseBody.getAddress(), "Addresses should match");
                 });
     }
+
 
     @Test
     void updateClient_shouldSucceed() {

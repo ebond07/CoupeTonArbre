@@ -39,8 +39,7 @@ public class UserController {
 
     @PostMapping("/clients")
     public ResponseEntity<ClientResponseDTO> addClient(@RequestBody ClientRequestDTO clientRequestDTO) {
-        Client newClient = clientRequestMapper.requestModelToEntity(clientRequestDTO);
-        ClientResponseDTO response = clientService.addClient(newClient);
+        ClientResponseDTO response = clientService.addClient(clientRequestDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 

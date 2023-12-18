@@ -13,7 +13,7 @@ public interface ClientService {
 
     ClientResponseDTO getClientById(String id);
 
-    ClientResponseDTO addClient(Client newClient);
+    ClientResponseDTO addClient(ClientRequestDTO clientRequestDTO);
 
     ClientResponseDTO updateClient(ClientRequestDTO clientRequestDTO, String clientId);
 
