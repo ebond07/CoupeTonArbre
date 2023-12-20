@@ -65,8 +65,20 @@ function AccountsAdmin() {
   };
 
   const handleFormChange = (event) => {
-    setNewClient({ ...newClient, [event.target.name]: event.target.value });
+    let value = event.target.value;
+  
+    if (event.target.name === 'phoneNumber') {
+      value = value.replace(/\D/g, '');
+  
+      const match = value.match(/^(\d{3})(\d{3})(\d{4})$/);
+      if (match) {
+        value = `(${match[1]}) ${match[2]}-${match[3]}`;
+      }
+    }
+  
+    setNewClient({ ...newClient, [event.target.name]: value });
   };
+  
 
   const handleDelete = (clientId) => {
     if (typeof clientId === 'undefined') {
