@@ -22,7 +22,6 @@ describe('Accounts Admin Page', () => {
 
 
 
-    cy.get('nav').contains('Login').click();
 
    cy.adminLogin()
  

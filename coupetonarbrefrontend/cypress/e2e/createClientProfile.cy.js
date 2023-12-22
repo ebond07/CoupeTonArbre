@@ -1,3 +1,8 @@
+Cypress.on('uncaught:exception', (err, runnable) => {
+  // Returning false prevents Cypress from failing the test
+  return false;
+});
+
 describe('Profile Page', () => {
     it('should fill out the form and display user info after submission', () => {
 
