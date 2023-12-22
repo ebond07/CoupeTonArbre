@@ -10,25 +10,19 @@ import com.example.coupetonarbrebackend.User.PresentationLayer.ClientResponseDTO
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.client.ExpectedCount.times;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -73,13 +67,14 @@ class ClientServiceImplServiceUnitTest {
         String clientId = "C1";
 
         ClientRequestDTO clientRequestDTO = ClientRequestDTO.builder()
-                .clientId(clientId)
                 .firstName("David")
                 .lastName("Rallo")
                 .email("david@gmail.com")
                 .phoneNumber("514-875-7267")
                 .address("1234 rue de la montagne")
                 .build();
+
+
 
         Client existingClient = Client.builder()
                 .clientId(clientId)
@@ -120,7 +115,6 @@ class ClientServiceImplServiceUnitTest {
         // Arrange
         String clientId = "NonexistentId";
         ClientRequestDTO clientRequestDTO = ClientRequestDTO.builder()
-                .clientId(clientId)
                 .firstName("David")
                 .lastName("Rallo")
                 .email("david@gmail.com")
@@ -138,6 +132,17 @@ class ClientServiceImplServiceUnitTest {
     }
 
 
+    @Test
+    void checkIfClientExists() {
+
+        String clientId = "google|123456789";
+
+        when(clientRepository.existsByClientId(clientId)).thenReturn(true);
+
+        boolean result = clientService.checkIfClientExists(clientId);
+
+        assertTrue(result);
+    }
 
     @Test
     void getClientById_shouldReturnClientResponseDTO() {
@@ -177,12 +182,68 @@ class ClientServiceImplServiceUnitTest {
         when(clientResponseMapper.entityToResponseModel(any(Client.class))).thenReturn(expectedResponseDTO);
 
         // Act
-        ClientResponseDTO actualResponseDTO = clientService.addClient(newClient);
+        ClientResponseDTO actualResponseDTO = clientService.adminAddClient(newClient);
 
         // Assert
         verify(clientRepository).save(any(Client.class));
         verify(clientResponseMapper).entityToResponseModel(any(Client.class));
         assertEquals(expectedResponseDTO, actualResponseDTO);
+    }
+
+
+
+    @Test
+    void clientCreateProfile() {
+
+        String clientId = "google|123456789";
+
+        ClientRequestDTO mockClientRequest = ClientRequestDTO.builder()
+                .firstName("Alice")
+                .lastName("Doe")
+                .email("test@email.com")
+                .phoneNumber("514-234-4323")
+                .address("123 Main St")
+                .build();
+
+        Client mockClient = Client.builder()
+                .firstName("Alice")
+                .lastName("Doe")
+                .email("test@email.com")
+                .phoneNumber("514-234-4323")
+                .address("123 Main St")
+                .build();
+
+        ClientResponseDTO mockClientResponse = ClientResponseDTO.builder()
+                .firstName("Alice")
+                .lastName("Doe")
+                .email("test@email.com")
+                .phoneNumber("514-234-4323")
+                .address("123 Main St")
+                .build();
+
+        when(clientRepository.existsByClientId(clientId)).thenReturn(false);
+
+        when(clientRequestMapper.requestModelToEntity(mockClientRequest)).thenReturn(mockClient);
+
+        when(clientRepository.save(mockClient)).thenReturn(mockClient);
+
+        when(clientResponseMapper.entityToResponseModel(mockClient)).thenReturn(mockClientResponse);
+
+        ClientResponseDTO result = clientService.clientCreateProfile(mockClientRequest, clientId);
+
+        assertEquals(mockClient.getFirstName(), result.getFirstName());
+
+        assertEquals(mockClient.getLastName(), result.getLastName());
+
+        assertEquals(mockClient.getEmail(), result.getEmail());
+
+        assertEquals(mockClient.getPhoneNumber(), result.getPhoneNumber());
+
+        assertEquals(mockClient.getAddress(), result.getAddress());
+
+
+
+
     }
 
     @Test

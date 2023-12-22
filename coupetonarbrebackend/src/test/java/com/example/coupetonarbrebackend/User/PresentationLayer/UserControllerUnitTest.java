@@ -7,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -58,7 +57,7 @@ class UserControllerUnitTest {
 
         when(clientService.getClientById("c3540a89-cb47-4c96-888e-ff96708db4d8")).thenReturn(expectedClientResponseDTO);
 
-        ResponseEntity<ClientResponseDTO> responseEntity = userController.getClientById("c3540a89-cb47-4c96-888e-ff96708db4d8");
+        ResponseEntity<ClientResponseDTO> responseEntity = userController.adminGetClientById("c3540a89-cb47-4c96-888e-ff96708db4d8");
 
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
         assertEquals(expectedClientResponseDTO, responseEntity.getBody());
@@ -70,7 +69,7 @@ class UserControllerUnitTest {
         String clientIdToDelete = "1";
 
         // Act
-        userController.deleteClientByClientId(clientIdToDelete);
+        userController.adminDeleteClientByClientId(clientIdToDelete);
 
         // Assert
         verify(clientService).deleteClientByClientId(clientIdToDelete);

@@ -13,9 +13,9 @@ public interface ClientService {
 
     ClientResponseDTO getClientById(String id);
 
-    ClientResponseDTO addClient(Client newClient);
+    ClientResponseDTO adminAddClient(Client newClient);
 
-    ClientResponseDTO createClient(ClientRequestDTO clientRequestDTO, String clientId);
+    ClientResponseDTO clientCreateProfile(ClientRequestDTO clientRequestDTO, String clientId);
 
     boolean checkIfClientExists(String clientId);
 

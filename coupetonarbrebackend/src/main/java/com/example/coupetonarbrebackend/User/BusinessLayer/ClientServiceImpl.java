@@ -36,7 +36,7 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public ClientResponseDTO createClient(ClientRequestDTO clientRequestDTO, String clientId) {
+    public ClientResponseDTO clientCreateProfile(ClientRequestDTO clientRequestDTO, String clientId) {
 
 //        if (clientRepository.existsByUserId(userId))
 //            throw new InvalidRequestException("Customer already exists");
@@ -69,7 +69,7 @@ public class ClientServiceImpl implements ClientService{
     }
 
     @Override
-    public ClientResponseDTO addClient(Client newClient) {
+    public ClientResponseDTO adminAddClient(Client newClient) {
         // Generate UUID
         newClient.setClientId(clientRequestDTO.generateUUIDString());
         // save client entity

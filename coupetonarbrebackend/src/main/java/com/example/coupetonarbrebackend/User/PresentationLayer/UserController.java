@@ -8,7 +8,6 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import com.example.coupetonarbrebackend.User.DataLayer.Client;
-import com.example.coupetonarbrebackend.User.DataLayer.ClientRepository;
 import com.example.coupetonarbrebackend.User.DataMapperLayer.ClientRequestMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -41,17 +40,17 @@ public class UserController {
         return ResponseEntity.ok().body(clientService.getAllClients());
     }
     @PutMapping("/clients/{clientId}")
-    public ResponseEntity<ClientResponseDTO> updateClient(@PathVariable String clientId, @RequestBody ClientRequestDTO clientRequestDTO){
+    public ResponseEntity<ClientResponseDTO> adminUpdateClient(@PathVariable String clientId, @RequestBody ClientRequestDTO clientRequestDTO){
         return ResponseEntity.ok().body(clientService.updateClient(clientRequestDTO,clientId));
     }
     @PreAuthorize("hasAuthority('Admin')")
     @GetMapping("/clients/{clientId}")
-    public ResponseEntity<ClientResponseDTO> getClientById(@PathVariable String clientId){
+    public ResponseEntity<ClientResponseDTO> adminGetClientById(@PathVariable String clientId){
         return ResponseEntity.ok().body(clientService.getClientById(clientId));
     }
 
     @GetMapping("/client")
-    public ResponseEntity<ClientResponseDTO> getClientByClientId(@AuthenticationPrincipal OidcUser principal, @RequestParam Map<String, String> requestParams) {
+    public ResponseEntity<ClientResponseDTO> clientGetProfile(@AuthenticationPrincipal OidcUser principal, @RequestParam Map<String, String> requestParams) {
         log.info("Get client with clientId: {}", principal.getSubject());
 
         if (requestParams.containsKey("simpleCheck") && requestParams.get("simpleCheck").equals("true")) {
@@ -69,21 +68,21 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('Admin')")
     @PostMapping("/clients")
-    public ResponseEntity<ClientResponseDTO> addClient(@RequestBody ClientRequestDTO clientRequestDTO) {
+    public ResponseEntity<ClientResponseDTO> adminAddClient(@RequestBody ClientRequestDTO clientRequestDTO) {
         Client newClient = clientRequestMapper.requestModelToEntity(clientRequestDTO);
-        ClientResponseDTO response = clientService.addClient(newClient);
+        ClientResponseDTO response = clientService.adminAddClient(newClient);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PostMapping("/client")
-    public ResponseEntity<ClientResponseDTO> createClient(@AuthenticationPrincipal OidcUser principal,
-                                                           @Valid @RequestBody ClientRequestDTO clientRequestDTO) {
+    public ResponseEntity<ClientResponseDTO> clientCreateProfile(@AuthenticationPrincipal OidcUser principal,
+                                                                 @Valid @RequestBody ClientRequestDTO clientRequestDTO) {
         String clientId = principal.getSubject();
         log.info("Create client with clientId: {}", clientId);
 
 
 
-        ClientResponseDTO clientResponseDTO = clientService.createClient(clientRequestDTO, clientId);
+        ClientResponseDTO clientResponseDTO = clientService.clientCreateProfile(clientRequestDTO, clientId);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(clientResponseDTO);
 
@@ -94,7 +93,7 @@ public class UserController {
 
 
     @DeleteMapping("/clients/{clientId}")
-    public ResponseEntity<Void> deleteClientByClientId(@PathVariable String clientId) {
+    public ResponseEntity<Void> adminDeleteClientByClientId(@PathVariable String clientId) {
         clientService.deleteClientByClientId(clientId);
         return ResponseEntity.noContent().build();
     }

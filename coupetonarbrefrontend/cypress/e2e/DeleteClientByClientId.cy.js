@@ -23,14 +23,8 @@ describe('FirstTest', () => {
 
 
 
-    cy.get('nav').contains('Login').click();
 
-    cy.origin('https://dev-4hcoszrtvq0f1jnk.us.auth0.com', () => {
-    cy.get('#username').type('evanbond007@outlook.com'); 
-    cy.get('#password').type('EvanPassword123'); 
-    
-    cy.get('button:contains("Continue")').first().click({force : true});
-  })
+    cy.adminLogin()
  
 
 
