@@ -21,7 +21,6 @@ describe('Accounts Admin Page', () => {
 
 
 
-    cy.get('nav').contains('Log out').should('exist');
 
     cy.get('nav').contains('Login').click();
 

@@ -21,14 +21,14 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<HomePage />} />
-          <Route path="/appointments" element={<AppointmentsAdmin />} />
-          <Route path="/quotes" element={<QuotesAdmin />} />
-          <Route path="/accounts" element={<AccountsAdmin />} />
-          <Route path="/feedback" element={<FeedbackAdmin />} />
+          <Route path="/admin/appointments" element={<AppointmentsAdmin />} />
+          <Route path="/admin/quotes" element={<QuotesAdmin />} />
+          <Route path="/admin/accounts" element={<AccountsAdmin />} />
+          <Route path="/admin/feedback" element={<FeedbackAdmin />} />
           <Route path="/profile" element={<Profile />} />
           <Route path="/verify" element={<VerifyRedirect />} />
 
-          <Route path="/updateClientAdmin/:clientId" element={<UpdateClientAdmin />} />
+          <Route path="/admin/updateClientAdmin/:clientId" element={<UpdateClientAdmin />} />
 
         </Routes>
       </BrowserRouter>

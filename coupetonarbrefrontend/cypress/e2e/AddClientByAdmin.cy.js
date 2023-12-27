@@ -21,7 +21,6 @@ describe('AddClientByAdminTest', () => {
 
 
 
-    cy.get('nav').contains('Log out').should('exist');
 
     cy.get('nav').contains('Login').click();
 
@@ -38,7 +37,6 @@ describe('AddClientByAdminTest', () => {
 });
   it('allows an admin to add a new client', () => {
     // Visit the AccountsAdmin page
-    cy.visit('localhost:3000/accounts');
 
     // Check for the presence of the "Add Client" button and click it
     cy.contains('Add Client').should('exist').click();

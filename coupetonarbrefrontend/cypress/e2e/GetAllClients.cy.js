@@ -21,7 +21,6 @@ describe('FirstTest', () => {
 
 
 
-    cy.get('nav').contains('Log out').should('exist');
 
     cy.get('nav').contains('Login').click();
 
@@ -39,7 +38,7 @@ describe('FirstTest', () => {
     cy.get('nav').contains('Accounts').click();
 
     // Validate the URL
-    cy.url().should('include', '/accounts');
+    cy.url().should('include', '/admin/accounts');
 
     // Verify the presence of the table and its headers
     cy.get('table').should('exist');
@@ -54,19 +53,19 @@ describe('FirstTest', () => {
 
     cy.get('nav').contains('Appointments').click();
 
-    cy.url().should('include', '/appointments');
+    cy.url().should('include', '/admin/appointments');
 
     cy.contains('Welcome to the Appointments Page').should('exist');
     cy.contains('This is the content of the appointments page.').should('exist');
 
     cy.get('nav').contains('Quote Requests').click();
-    cy.url().should('include', '/quotes');
+    cy.url().should('include', '/admin/quotes');
 
     cy.contains('Welcome to the Quotes Page').should('exist');
     cy.contains('This is the content of the quote page.').should('exist');
 
     cy.get('nav').contains('Feedback').click();
-    cy.url().should('include', '/feedback');
+    cy.url().should('include', '/admin/feedback');
 
     cy.contains('Welcome to the Feedback Page').should('exist');
     cy.contains('This is the content of the feedback page.').should('exist');

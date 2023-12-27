@@ -58,7 +58,7 @@ public class SpringSecurityConfigBean {
                         .permitAll())
                 .oauth2ResourceServer(jwt -> jwt.jwt(withDefaults()))
                 .logout(logout -> {
-                    logout.logoutUrl("/api/v1/cta/logout")
+                    logout.logoutUrl("/cta/logout")
                             .addLogoutHandler(logoutHandler())
                             .logoutSuccessHandler((request, response, authentication) -> {
 
@@ -78,7 +78,7 @@ public class SpringSecurityConfigBean {
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                         .csrfTokenRequestHandler(new SpaCsrfToken())
                         .ignoringRequestMatchers(
-                                new AntPathRequestMatcher("/api/v1/cta/logout", HttpMethod.POST.toString()),
+                                new AntPathRequestMatcher("/cta/logout", HttpMethod.POST.toString()),
                                 new AntPathRequestMatcher("/api/v1/cta/security/redirect", HttpMethod.GET.toString()),
                                 new AntPathRequestMatcher("/users/clients", HttpMethod.GET.toString()),
                                 new AntPathRequestMatcher("/users/clients", HttpMethod.POST.toString()),

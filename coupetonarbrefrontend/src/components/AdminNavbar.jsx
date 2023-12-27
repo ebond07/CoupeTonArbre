@@ -10,7 +10,7 @@ import {useAuth} from "../security/Components/AuthProvider";
 
 
 
-function Navbar() {
+function AdminNavbar() {
   const auth = useAuth()
 
   return (
@@ -27,35 +27,47 @@ function Navbar() {
        {
         // @ts-ignore
         auth.userRoles().includes("Admin") &&
-        <li><Link to='/appointments' className={styles.li}>Appointments</Link></li>
+        <li><Link to='/admin/appointments' className={styles.li}>Appointments</Link></li>
 
         }
 
         {
         // @ts-ignore
         auth.userRoles().includes("Admin") &&
-        <li><Link to='/quotes' className={styles.li}>Quote Requests</Link></li>
+        <li><Link to='/admin/quotes' className={styles.li}>Quote Requests</Link></li>
         }
        {
         // @ts-ignore
         auth.userRoles().includes("Admin") &&
-        <li><Link to='/accounts' className={styles.li}>Accounts</Link></li>
+        <li><Link to='/admin/accounts' className={styles.li}>Accounts</Link></li>
         }
 
         {
         // @ts-ignore
         auth.userRoles().includes("Admin") &&
-        <li><Link to='/feedback' className={styles.li}>Feedback</Link></li>
+        <li><Link to='/admin/feedback' className={styles.li}>Feedback</Link></li>
         }
 
-       <li><Link to='/profile' className={styles.li}>Profile</Link></li>
-       <li><Link to="http://localhost:8080/oauth2/authorization/okta" className={styles.li}>Login</Link></li>
+        
+        {
+          // @ts-ignore
+          !auth.isAuthenticated &&
+          <li><Link to="http://localhost:8080/oauth2/authorization/okta" className={styles.li}>Login</Link></li>
 
-       <li className={styles.li}>Log out</li>
+        }
+        
+        {
+          // @ts-ignore
+          auth.isAuthenticated &&
+       <li><form method={"post"} action={"http://localhost:8080/cta/logout"}>
+       <button className='logout-btn' type={"submit"}>Logout</button>
+   </form></li>
+        }
+
      </ul>
    </nav>
    </>
   );
  }
 
-export default Navbar;
+export default AdminNavbar;
