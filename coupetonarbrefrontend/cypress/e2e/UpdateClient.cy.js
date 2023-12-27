@@ -32,6 +32,7 @@ describe('Update Client Admin Page', () => {
   })
  
 
+  cy.get('nav').contains('Logout').should('exist');
 
   cy.get('nav').contains('Accounts').click();
 });

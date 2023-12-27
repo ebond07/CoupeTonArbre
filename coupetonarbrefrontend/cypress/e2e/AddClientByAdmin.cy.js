@@ -33,6 +33,8 @@ describe('AddClientByAdminTest', () => {
  
 
 
+  cy.get('nav').contains('Logout').should('exist');
+
   cy.get('nav').contains('Accounts').click();
 });
   it('allows an admin to add a new client', () => {

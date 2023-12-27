@@ -51,6 +51,9 @@ describe('FirstTest', () => {
     // Verify the presence of client information
     cy.get('tbody').find('tr').should('have.length', 10); 
 
+    cy.get('nav').contains('Logout').should('exist');
+
+
     cy.get('nav').contains('Appointments').click();
 
     cy.url().should('include', '/admin/appointments');

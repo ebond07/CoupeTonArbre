@@ -54,6 +54,8 @@ describe('FirstTest', () => {
     cy.get('nav').contains('Quote Requests').should('exist');
     cy.get('nav').contains('Accounts').should('exist');
     cy.get('nav').contains('Feedback').should('exist');
+    cy.get('nav').contains('Logout').should('exist');
+
 
     // Interact with the Navbar 
     cy.get('nav').contains('Accounts').click();

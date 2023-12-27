@@ -32,6 +32,7 @@ describe('Accounts Admin Page', () => {
   })
  
 
+  cy.get('nav').contains('Logout').should('exist');
 
   cy.get('nav').contains('Accounts').click();
 });
