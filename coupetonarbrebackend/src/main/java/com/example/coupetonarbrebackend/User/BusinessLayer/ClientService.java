@@ -15,6 +15,12 @@ public interface ClientService {
 
     ClientResponseDTO addClient(Client newClient);
 
+    ClientResponseDTO createClient(ClientRequestDTO clientRequestDTO, String clientId);
+
+    boolean checkIfClientExists(String clientId);
+
+
+
     ClientResponseDTO updateClient(ClientRequestDTO clientRequestDTO, String clientId);
 
     void deleteClientByClientId(String clientId);

@@ -10,7 +10,7 @@ import java.util.UUID;
 @AllArgsConstructor
 public class ClientRequestDTO {
 
-    private String clientId;
+//    private String clientId;
     private String firstName;
     private String lastName;
     private String email;

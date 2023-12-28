@@ -8,11 +8,13 @@ import com.example.coupetonarbrebackend.User.DataMapperLayer.ClientResponseMappe
 import com.example.coupetonarbrebackend.User.PresentationLayer.ClientRequestDTO;
 import com.example.coupetonarbrebackend.User.PresentationLayer.ClientResponseDTO;
 import jakarta.transaction.Transactional;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 
 import java.util.List;
 
+@Slf4j
 @Service
 public class ClientServiceImpl implements ClientService{
 
@@ -31,6 +33,29 @@ public class ClientServiceImpl implements ClientService{
         this.clientResponseMapper = clientResponseMapper;
         this.clientRequestMapper = clientRequestMapper;
 
+    }
+
+    @Override
+    public ClientResponseDTO createClient(ClientRequestDTO clientRequestDTO, String clientId) {
+
+//        if (clientRepository.existsByUserId(userId))
+//            throw new InvalidRequestException("Customer already exists");
+
+        log.info("Creating client for clientId {}", clientId);
+        log.info("Client request {}", clientRequestDTO);
+
+        Client client = clientRequestMapper.requestModelToEntity(clientRequestDTO);
+
+        client.setClientId(clientId);
+        clientRepository.save(client);
+
+
+        return clientResponseMapper.entityToResponseModel(client);
+    }
+
+    @Override
+    public boolean checkIfClientExists(String clientId) {
+        return clientRepository.existsByClientId(clientId);
     }
     @Override
     public List<ClientResponseDTO> getAllClients() {

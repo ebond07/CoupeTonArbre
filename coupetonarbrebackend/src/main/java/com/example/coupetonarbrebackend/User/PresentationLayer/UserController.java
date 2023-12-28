@@ -1,7 +1,11 @@
 package com.example.coupetonarbrebackend.User.PresentationLayer;
 
 import com.example.coupetonarbrebackend.User.BusinessLayer.ClientService;
+import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import com.example.coupetonarbrebackend.User.DataLayer.Client;
 import com.example.coupetonarbrebackend.User.DataLayer.ClientRepository;
@@ -14,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
+@Slf4j
 @RestController
 @CrossOrigin(origins = "http://localhost:3000",allowCredentials = "true", allowedHeaders = {"xsrf-token", "content-type"})
 @RequestMapping("users")
@@ -34,7 +40,6 @@ public class UserController {
     public ResponseEntity<List<ClientResponseDTO>> getAllClients(){
         return ResponseEntity.ok().body(clientService.getAllClients());
     }
-//    @PreAuthorize("hasAuthority('Admin')")
     @PutMapping("/clients/{clientId}")
     public ResponseEntity<ClientResponseDTO> updateClient(@PathVariable String clientId, @RequestBody ClientRequestDTO clientRequestDTO){
         return ResponseEntity.ok().body(clientService.updateClient(clientRequestDTO,clientId));
@@ -45,6 +50,23 @@ public class UserController {
         return ResponseEntity.ok().body(clientService.getClientById(clientId));
     }
 
+    @GetMapping("/client")
+    public ResponseEntity<ClientResponseDTO> getClientByClientId(@AuthenticationPrincipal OidcUser principal, @RequestParam Map<String, String> requestParams) {
+        log.info("Get client with clientId: {}", principal.getSubject());
+
+        if (requestParams.containsKey("simpleCheck") && requestParams.get("simpleCheck").equals("true")) {
+            if(clientService.checkIfClientExists(principal.getSubject()))
+                return ResponseEntity.ok().build();
+            else
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+
+        ClientResponseDTO clientResponseDTO = clientService.getClientById(principal.getSubject());
+
+        return ResponseEntity.ok(clientResponseDTO);
+
+    }
+
     @PreAuthorize("hasAuthority('Admin')")
     @PostMapping("/clients")
     public ResponseEntity<ClientResponseDTO> addClient(@RequestBody ClientRequestDTO clientRequestDTO) {
@@ -52,6 +74,22 @@ public class UserController {
         ClientResponseDTO response = clientService.addClient(newClient);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
+
+    @PostMapping("/client")
+    public ResponseEntity<ClientResponseDTO> createClient(@AuthenticationPrincipal OidcUser principal,
+                                                           @Valid @RequestBody ClientRequestDTO clientRequestDTO) {
+        String clientId = principal.getSubject();
+        log.info("Create client with clientId: {}", clientId);
+
+
+
+        ClientResponseDTO clientResponseDTO = clientService.createClient(clientRequestDTO, clientId);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(clientResponseDTO);
+
+    }
+
+
 
 
 

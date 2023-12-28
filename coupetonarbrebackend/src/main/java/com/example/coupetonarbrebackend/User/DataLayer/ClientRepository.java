@@ -11,6 +11,9 @@ public interface ClientRepository extends JpaRepository<Client, Integer> {
 
     void deleteByClientId(String clientId);
 
+    boolean existsByClientId(String clientId);
+
+
 
     Client findByClientId(String clientId);
 }
