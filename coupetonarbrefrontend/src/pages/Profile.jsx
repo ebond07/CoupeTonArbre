@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet';
-import Navbar from '../components/Navbar';
+import ClientNavbar from '../components/ClientNavbar';
 import Footer from '../components/Footer';
 import axios from 'axios';
 import { useAuth } from '../security/Components/AuthProvider';
@@ -259,7 +259,7 @@ function Profile() {
         <title>Profile - CTA</title>
       </Helmet>
       <div id="nav-container">
-        <Navbar />
+        <ClientNavbar />
         <div>
           <form onSubmit={handleSubmit}>
             {renderFormFields()}
