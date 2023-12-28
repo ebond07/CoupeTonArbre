@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Helmet from 'react-helmet'
 import axios from 'axios';
-import Navbar from '../components/Navbar';
+import AdminNavbar from '../components/AdminNavbar';
 import { useParams } from 'react-router-dom';
 import '../styles/UpdateClientAdmin.css'; // Import your CSS file for styling
 import Footer from '../components/Footer';
@@ -52,7 +52,7 @@ function UpdateClientAdmin() {
       .then(response => {
         // Handle the response, e.g., update state or show a success message
         console.log('Client updated successfully:', response.data);
-        window.location.href = `/accounts`;
+        window.location.href = `/admin/accounts`;
 
       })
       .catch(error => console.error('Error updating client:', error));
@@ -64,7 +64,7 @@ function UpdateClientAdmin() {
         <title>Update Client - CTA</title>
       </Helmet>
       <div id='nav-container'>
-        <Navbar />
+        <AdminNavbar />
 
         <div className='text-align center'>
           <h1> Update Client</h1>
@@ -122,7 +122,7 @@ function UpdateClientAdmin() {
                 onChange={handleUpdateFormChange}
               />
             </div>
-            <button type="button" onClick={handleUpdateButtonClick}>
+            <button className='button' type="button" onClick={handleUpdateButtonClick}>
               Update Client
             </button>
           </form>

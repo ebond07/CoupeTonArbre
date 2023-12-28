@@ -22,7 +22,6 @@ describe('FirstTest', () => {
 
 
 
-    cy.get('nav').contains('Log out').should('exist');
 
     cy.get('nav').contains('Login').click();
 
@@ -55,13 +54,14 @@ describe('FirstTest', () => {
     cy.get('nav').contains('Quote Requests').should('exist');
     cy.get('nav').contains('Accounts').should('exist');
     cy.get('nav').contains('Feedback').should('exist');
-    cy.get('nav').contains('Log out').should('exist');
+    cy.get('nav').contains('Logout').should('exist');
+
 
     // Interact with the Navbar 
     cy.get('nav').contains('Accounts').click();
 
     // Validate the URL
-    cy.url().should('include', '/accounts');
+    cy.url().should('include', '/admin/accounts');
 
     // Verify the presence of the table and its headers
     cy.get('table').should('exist');

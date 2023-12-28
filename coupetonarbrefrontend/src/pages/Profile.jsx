@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet';
-import Navbar from '../components/Navbar';
+import ClientNavbar from '../components/ClientNavbar';
 import Footer from '../components/Footer';
 function Profile(){
     return (
@@ -8,7 +8,7 @@ function Profile(){
                 <title>Profile - CTA</title>
             </Helmet>
             <div id='nav-container'>
-                <Navbar />
+                <ClientNavbar />
                 <h2>Welcome to the Profile Page</h2>
                 <p>This is the content of the profile page.</p>
                 <br/> 

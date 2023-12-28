@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import axios from 'axios';
-import Navbar from '../components/Navbar';
+import AdminNavbar from '../components/AdminNavbar';
 import Footer from '../components/Footer';
 import '../styles/AccountsAdmin.css';
 
@@ -128,7 +128,7 @@ function AccountsAdmin() {
 
   const handleUpdate = (clientId) => {
 
-    window.location.href = `/updateClientAdmin/${clientId}`;
+    window.location.href = `/admin/updateClientAdmin/${clientId}`;
 
   };
 
@@ -142,7 +142,7 @@ function AccountsAdmin() {
         <title>Client Accounts - CTA</title>
       </Helmet>
       <div id='nav-container'>
-        <Navbar />
+        <AdminNavbar />
       </div>
 
       <div className="header-container">

@@ -21,7 +21,6 @@ describe('Accounts Admin Page', () => {
 
 
 
-    cy.get('nav').contains('Log out').should('exist');
 
     cy.get('nav').contains('Login').click();
 
@@ -33,6 +32,7 @@ describe('Accounts Admin Page', () => {
   })
  
 
+  cy.get('nav').contains('Logout').should('exist');
 
   cy.get('nav').contains('Accounts').click();
 });

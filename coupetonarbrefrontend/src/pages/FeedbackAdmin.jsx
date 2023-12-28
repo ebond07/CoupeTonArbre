@@ -1,6 +1,6 @@
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import Navbar from '../components/Navbar';
+import AdminNavbar from '../components/AdminNavbar';
 import Footer from '../components/Footer';
 function FeedbackAdmin() {
   return (
@@ -9,7 +9,7 @@ function FeedbackAdmin() {
         <title>Feedback - CTA</title>
       </Helmet>
       <div id='nav-container'>
-        <Navbar />
+        <AdminNavbar />
       </div>
       
       <h2>Welcome to the Feedback Page</h2>

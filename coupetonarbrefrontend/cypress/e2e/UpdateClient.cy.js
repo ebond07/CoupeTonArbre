@@ -21,7 +21,6 @@ describe('Update Client Admin Page', () => {
 
 
 
-    cy.get('nav').contains('Log out').should('exist');
 
     cy.get('nav').contains('Login').click();
 
@@ -33,6 +32,7 @@ describe('Update Client Admin Page', () => {
   })
  
 
+  cy.get('nav').contains('Logout').should('exist');
 
   cy.get('nav').contains('Accounts').click();
 });
@@ -54,7 +54,7 @@ describe('Update Client Admin Page', () => {
     cy.get('button:contains("Update Client")').click();
 
     // Verify that the client information has been updated
-    cy.url().should('include', '/accounts'); // Assuming successful update redirects to the Accounts page
+    cy.url().should('include', '/admin/accounts'); // Assuming successful update redirects to the Accounts page
     cy.get('td:contains("UpdatedFirstName")').should('exist');
   });
 });
