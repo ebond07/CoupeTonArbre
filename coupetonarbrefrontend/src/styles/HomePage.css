@@ -1,0 +1,51 @@
+.header {
+    text-align: center;
+}
+  
+.steps-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.step {
+    display: flex;
+    flex-direction: column;
+    align-items:baseline;
+    flex-basis: 34%;
+    margin: 10px;
+}
+
+.step-number {
+    background-color: rgb(9, 65, 9);
+    font-size: 20px;
+    font-weight: bold;
+    color: white;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.step-content {
+    flex-grow: 1;
+}
+
+.step-content p {
+    text-align: left;
+}
+
+@media (max-width: 768px) {
+    .steps-container {
+        flex-direction: column;
+}
+
+    .step {
+        flex-basis: 100%;
+    }
+}
+  
