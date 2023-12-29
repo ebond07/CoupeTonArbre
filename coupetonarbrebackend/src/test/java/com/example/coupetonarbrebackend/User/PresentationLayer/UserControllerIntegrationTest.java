@@ -186,11 +186,11 @@ class UserControllerIntegrationTest {
 
         // Act and Assert
         mockMvc.perform(get("/users/client?simpleCheck=true")
-                        .with(SecurityMockMvcRequestPostProcessors.oidcLogin().idToken(i -> i.subject(clientId)))
+
+                        .with(SecurityMockMvcRequestPostProcessors.oidcLogin().idToken(i -> i.subject(clientId)).authorities(new SimpleGrantedAuthority("Client")))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
 
-        // You can add more assertions if needed.
     }
 
     @Test
@@ -201,10 +201,9 @@ class UserControllerIntegrationTest {
 
         // Act and Assert
         mockMvc.perform(get("/users/client?simpleCheck=true")
-                        .with(SecurityMockMvcRequestPostProcessors.oidcLogin().idToken(i -> i.subject("google|newuser")))
+                        .with(SecurityMockMvcRequestPostProcessors.oidcLogin().idToken(i -> i.subject("google|newuser")).authorities(new SimpleGrantedAuthority("Client")))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isNotFound());
 
-        // You can add more assertions if needed.
     }
 }

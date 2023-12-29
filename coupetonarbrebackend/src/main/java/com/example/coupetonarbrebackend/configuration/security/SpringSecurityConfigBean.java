@@ -81,7 +81,9 @@ public class SpringSecurityConfigBean {
                                 new AntPathRequestMatcher("/cta/logout", HttpMethod.POST.toString()),
                                 new AntPathRequestMatcher("/api/v1/cta/security/redirect", HttpMethod.GET.toString()),
                                 new AntPathRequestMatcher("/users/clients", HttpMethod.GET.toString()),
+                                new AntPathRequestMatcher("/users/client", HttpMethod.GET.toString()),
                                 new AntPathRequestMatcher("/users/clients", HttpMethod.POST.toString()),
+                                new AntPathRequestMatcher("/users/client", HttpMethod.POST.toString()),
                                 new AntPathRequestMatcher("/users/clients/{clientId}", HttpMethod.PUT.toString()),
                                 new AntPathRequestMatcher("/users/clients/{clientId}", HttpMethod.DELETE.toString())
 
