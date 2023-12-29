@@ -18,9 +18,9 @@ import java.util.List;
 @Service
 public class ClientServiceImpl implements ClientService{
 
-    private  ClientRepository clientRepository;
+    private ClientRepository clientRepository;
 
-    private  ClientResponseMapper clientResponseMapper;
+    private ClientResponseMapper clientResponseMapper;
 
     private ClientRequestMapper clientRequestMapper;
 
