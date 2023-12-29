@@ -6,7 +6,7 @@ import { useAuth } from '../security/Components/AuthProvider';
 import Cookies from 'js-cookie';
 import React, { useEffect, useState } from 'react';
 import swal from 'sweetalert';
-import '../styles/Profile.css'; // Import your CSS file for styling
+import '../styles/Profile.css'; 
 
 function Profile() {
   const auth = useAuth();
