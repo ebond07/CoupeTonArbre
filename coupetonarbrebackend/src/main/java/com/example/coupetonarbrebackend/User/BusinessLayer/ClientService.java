@@ -13,7 +13,13 @@ public interface ClientService {
 
     ClientResponseDTO getClientById(String id);
 
-    ClientResponseDTO addClient(Client newClient);
+    ClientResponseDTO adminAddClient(Client newClient);
+
+    ClientResponseDTO clientCreateProfile(ClientRequestDTO clientRequestDTO, String clientId);
+
+    boolean checkIfClientExists(String clientId);
+
+
 
     ClientResponseDTO updateClient(ClientRequestDTO clientRequestDTO, String clientId);
 

@@ -12,8 +12,7 @@ import org.springframework.stereotype.Component;
 public interface ClientRequestMapper {
 
     @Mapping(target = "id", ignore = true)
-
-    @Mapping(source = "clientId", target="clientId")
+    @Mapping(target = "clientId", ignore = true)
     @Mapping(source = "firstName", target = "firstName")
     @Mapping(source = "lastName", target = "lastName")
     @Mapping(source = "email", target = "email")

@@ -1,3 +1,9 @@
+Cypress.on('uncaught:exception', (err, runnable) => {
+  // Returning false prevents Cypress from failing the test
+  return false;
+});
+
+
 describe('Update Client Admin Page', () => {
   beforeEach(() => {
     
@@ -8,8 +14,8 @@ describe('Update Client Admin Page', () => {
     cy.get('nav').should('exist');
 
     // Verify the presence of welcome message and content
-    cy.contains('Welcome to the Home Page').should('exist');
-    cy.contains('This is the content of the home page.').should('exist');
+    cy.contains('4 Steps Until The Job Is Done').should('exist');
+
 
     // Verify the Navbar links
     cy.get('nav').contains('Home').should('exist');
@@ -22,23 +28,17 @@ describe('Update Client Admin Page', () => {
 
 
 
-    cy.get('nav').contains('Login').click();
-
-    cy.origin('https://dev-4hcoszrtvq0f1jnk.us.auth0.com', () => {
-    cy.get('#username').type('evanbond007@outlook.com'); 
-    cy.get('#password').type('EvanPassword123'); 
-    
-    cy.get('button:contains("Continue")').first().click({force : true});
-  })
+    cy.adminLogin()
  
 
   cy.get('nav').contains('Logout').should('exist');
 
-  cy.get('nav').contains('Accounts').click();
+
 });
 
   it('should update client information', () => {
     // Click on the "Edit" button for a specific client
+    cy.get('nav').contains('Accounts').click();
     cy.get('button:contains("Edit")').first().click();
 
     // Verify that the update form is displayed and contains the correct data

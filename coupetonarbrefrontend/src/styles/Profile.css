@@ -1,0 +1,74 @@
+/* UpdateClientAdmin.css */
+
+.profile-client-form {
+    max-width: 500px;
+    margin:  auto;
+    margin-left: 43%;
+    align-self: center;
+  }
+
+  .profile-create-form {
+    max-width: 500px;
+    margin:  auto;
+    margin-left: 35%;
+    align-self: center;
+  }
+  
+  .form-group {
+    margin-bottom: 15px;
+  }
+  
+  label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .input-field {
+    width: 100%;
+    padding: 8px;
+    box-sizing: border-box;
+    margin-top: 5px;
+  }
+  
+  .info-text {
+    display: inline-block;
+    padding: 8px;
+    border: 1px solid #ddd;
+    margin-top: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .title-info {
+    text-align: center;
+  }
+  
+  .save-btn {
+    background-color: #2e332e;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+
+  .update-btn {
+    background-color: #2e332e;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin-top: 25px;
+    margin-bottom: 70px;
+    font-size: 16px;
+  }
+  
+  button:hover {
+    background-color: #45a049;
+  }
+
+  
+
+
+

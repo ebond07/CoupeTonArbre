@@ -44,6 +44,10 @@ dependencies {
     testImplementation 'io.github.bonigarcia:webdrivermanager:5.6.2'
 
 
+    testImplementation 'io.github.bonigarcia:webdrivermanager:5.6.2'
+    testImplementation 'org.yaml:snakeyaml:2.2'
+
+
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-hateoas'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'

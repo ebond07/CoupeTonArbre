@@ -55,61 +55,19 @@ class UserControllerIntegrationTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-//    @Test
-//    void getAllClients_shouldSucceed() {
-//
-//        when(clientService.getAllClients()).thenReturn(Arrays.asList(
-//                ClientResponseDTO.builder().clientId("1").firstName("John").build(),
-//                ClientResponseDTO.builder().clientId("2").firstName("Jane").build()
-//        ));
-//
-//
-//        webTestClient.get()
-//                .uri("/users/clients")
-//                .accept(MediaType.APPLICATION_JSON)
-//                .exchange()
-//                .expectStatus().isOk()
-//                .expectHeader().contentType(MediaType.APPLICATION_JSON)
-//                .expectBodyList(ClientResponseDTO.class)
-//
-//                .value(clientResponseDTOS -> {
-//                    assert clientResponseDTOS != null;
-//                    assert clientResponseDTOS.size() == 2;
-//                    assert clientResponseDTOS.get(0).getClientId().equals("1");
-//                    assert clientResponseDTOS.get(1).getClientId().equals("2");
-//                });
-//    }
+
 
     @Test
-    void getAllClients() throws Exception {
+    void adminGetAllClients() throws Exception {
         mockMvc.perform(get(BASE_URI_CLIENTS)
                         .with(SecurityMockMvcRequestPostProcessors.oidcLogin().idToken(i -> i.subject("google|123456789")).authorities(new SimpleGrantedAuthority("Admin")))
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
     }
-//    @Test
-//    void getClientById_shouldSucceed() {
-//        // Arrange
-//        String clientId = "1";
-//        when(clientService.getClientById(clientId))
-//                .thenReturn(ClientResponseDTO.builder().clientId(clientId).firstName("John").build());
-//
-//        webTestClient.get()
-//                .uri("/users/clients/{clientId}", clientId)
-//                .accept(MediaType.APPLICATION_JSON)
-//                .exchange()
-//                .expectStatus().isOk()
-//                .expectHeader().contentType(MediaType.APPLICATION_JSON)
-//                .expectBody(ClientResponseDTO.class)
-//                .value(clientResponseDTO -> {
-//                    assert clientResponseDTO != null;
-//                    assert clientResponseDTO.getClientId().equals(clientId);
-//                    // Add more assertions based on your expected response
-//                });
-//    }
+
 
     @Test
-    void getCustomerByUserId() throws Exception {
+    void adminGetClientByUserId() throws Exception {
 
         String clientId = "1";
         when(clientService.getClientById(clientId))
@@ -124,43 +82,10 @@ class UserControllerIntegrationTest {
     }
 
 
-//    @Test
-//    void addClient_shouldSucceed() throws Exception {
-//        // Arrange
-//        ClientRequestDTO newClientRequest = new ClientRequestDTO("Da Zhuo", "Xie", "dazhuoxie1024@gmail.com", "514-550-6578", "1175 rue Rembrandt, Brossard, Québec, Canada");
-//        ClientResponseDTO expectedResponse = ClientResponseDTO.builder()
-//                .clientId("generatedClientId")
-//                .firstName("Da Zhuo")
-//                .lastName("Xie")
-//                .email("dazhuoxie1024@gmail.com")
-//                .phoneNumber("514-550-6578")
-//                .address("1175 rue Rembrandt, Brossard, Québec, Canada")
-//                .build();
-//
-//        // Mock the service method to return the expected response
-//        when(clientService.addClient(any(Client.class))).thenReturn(expectedResponse);
-//
-//        // Perform the actual HTTP request and assert the response
-//        webTestClient.post()
-//                .uri("/users/clients")
-//                .contentType(MediaType.APPLICATION_JSON)
-//                .bodyValue(newClientRequest)
-//                .accept(MediaType.APPLICATION_JSON)
-//                .exchange()
-//                .expectStatus().isEqualTo(HttpStatus.CREATED)
-//                .expectHeader().contentType(MediaType.APPLICATION_JSON)
-//                .expectBody(ClientResponseDTO.class)
-//                .consumeWith(response -> {
-//                    ClientResponseDTO responseBody = response.getResponseBody();
-//                    assertNotNull(responseBody, "Response body should not be null");
-//                    assertEquals(expectedResponse.getClientId(), responseBody.getClientId(), "Client IDs should match");
-//                    assertEquals(expectedResponse.getFirstName(), responseBody.getFirstName(), "First names should match");
-//                    // Add more assertions as needed for other fields
-//                });
-//    }
+
 
     @Test
-    void createClient() throws Exception {
+    void adminCreateClient() throws Exception {
 
 
         mockMvc.perform(post(BASE_URI_CLIENTS)
@@ -181,11 +106,10 @@ class UserControllerIntegrationTest {
     }
 
     @Test
-    void updateClient_shouldSucceed() {
+    void adminUpdateClient_shouldSucceed() {
         // Mock data
         String clientId = "1";
         ClientRequestDTO requestDTO = ClientRequestDTO.builder()
-                .clientId(clientId)
                 .firstName("John")
                 .build();
 
@@ -216,7 +140,7 @@ class UserControllerIntegrationTest {
 
 
     @Test
-    void deleteClientById_shouldSucceed() {
+    void adminDeleteClientById_shouldSucceed() {
         // Arrange
         String clientIdToDelete = "1";
 
@@ -225,5 +149,61 @@ class UserControllerIntegrationTest {
                 .uri("/users/clients/{clientId}", clientIdToDelete)
                 .exchange()
                 .expectStatus().isNoContent();
+    }
+
+
+
+    @Test
+    void clientCreateProfile() throws Exception {
+
+
+        mockMvc.perform(post("/users/client")
+                        .with(SecurityMockMvcRequestPostProcessors.oidcLogin().idToken(i -> i.subject("google|newuser")).authorities(new SimpleGrantedAuthority("Client")))
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\n" +
+                                "    \"firstName\": \"John\",\n" +
+                                "    \"lastName\": \"Doe\",\n" +
+                                "    \"email\": \"email@email.com\",\n" +
+                                "    \"phoneNumber\": \"524-454-3445\",\n" +
+                                "    \"address\": \"34 blue street\"\n" +
+                                "}"))
+                .andExpect(status().isCreated());
+
+
+        mockMvc.perform(get("/users/client")
+                        .with(SecurityMockMvcRequestPostProcessors.oidcLogin().idToken(i -> i.subject("google|newuser")).authorities(new SimpleGrantedAuthority("Client")))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
+    void clientGetProfileWithSimpleCheck_ShouldSucceed() throws Exception {
+        // Arrange
+        String clientId = "google|123456789";
+        when(clientService.checkIfClientExists(clientId)).thenReturn(true);
+
+        // Act and Assert
+        mockMvc.perform(get("/users/client?simpleCheck=true")
+
+                        .with(SecurityMockMvcRequestPostProcessors.oidcLogin().idToken(i -> i.subject(clientId)).authorities(new SimpleGrantedAuthority("Client")))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
+    void clientGetProfileWithSimpleCheck_ShouldReturnNotFound() throws Exception {
+        // Arrange
+        String clientId = "google|123456789";
+        when(clientService.checkIfClientExists(clientId)).thenReturn(true);
+
+        // Act and Assert
+        mockMvc.perform(get("/users/client?simpleCheck=true")
+                        .with(SecurityMockMvcRequestPostProcessors.oidcLogin().idToken(i -> i.subject("google|newuser")).authorities(new SimpleGrantedAuthority("Client")))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound());
+
     }
 }
