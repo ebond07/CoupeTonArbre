@@ -246,6 +246,8 @@ class ClientServiceImplServiceUnitTest {
 
     }
 
+    
+
     @Test
     void deleteClientByClientId_shouldDeleteClient() {
         // Arrange

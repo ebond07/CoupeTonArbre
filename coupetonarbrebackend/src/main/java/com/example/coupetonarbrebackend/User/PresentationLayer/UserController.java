@@ -98,6 +98,19 @@ public class UserController {
 
     }
 
+    @PutMapping("/client")
+//    @PreAuthorize("hasAnyAuthority('Customer')")
+    public ResponseEntity<ClientResponseDTO> updateProfile(@AuthenticationPrincipal OidcUser principal,
+                                                           @Valid @RequestBody ClientRequestDTO clientRequestDTO) {
+        String clientId = principal.getSubject();
+        log.info("Update profile with clientId: {}", clientId);
+
+        ClientResponseDTO clientResponseDTO = clientService.updateProfile(clientRequestDTO, clientId);
+
+        return ResponseEntity.ok(clientResponseDTO);
+
+    }
+
 
     //Admin deletes a clients profile
     @DeleteMapping("/clients/{clientId}")
