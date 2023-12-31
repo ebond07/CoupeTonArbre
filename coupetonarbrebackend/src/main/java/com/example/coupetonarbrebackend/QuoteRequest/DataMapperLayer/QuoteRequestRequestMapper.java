@@ -12,11 +12,10 @@ import org.springframework.stereotype.Component;
 @Component
 public interface QuoteRequestRequestMapper {
     @Mapping(target = "id", ignore = true)
-    @Mapping(source = "quoteRequestId", target = "quoteRequestId")
-    @Mapping(source = "clientId", target = "clientId")
+    @Mapping(source = "clientFirstName", target = "clientFirstName")
+    @Mapping(source = "clientLastName", target = "clientLastName")
     @Mapping(source = "time", target = "time")
     @Mapping(source = "date", target = "date")
-    @Mapping(source = "clientAddress", target = "clientAddress")
     @Mapping(source = "price", target = "price")
     @Mapping(source = "description", target = "description")
     @Mapping(source = "service", target = "service")

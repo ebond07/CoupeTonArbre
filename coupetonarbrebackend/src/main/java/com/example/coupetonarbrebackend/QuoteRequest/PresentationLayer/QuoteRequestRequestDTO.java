@@ -15,14 +15,14 @@ import java.util.UUID;
 @NoArgsConstructor
 public class QuoteRequestRequestDTO {
     private String quoteRequestId;
-    private String clientId;
+    private String clientFirstName;
+    private String clientLastName;
     private LocalTime time;
     private Date date;
-    private String clientAddress;
+    private Double price;
     private String description;
     private Service service;
     private Status status;
-    private Double price;
 
     public static String generateUUIDString(){
         return UUID.randomUUID().toString();

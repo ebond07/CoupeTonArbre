@@ -17,8 +17,6 @@ public class QuoteRequestResponseDTO {
     private String clientId;
     private String clientFirstName;
     private String clientLastName;
-    private String clientAddress;
-    private String clientEmail;
     private Date date;
     private LocalTime time;
     private Double price;

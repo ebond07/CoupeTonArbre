@@ -21,9 +21,10 @@ public class QuoteRequest {
     private Integer id;
     public String quoteRequestId;
     public String clientId;
+    public String clientFirstName;
+    public String clientLastName;
     public LocalTime time;
     public Date date;
-    public String clientAddress;
     public Double price;
     public String description;
     public Service service;

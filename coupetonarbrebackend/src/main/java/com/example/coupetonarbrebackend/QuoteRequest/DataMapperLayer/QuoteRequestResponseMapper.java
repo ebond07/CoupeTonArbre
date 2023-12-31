@@ -13,10 +13,8 @@ import org.springframework.stereotype.Component;
 public interface QuoteRequestResponseMapper {
     @Mapping(source = "quoteRequestId", target = "quoteRequestId")
     @Mapping(source = "clientId", target = "clientId")
-    @Mapping(source = "client.firstName", target = "clientFirstName")
-    @Mapping(source = "client.lastName", target = "clientLastName")
-    @Mapping(source = "client.address", target = "clientAddress")
-    @Mapping(source = "client.email", target = "clientEmail")
+    @Mapping(source = "clientFirstName", target = "clientFirstName")
+    @Mapping(source = "clientLastName", target = "clientLastName")
     @Mapping(source = "time", target = "time")
     @Mapping(source = "date", target = "date")
     @Mapping(source = "price", target = "price")
@@ -29,8 +27,7 @@ public interface QuoteRequestResponseMapper {
         try {
             return Status.valueOf(status);
         } catch (IllegalArgumentException e) {
-            // Handle the case where the status is not recognized
-            return null; // or throw an exception, or provide a default value
+            return null;
         }
     }
     QuoteRequestResponseDTO entityToResponseModel(QuoteRequest quoteRequest);
