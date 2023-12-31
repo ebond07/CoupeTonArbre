@@ -246,7 +246,62 @@ class ClientServiceImplServiceUnitTest {
 
     }
 
-    
+    @Test
+    void updateProfile() {
+
+        String clientId = "google|123456789";
+
+        ClientRequestDTO mockClientRequest = ClientRequestDTO.builder()
+                .firstName("Alice")
+                .lastName("Doe")
+                .email("test@email.com")
+                .phoneNumber("new number")
+                .address("new address")
+                .build();
+
+        Client mockClient = Client.builder()
+                .firstName("Alice")
+                .lastName("Doe")
+                .email("test@email.com")
+                .phoneNumber("514-234-4323")
+                .address("123 Main St")
+                .build();
+
+        ClientResponseDTO mockClientResponse = ClientResponseDTO.builder()
+                .firstName("Alice")
+                .lastName("Doe")
+                .email("test@email.com")
+                .phoneNumber("new number")
+                .address("new address")
+                .build();
+
+
+
+        when(clientRepository.findClientByClientId(clientId)).thenReturn(mockClient);
+
+
+        when(clientRequestMapper.requestModelToEntity(mockClientRequest)).thenReturn(mockClient);
+
+        when(clientRepository.save(mockClient)).thenReturn(mockClient);
+
+        when(clientResponseMapper.entityToResponseModel(mockClient)).thenReturn(mockClientResponse);
+
+
+        ClientResponseDTO result = clientService.updateProfile(mockClientRequest, clientId);
+
+        assertEquals(mockClient.getFirstName(), result.getFirstName());
+
+        assertEquals(mockClient.getLastName(), result.getLastName());
+
+        assertEquals(mockClient.getEmail(), result.getEmail());
+
+        assertEquals(mockClient.getPhoneNumber(), result.getPhoneNumber());
+
+        assertEquals(mockClient.getAddress(), result.getAddress());
+
+
+
+    }
 
     @Test
     void deleteClientByClientId_shouldDeleteClient() {

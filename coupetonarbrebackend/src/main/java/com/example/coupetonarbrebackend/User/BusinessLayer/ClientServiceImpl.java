@@ -103,11 +103,11 @@ public class ClientServiceImpl implements ClientService{
         log.info("Updating profile for user {}", clientId);
         log.info("Client request {}", clientRequestDTO);
 
-        client.setFirstName(clientRequestDTO.getFirstName() != null ? clientRequestDTO.getFirstName() : client.getFirstName());
-        client.setLastName(clientRequestDTO.getLastName() != null ? clientRequestDTO.getLastName() : client.getLastName());
-        client.setEmail(clientRequestDTO.getEmail() != null ? clientRequestDTO.getEmail() : client.getEmail());
-        client.setPhoneNumber(clientRequestDTO.getPhoneNumber() != null ? clientRequestDTO.getPhoneNumber() : client.getPhoneNumber());
-        client.setAddress(clientRequestDTO.getAddress() != null ? clientRequestDTO.getAddress() : client.getAddress());
+        client.setFirstName(clientRequestDTO.getFirstName());
+        client.setLastName(clientRequestDTO.getLastName());
+        client.setEmail(clientRequestDTO.getEmail() );
+        client.setPhoneNumber(clientRequestDTO.getPhoneNumber());
+        client.setAddress(clientRequestDTO.getAddress() );
 
 
         clientRepository.save(client);
