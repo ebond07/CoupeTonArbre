@@ -98,8 +98,9 @@ public class UserController {
 
     }
 
+    //Client updates their profile
     @PutMapping("/client")
-//    @PreAuthorize("hasAnyAuthority('Customer')")
+    @PreAuthorize("hasAnyAuthority('Client')")
     public ResponseEntity<ClientResponseDTO> updateProfile(@AuthenticationPrincipal OidcUser principal,
                                                            @Valid @RequestBody ClientRequestDTO clientRequestDTO) {
         String clientId = principal.getSubject();
