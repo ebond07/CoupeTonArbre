@@ -23,10 +23,14 @@ public class QuoteRequest {
     public String clientId;
     public String clientFirstName;
     public String clientLastName;
-    public LocalTime time;
+    public String time;
     public Date date;
     public Double price;
     public String description;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "service")
     public Service service;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "status")
     public Status status;
 }

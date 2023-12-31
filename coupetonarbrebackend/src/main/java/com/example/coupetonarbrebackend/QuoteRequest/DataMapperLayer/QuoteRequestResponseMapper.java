@@ -10,6 +10,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.Named;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 @Component
 public interface QuoteRequestResponseMapper {
@@ -42,4 +44,5 @@ public interface QuoteRequestResponseMapper {
         }
     }
     QuoteRequestResponseDTO entityToResponseModel(QuoteRequest quoteRequest);
+    List<QuoteRequestResponseDTO> entityListToResponseModelList(List<QuoteRequest> quoteRequests);
 }

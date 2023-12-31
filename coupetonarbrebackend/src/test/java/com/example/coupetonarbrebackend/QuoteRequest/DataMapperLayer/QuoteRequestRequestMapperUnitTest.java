@@ -25,7 +25,7 @@ class QuoteRequestRequestMapperUnitTest {
         QuoteRequestRequestDTO dto = new QuoteRequestRequestDTO();
         dto.setClientFirstName("John");
         dto.setClientLastName("Doe");
-        dto.setTime(LocalTime.now());
+        dto.setTime("9:00");
         dto.setDate(new Date());
         dto.setPrice(100.0);
         dto.setDescription("Request description");
