@@ -7,6 +7,8 @@ import QuotesAdmin from './pages/QuotesAdmin';
 import FeedbackAdmin from './pages/FeedbackAdmin';
 import Profile from './pages/Profile';
 import UpdateClientAdmin from './pages/UpdateClientAdmin';
+import UpdateProfile from './pages/UpdateProfile';
+
 
 import {AuthProvider} from "./security/Components/AuthProvider";
 import VerifyRedirect from "./security/verifyRedirect";
@@ -26,6 +28,8 @@ function App() {
           <Route path="/admin/accounts" element={<AccountsAdmin />} />
           <Route path="/admin/feedback" element={<FeedbackAdmin />} />
           <Route path="/profile" element={<Profile />} />
+          <Route path="/profile/update" element={<UpdateProfile />} />
+
           <Route path="/verify" element={<VerifyRedirect />} />
 
           <Route path="/admin/updateClientAdmin/:clientId" element={<UpdateClientAdmin />} />

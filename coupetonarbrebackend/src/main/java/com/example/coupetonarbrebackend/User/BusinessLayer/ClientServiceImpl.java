@@ -96,6 +96,24 @@ public class ClientServiceImpl implements ClientService{
         return clientResponseMapper.entityToResponseModel(clientRepository.save(newClient));
     }
 
+    @Override
+    public ClientResponseDTO updateProfile(ClientRequestDTO clientRequestDTO, String clientId) {
+        Client client = clientRepository.findClientByClientId(clientId);
+
+        log.info("Updating profile for user {}", clientId);
+        log.info("Client request {}", clientRequestDTO);
+
+        client.setFirstName(clientRequestDTO.getFirstName());
+        client.setLastName(clientRequestDTO.getLastName());
+        client.setEmail(clientRequestDTO.getEmail() );
+        client.setPhoneNumber(clientRequestDTO.getPhoneNumber());
+        client.setAddress(clientRequestDTO.getAddress() );
+
+
+        clientRepository.save(client);
+
+        return clientResponseMapper.entityToResponseModel(client);
+    }
 
 
 

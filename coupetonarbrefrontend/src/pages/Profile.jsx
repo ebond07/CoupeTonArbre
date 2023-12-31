@@ -115,6 +115,11 @@ function Profile() {
       });
   };
 
+  const handleUpdateButtonClick = () => {
+    window.location.href = `/profile/update`;
+
+  }
+
   const renderFormFields = () => {
     if (hasProfile) {
       return (
@@ -149,9 +154,10 @@ function Profile() {
               </label>
             </div>
             <div>
-              <button className="update-btn" type="submit">
-                Update Your Information
-              </button>
+            <button className="update-btn" type="button" onClick={handleUpdateButtonClick}>
+              Update Your Information
+            </button>
+
             </div>
           </div>
         </>

@@ -17,8 +17,10 @@ public interface ClientService {
 
     ClientResponseDTO clientCreateProfile(ClientRequestDTO clientRequestDTO, String clientId);
 
-    boolean checkIfClientExists(String clientId);
+    ClientResponseDTO updateProfile(ClientRequestDTO clientRequestDTO, String clientId);
 
+
+    boolean checkIfClientExists(String clientId);
 
 
     ClientResponseDTO updateClient(ClientRequestDTO clientRequestDTO, String clientId);

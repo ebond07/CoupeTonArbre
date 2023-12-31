@@ -206,4 +206,52 @@ class UserControllerIntegrationTest {
                 .andExpect(status().isNotFound());
 
     }
+
+    @Test
+    void updateProfile() throws Exception {
+
+        when(clientService.getClientById("google|123456789"))
+                .thenReturn(ClientResponseDTO.builder()
+                        .clientId("google|123456789")
+                        .firstName("John")
+                        .lastName("Doe")
+                        .email("email")
+                        .phoneNumber("number")
+                        .address("address")
+                        .build());
+
+        mockMvc.perform(get("/users/client")
+                        .with(SecurityMockMvcRequestPostProcessors.oidcLogin().idToken(i -> i.subject("google|123456789")).authorities(new SimpleGrantedAuthority("Client")))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+
+        when(clientService.updateProfile(any(), any()))
+                .thenReturn(ClientResponseDTO.builder()
+                        .clientId("google|123456789")
+                        .firstName("John")
+                        .lastName("Doe")
+                        .email("email")
+                        .phoneNumber("number")
+                        .address("new address")
+                        .build());
+
+        mockMvc.perform(put("/users/client")
+                        .with(SecurityMockMvcRequestPostProcessors.oidcLogin().idToken(i -> i.subject("google|123456789")).authorities(new SimpleGrantedAuthority("Client")))
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                    "firstName": "John",
+                                    "lastName": "Doe",
+                                    "email": "email",
+                                    "phoneNumber": "number",
+                                    "address": "new address"
+                                }"""))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.address").value("new address"));
+
+
+
+
+    }
 }
