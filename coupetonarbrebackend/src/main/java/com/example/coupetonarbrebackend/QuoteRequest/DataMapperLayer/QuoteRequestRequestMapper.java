@@ -1,8 +1,10 @@
 package com.example.coupetonarbrebackend.QuoteRequest.DataMapperLayer;
 
 import com.example.coupetonarbrebackend.QuoteRequest.DataLayer.QuoteRequest;
+import com.example.coupetonarbrebackend.QuoteRequest.PresentationLayer.Service;
 import com.example.coupetonarbrebackend.QuoteRequest.PresentationLayer.QuoteRequestRequestDTO;
 import com.example.coupetonarbrebackend.QuoteRequest.PresentationLayer.Status;
+import lombok.Generated;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
@@ -18,7 +20,7 @@ public interface QuoteRequestRequestMapper {
     @Mapping(source = "date", target = "date")
     @Mapping(source = "price", target = "price")
     @Mapping(source = "description", target = "description")
-    @Mapping(source = "service", target = "service")
+    @Mapping(source = "service", target = "service", qualifiedByName = "mapServiceEnum")
     @Mapping(source = "status", target = "status", qualifiedByName = "mapStatusEnum")
 
     @Named("mapStatusEnum")
@@ -26,8 +28,16 @@ public interface QuoteRequestRequestMapper {
         try {
             return Status.valueOf(status);
         } catch (IllegalArgumentException e) {
-            // Handle the case where the status is not recognized
-            return null; // or throw an exception, or provide a default value
+            return null;
+        }
+    }
+
+    @Named("mapServiceEnum")
+    default Service mapServiceEnum(String service) {
+        try {
+            return Service.valueOf(service);
+        } catch (IllegalArgumentException e) {
+            return null;
         }
     }
     QuoteRequest requestModelToEntity(QuoteRequestRequestDTO quoteRequestRequestDTO);
