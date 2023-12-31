@@ -3,6 +3,9 @@ package com.example.coupetonarbrebackend.QuoteRequest.DataLayer;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalTime;
+import java.util.Date;
+
 @Data
 @Getter
 @Builder
@@ -16,4 +19,13 @@ public class QuoteRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    public String quoteRequestId;
+    public String clientId;
+    public LocalTime time;
+    public Date date;
+    public String clientAddress;
+    public Double price;
+    public String description;
+    public Service service;
+    public Status status;
 }
