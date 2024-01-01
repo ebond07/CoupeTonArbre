@@ -14,7 +14,7 @@ import java.util.UUID;
 @Builder
 @NoArgsConstructor
 public class QuoteRequestRequestDTO {
-    private String quoteRequestId;
+    private String clientId;
     private String clientFirstName;
     private String clientLastName;
     private String time;

@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 @Component
 public interface QuoteRequestRequestMapper {
     @Mapping(target = "id", ignore = true)
+    @Mapping(source = "clientId", target = "clientId")
     @Mapping(source = "clientFirstName", target = "clientFirstName")
     @Mapping(source = "clientLastName", target = "clientLastName")
     @Mapping(source = "time", target = "time")

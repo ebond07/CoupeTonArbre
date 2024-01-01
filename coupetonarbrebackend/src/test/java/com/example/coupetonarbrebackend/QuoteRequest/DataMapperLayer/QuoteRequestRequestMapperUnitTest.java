@@ -23,6 +23,7 @@ class QuoteRequestRequestMapperUnitTest {
     void shouldMapDtoToEntity() {
         // Arrange
         QuoteRequestRequestDTO dto = new QuoteRequestRequestDTO();
+        dto.setClientId("123456789");
         dto.setClientFirstName("John");
         dto.setClientLastName("Doe");
         dto.setTime("9:00");
@@ -36,6 +37,7 @@ class QuoteRequestRequestMapperUnitTest {
         QuoteRequest entity = mapper.requestModelToEntity(dto);
 
         // Assert
+        assertEquals(dto.getClientId(), entity.getClientId());
         assertEquals(dto.getClientFirstName(), entity.getClientFirstName());
         assertEquals(dto.getClientLastName(), entity.getClientLastName());
         assertEquals(dto.getTime(), entity.getTime());
