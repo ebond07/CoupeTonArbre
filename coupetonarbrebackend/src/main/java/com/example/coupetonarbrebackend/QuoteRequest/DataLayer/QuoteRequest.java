@@ -19,6 +19,7 @@ public class QuoteRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
     public String quoteRequestId;
     public String clientId;
     public String clientFirstName;
