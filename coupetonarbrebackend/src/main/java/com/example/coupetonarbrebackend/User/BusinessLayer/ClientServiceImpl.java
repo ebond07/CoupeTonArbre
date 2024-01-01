@@ -18,11 +18,11 @@ import java.util.List;
 @Service
 public class ClientServiceImpl implements ClientService{
 
-    private  ClientRepository clientRepository;
+    private final ClientRepository clientRepository;
 
-    private  ClientResponseMapper clientResponseMapper;
+    private final ClientResponseMapper clientResponseMapper;
 
-    private ClientRequestMapper clientRequestMapper;
+    private final ClientRequestMapper clientRequestMapper;
 
     private ClientRequestDTO clientRequestDTO;
 

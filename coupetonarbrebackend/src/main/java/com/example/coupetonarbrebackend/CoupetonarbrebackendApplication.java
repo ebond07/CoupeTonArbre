@@ -8,9 +8,6 @@ import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 
-
-
-
 @Slf4j
 @SpringBootApplication
 public class CoupetonarbrebackendApplication {

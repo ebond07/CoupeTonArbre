@@ -10,3 +10,17 @@ CREATE TABLE IF NOT EXISTS clients (
     phone_number VARCHAR(25) NOT NULL,
     address VARCHAR(255) NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS quote_requests (
+    id INTEGER NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    quote_request_id VARCHAR(255) NOT NULL,
+    client_id VARCHAR(255) NOT NULL,
+    client_first_name VARCHAR(50) NOT NULL,
+    client_last_name VARCHAR(50) NOT NULL,
+    time VARCHAR(255) NOT NULL,
+    date DATE NOT NULL,
+    price DOUBLE,
+    description VARCHAR(255) NOT NULL,
+    service VARCHAR(255) NOT NULL,
+    status VARCHAR(255) NOT NULL
+)
