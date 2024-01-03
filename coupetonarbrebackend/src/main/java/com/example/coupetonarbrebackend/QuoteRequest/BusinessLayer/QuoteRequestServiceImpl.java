@@ -2,6 +2,7 @@ package com.example.coupetonarbrebackend.QuoteRequest.BusinessLayer;
 
 import com.example.coupetonarbrebackend.QuoteRequest.DataLayer.QuoteRequest;
 import com.example.coupetonarbrebackend.QuoteRequest.DataLayer.QuoteRequestRepository;
+import com.example.coupetonarbrebackend.QuoteRequest.DataLayer.Status;
 import com.example.coupetonarbrebackend.QuoteRequest.DataMapperLayer.QuoteRequestRequestMapper;
 import com.example.coupetonarbrebackend.QuoteRequest.DataMapperLayer.QuoteRequestResponseMapper;
 import com.example.coupetonarbrebackend.QuoteRequest.PresentationLayer.QuoteRequestRequestDTO;
@@ -39,6 +40,7 @@ public class QuoteRequestServiceImpl implements QuoteRequestService{
 
         QuoteRequest quoteRequest = quoteRequestRequestMapper.requestModelToEntity(quoteRequestRequestDTO);
         quoteRequest.setQuoteRequestId(quoteRequestRequestDTO.generateUUIDString());
+        quoteRequest.setStatus(Status.QUOTE_SENT);
 
         return quoteRequestResponseMapper.entityToResponseModel(quoteRequestRepository.save(quoteRequest));
     }
@@ -53,6 +55,8 @@ public class QuoteRequestServiceImpl implements QuoteRequestService{
         quoteRequest.setClientId(clientResponseDTO.getClientId());
         quoteRequest.setClientFirstName(clientResponseDTO.getFirstName());
         quoteRequest.setClientLastName(clientResponseDTO.getLastName());
+        quoteRequest.setStatus(Status.QUOTE_SENT);
+
 
         return quoteRequestResponseMapper.entityToResponseModel(quoteRequestRepository.save(quoteRequest));
     }

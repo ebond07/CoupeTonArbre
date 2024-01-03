@@ -8,6 +8,9 @@ import FeedbackAdmin from './pages/FeedbackAdmin';
 import Profile from './pages/Profile';
 import UpdateClientAdmin from './pages/UpdateClientAdmin';
 import UpdateProfile from './pages/UpdateProfile';
+import CreateQuoteRequestAdmin from './pages/CreateQuoteRequestAdmin';
+import CreateQuoteRequestClient from './pages/CreateQuoteRequestClient';
+
 
 
 import {AuthProvider} from "./security/Components/AuthProvider";
@@ -33,6 +36,11 @@ function App() {
           <Route path="/verify" element={<VerifyRedirect />} />
 
           <Route path="/admin/updateClientAdmin/:clientId" element={<UpdateClientAdmin />} />
+
+          <Route path="/admin/newQuoteRequest" element={<CreateQuoteRequestAdmin />} />
+          <Route path="/client/newQuoteRequest" element={<CreateQuoteRequestClient />} />
+
+
 
         </Routes>
       </BrowserRouter>
