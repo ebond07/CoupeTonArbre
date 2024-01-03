@@ -1,4 +1,3 @@
-// Import at the top of your CreateQuoteRequestAdmin.js file
 import React, { useState, useEffect } from 'react';
 import Helmet from 'react-helmet';
 import axios from 'axios';
@@ -6,7 +5,7 @@ import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import TimePicker from 'rc-time-picker';
 import 'rc-time-picker/assets/index.css';
-import moment from 'moment'; // Don't forget to import moment
+import moment from 'moment';
 import AdminNavbar from '../components/AdminNavbar';
 import { useParams } from 'react-router-dom';
 import '../styles/CreateQuoteRequest.css';
@@ -15,30 +14,12 @@ import { useAuth } from '../security/Components/AuthProvider';
 
 const format = 'h:mm a';
 
-// Map between user-friendly service options and enum values
-const serviceOptionsMapping = {
-  'Hedge Trimming': 'HedgeTrimming',
-  'Tree Trimming': 'TreeTrimming',
-  'Tree Branch Removal': 'TreeBranchRemoval',
-  'Small Tree Removal': 'SmallTreeRemoval',
-  'Hedge Trimming and Tree Trimming': 'HedgeTrimmingAndTreeTrimming',
-  'Hedge Trimming and Tree Branch Removal': 'HedgeTrimmingAndTreeBranchRemoval',
-  'Tree Trimming and Tree Branch Removal': 'TreeTrimmingAndTreeBranchRemoval',
-  'Hedge Trimming and Tree Trimming and Tree Branch Removal': 'HedgeTrimmingAndTreeTrimmingAndTreeBranchRemoval',
-  'Hedge Trimming and Small Tree Removal': 'HedgeTrimmingAndSmallTreeRemoval',
-  'Tree Trimming and Small Tree Removal': 'TreeTrimmingAndSmallTreeRemoval',
-  'Hedge Trimming and Tree Trimming and Small Tree Removal': 'HedgeTrimmingAndTreeTrimmingAndSmallTreeRemoval',
-  'Hedge Trimming and Tree Branch Removal and Small Tree Removal': 'HedgeTrimmingAndTreeBranchRemovalAndSmallTreeRemoval',
-  'Tree Trimming and Tree Branch Removal and Small Tree Removal': 'TreeTrimmingAndTreeBranchRemovalAndSmallTreeRemoval',
-  'Hedge Trimming and Tree Trimming and Tree Branch Removal and Small Tree Removal': 'HedgeTrimmingAndTreeTrimmingAndTreeBranchRemovalAndSmallTreeRemoval',
-};
-
-function CreateQuoteRequestAdmin() {
+const CreateQuoteRequestAdmin = () => {
   const [clients, setClients] = useState([]);
-  const [filteredClients, setFilteredClients] = useState([]); // New state for filtered clients
+  const [filteredClients, setFilteredClients] = useState([]);
   const [selectedClientId, setSelectedClientId] = useState('');
   const [selectedClientDetails, setSelectedClientDetails] = useState(null);
-  const [searchTerm, setSearchTerm] = useState(''); // New state for search term
+  const [searchTerm, setSearchTerm] = useState('');
   const auth = useAuth();
 
   const [formData, setFormData] = useState({
@@ -50,6 +31,23 @@ function CreateQuoteRequestAdmin() {
 
   const { clientId } = useParams();
 
+  const serviceOptionsMapping = {
+    'Hedge Trimming': 'HedgeTrimming',
+    'Tree Trimming': 'TreeTrimming',
+    'Tree Branch Removal': 'TreeBranchRemoval',
+    'Small Tree Removal': 'SmallTreeRemoval',
+    'Hedge Trimming and Tree Trimming': 'HedgeTrimmingAndTreeTrimming',
+    'Hedge Trimming and Tree Branch Removal': 'HedgeTrimmingAndTreeBranchRemoval',
+    'Tree Trimming and Tree Branch Removal': 'TreeTrimmingAndTreeBranchRemoval',
+    'Hedge Trimming and Tree Trimming and Tree Branch Removal': 'HedgeTrimmingAndTreeTrimmingAndTreeBranchRemoval',
+    'Hedge Trimming and Small Tree Removal': 'HedgeTrimmingAndSmallTreeRemoval',
+    'Tree Trimming and Small Tree Removal': 'TreeTrimmingAndSmallTreeRemoval',
+    'Hedge Trimming and Tree Trimming and Small Tree Removal': 'HedgeTrimmingAndTreeTrimmingAndSmallTreeRemoval',
+    'Hedge Trimming and Tree Branch Removal and Small Tree Removal': 'HedgeTrimmingAndTreeBranchRemovalAndSmallTreeRemoval',
+    'Tree Trimming and Tree Branch Removal and Small Tree Removal': 'TreeTrimmingAndTreeBranchRemovalAndSmallTreeRemoval',
+    'Hedge Trimming and Tree Trimming and Tree Branch Removal and Small Tree Removal': 'HedgeTrimmingAndTreeTrimmingAndTreeBranchRemovalAndSmallTreeRemoval',
+  };
+
   useEffect(() => {
     axios.get("http://localhost:8080/users/clients", {
       headers: {
@@ -59,7 +57,7 @@ function CreateQuoteRequestAdmin() {
     })
       .then(r => {
         setClients(r.data);
-        setFilteredClients(r.data); // Initialize filteredClients with all clients
+        setFilteredClients(r.data);
       })
       .catch(e => {
         console.error('Error:', e);
@@ -147,6 +145,32 @@ function CreateQuoteRequestAdmin() {
     ));
   };
 
+  const isDateValid = (date) => {
+    return moment(date).isSameOrAfter(moment(), 'day');
+  };
+
+
+
+  const isTimeValid = () => {
+    const dayOfWeek = moment(formData.date).day();
+
+    //weekdays
+    if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+      return [0, 1, 2, 3, 4, 5, 6, 7, 20, 21, 22, 23];
+    }
+    //saturday
+     else if (dayOfWeek === 6) {
+      return [0, 1, 2, 3, 4, 5, 6, 7, ,8,18, 19, 20, 21, 22, 23];
+    } 
+    //sunday
+    else if (dayOfWeek === 0) {
+      return [0, 1, 2, 3, 4, 5, 6, 7, 8, 17, 18, 19, 20, 21, 22, 23];
+    }
+
+    return false;
+  };
+
+
   return (
     <div>
       <Helmet>
@@ -169,10 +193,7 @@ function CreateQuoteRequestAdmin() {
               value={searchTerm}
               onChange={handleSearchTermChange}
               placeholder='Filter Client By Name'
-  
             />
-
-            {/* <label className='form-label'>Select Client:</label> */}
             <select className='form-select' value={selectedClientId} onChange={handleClientChange}>
               <option value="" disabled>Select a client</option>
               {renderClientOptions()}
@@ -188,7 +209,20 @@ function CreateQuoteRequestAdmin() {
             </select>
 
             <label className='form-label'>Date:</label>
-            <DatePicker className='form-date' selected={formData.date} onChange={(date) => handleInputChange('date', date)} />
+            <DatePicker
+              className='form-date'
+              selected={formData.date}
+              onChange={(date) => handleInputChange('date', date)}
+              minDate={moment()}
+              filterDate={isDateValid}
+              //winter (no work)
+              excludeDateIntervals={[
+                { start: new Date("2024-11-1"), end: new Date("2025-04-1") },
+              ]}
+              //holidays
+              excludeDates={[new Date("2024-4-1"), new Date("2024-7-1"),new Date("2024-10-15"),new Date("2024-9-2") ]}
+
+            />
 
             <label className='form-label'>Time:</label>
             <TimePicker
@@ -198,6 +232,12 @@ function CreateQuoteRequestAdmin() {
               format={format}
               use12Hours
               className='form-time'
+              allowEmpty={false}
+              min={moment().hours(9).minutes(0)}
+              max={moment().hours(19).minutes(59)}
+              disabledHours={() => isTimeValid()}
+              disabledMinutes={() => []}
+              disabledSeconds={() => []}
             />
 
             <button className='form-button' type="submit">Submit</button>
