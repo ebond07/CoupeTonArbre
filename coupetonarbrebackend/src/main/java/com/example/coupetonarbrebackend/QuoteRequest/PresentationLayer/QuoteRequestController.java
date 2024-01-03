@@ -37,7 +37,7 @@ public class QuoteRequestController {
 //    @PreAuthorize("hasAuthority('Admin')")
     @PostMapping()
     public ResponseEntity<QuoteRequestResponseDTO> adminCreateQuoteRequest(@RequestBody QuoteRequestRequestDTO quoteRequestRequestDTO){
-        return ResponseEntity.ok().body(quoteRequestService.adminCreateQuoteRequest(quoteRequestRequestDTO));
+        return ResponseEntity.status(HttpStatus.CREATED).body(quoteRequestService.adminCreateQuoteRequest(quoteRequestRequestDTO));
     }
 
 //    @PreAuthorize("hasAuthority('Client')")

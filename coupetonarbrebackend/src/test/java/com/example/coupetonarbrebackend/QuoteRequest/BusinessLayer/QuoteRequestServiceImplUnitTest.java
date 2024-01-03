@@ -5,19 +5,27 @@ import com.example.coupetonarbrebackend.QuoteRequest.DataLayer.QuoteRequestRepos
 
 import com.example.coupetonarbrebackend.QuoteRequest.DataMapperLayer.QuoteRequestRequestMapper;
 import com.example.coupetonarbrebackend.QuoteRequest.DataMapperLayer.QuoteRequestResponseMapper;
+import com.example.coupetonarbrebackend.QuoteRequest.PresentationLayer.QuoteRequestRequestDTO;
 import com.example.coupetonarbrebackend.QuoteRequest.PresentationLayer.QuoteRequestResponseDTO;
-import com.example.coupetonarbrebackend.QuoteRequest.PresentationLayer.Service;
-import com.example.coupetonarbrebackend.QuoteRequest.PresentationLayer.Status;
+import com.example.coupetonarbrebackend.QuoteRequest.DataLayer.Service;
+
+import com.example.coupetonarbrebackend.QuoteRequest.DataLayer.Status;
+import com.example.coupetonarbrebackend.User.BusinessLayer.ClientService;
+import com.example.coupetonarbrebackend.User.PresentationLayer.ClientResponseDTO;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import reactor.core.publisher.Mono;
 
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -32,8 +40,15 @@ class QuoteRequestServiceImplUnitTest {
     @Mock
     private QuoteRequestRequestMapper quoteRequestRequestMapper;
 
-    @Mock
+    @InjectMocks
     private QuoteRequestServiceImpl quoteRequestService;
+
+
+
+    @Mock
+    private ClientService clientService;
+
+
 
 //    @Test
 //    void getAllQuoteRequests_shouldReturnQuoteRequestResponseDTOList() {
@@ -54,4 +69,79 @@ class QuoteRequestServiceImplUnitTest {
 //        // Assert
 //        assertEquals(expectedResponseDTOList, resultResponseDTOList);
 //    }
+
+
+
+    @Test
+    void testAdminCreateQuoteRequest() {
+        // Mock data
+        QuoteRequestRequestDTO requestDTO =  QuoteRequestRequestDTO.builder()
+                .clientId("client123")
+                .clientFirstName("firstName")
+                .clientLastName("lastName")
+                .time("9:00")
+                .date(new Date())
+                .price(100.00)
+                .description("description")
+                .build();
+
+
+        QuoteRequest quoteRequest = QuoteRequest.builder()
+                .quoteRequestId("123")
+                .clientId("client123")
+                .clientFirstName("firstName")
+                .clientLastName("lastName")
+                .time("9:00")
+                .date(new Date())
+                .price(100.00)
+                .description("description")
+                .service(Service.HedgeTrimming)
+                .status(Status.QUOTE_SENT)
+                .build();
+
+        // Mocking
+        when(quoteRequestRequestMapper.requestModelToEntity(requestDTO)).thenReturn(quoteRequest);
+        when(quoteRequestRepository.save(any(QuoteRequest.class))).thenReturn(quoteRequest);
+
+        when(quoteRequestResponseMapper.entityToResponseModel(quoteRequest)).thenReturn(new QuoteRequestResponseDTO());
+
+        QuoteRequestResponseDTO responseDTO = quoteRequestService.adminCreateQuoteRequest(requestDTO);
+
+        // Assertions
+        assertNotNull(responseDTO);
+
+        verify(quoteRequestRequestMapper).requestModelToEntity(requestDTO);
+        verify(quoteRequestRepository).save(quoteRequest);
+        verify(quoteRequestResponseMapper).entityToResponseModel(quoteRequest);
+    }
+
+    @Test
+    void testClientCreateQuoteRequest() {
+        // Mock data
+        QuoteRequestRequestDTO requestDTO = new QuoteRequestRequestDTO();
+        String clientId = "client123";
+        QuoteRequest quoteRequest = new QuoteRequest();
+        quoteRequest.setQuoteRequestId("123");
+        quoteRequest.setStatus(Status.QUOTE_SENT);
+
+        ClientResponseDTO clientResponseDTO = new ClientResponseDTO();
+        clientResponseDTO.setClientId(clientId);
+
+        // Mocking
+        when(quoteRequestRequestMapper.requestModelToEntity(requestDTO)).thenReturn(quoteRequest);
+        when(clientService.getClientById(clientId)).thenReturn(clientResponseDTO);
+        when(quoteRequestRepository.save(quoteRequest)).thenReturn(quoteRequest);
+        when(quoteRequestResponseMapper.entityToResponseModel(quoteRequest)).thenReturn(new QuoteRequestResponseDTO());
+
+        // Actual method call
+        QuoteRequestResponseDTO responseDTO = quoteRequestService.clientCreateQuoteRequest(requestDTO, clientId);
+
+        // Assertions
+        assertNotNull(responseDTO);
+
+        verify(quoteRequestRequestMapper).requestModelToEntity(requestDTO);
+        verify(clientService).getClientById(clientId);
+        verify(quoteRequestRepository).save(quoteRequest);
+        verify(quoteRequestResponseMapper).entityToResponseModel(quoteRequest);
+    }
 }
