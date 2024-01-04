@@ -92,7 +92,30 @@ function CreateQuoteRequestClient() {
     ));
   };
 
- 
+  const isDateValid = (date) => {
+    return moment(date).isSameOrAfter(moment(), 'day');
+  };
+
+
+
+  const isTimeValid = () => {
+    const dayOfWeek = moment(formData.date).day();
+
+    //weekdays
+    if (dayOfWeek >= 1 && dayOfWeek <= 5) {
+      return [0, 1, 2, 3, 4, 5, 6, 7, 20, 21, 22, 23];
+    }
+    //saturday
+     else if (dayOfWeek === 6) {
+      return [0, 1, 2, 3, 4, 5, 6, 7, ,8,18, 19, 20, 21, 22, 23];
+    } 
+    //sunday
+    else if (dayOfWeek === 0) {
+      return [0, 1, 2, 3, 4, 5, 6, 7, 8, 17, 18, 19, 20, 21, 22, 23];
+    }
+
+    return false;
+  };
 
   return (
     <div>
@@ -123,7 +146,20 @@ function CreateQuoteRequestClient() {
            
 
             <label className='form-label'>Date:</label>
-            <DatePicker className='form-date' selected={formData.date} onChange={(date) => handleInputChange('date', date)} />
+            <DatePicker
+              className='form-date'
+              selected={formData.date}
+              onChange={(date) => handleInputChange('date', date)}
+              minDate={moment()}
+              filterDate={isDateValid}
+              //winter (no work)
+              excludeDateIntervals={[
+                { start: new Date("2024-11-1"), end: new Date("2025-04-1") },
+              ]}
+              //holidays
+              excludeDates={[new Date("2024-4-1"), new Date("2024-7-1"),new Date("2024-10-15"),new Date("2024-9-2") ]}
+
+            />
 
             <label className='form-label'>Time:</label>
             <TimePicker
@@ -133,6 +169,12 @@ function CreateQuoteRequestClient() {
               format={format}
               use12Hours
               className='form-time'
+              allowEmpty={false}
+              min={moment().hours(9).minutes(0)}
+              max={moment().hours(19).minutes(59)}
+              disabledHours={() => isTimeValid()}
+              disabledMinutes={() => []}
+              disabledSeconds={() => []}
             />
 
             <button className='form-button' type="submit">Submit</button>

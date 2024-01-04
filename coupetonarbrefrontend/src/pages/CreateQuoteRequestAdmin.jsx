@@ -22,6 +22,8 @@ const CreateQuoteRequestAdmin = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const auth = useAuth();
 
+  const [existingQuoteRequests, setExistingQuoteRequests] = useState([]);
+
   const [formData, setFormData] = useState({
     description: '',
     service: '',
@@ -30,6 +32,24 @@ const CreateQuoteRequestAdmin = () => {
   });
 
   const { clientId } = useParams();
+
+  useEffect(() => {
+    // Fetch existing quote requests
+    axios.get("http://localhost:8080/quoteRequests", {
+      headers: {
+        // @ts-ignore
+        'X-XSRF-TOKEN': auth.getXsrfToken()
+      }
+    })
+      .then(response => {
+        setExistingQuoteRequests(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching existing quote requests:', error);
+      });
+  }, []);
+
+  
 
   const serviceOptionsMapping = {
     'Hedge Trimming': 'HedgeTrimming',
@@ -66,7 +86,12 @@ const CreateQuoteRequestAdmin = () => {
 
   useEffect(() => {
     if (selectedClientId) {
-      axios.get(`http://localhost:8080/users/clients/${selectedClientId}`)
+      axios.get(`http://localhost:8080/users/clients/${selectedClientId}`, {
+        headers: {
+          // @ts-ignore
+          'X-XSRF-TOKEN': auth.getXsrfToken()
+        }
+      })
         .then(response => {
           setSelectedClientDetails(response.data);
         })
@@ -150,9 +175,9 @@ const CreateQuoteRequestAdmin = () => {
   };
 
 
-
-  const isTimeValid = () => {
+  const closedHours = () => {
     const dayOfWeek = moment(formData.date).day();
+
 
     //weekdays
     if (dayOfWeek >= 1 && dayOfWeek <= 5) {
@@ -169,6 +194,44 @@ const CreateQuoteRequestAdmin = () => {
 
     return false;
   };
+
+ 
+  const isTimeTaken = () => {
+    const chosenDay = moment(formData.date).dayOfYear();
+    const chosenYear = moment(formData.date).year();
+
+  
+    console.log("Chosen day is " + chosenDay);
+  
+    // Initialize the array to store taken hours and minutes
+    const takenTimeSlots = [];
+  
+    // Iterate through all existing quote requests
+    existingQuoteRequests.forEach(request => {
+      const requestYear = moment(request.date).year();
+      let requestDay = moment(request.date).dayOfYear();
+      requestDay += 1; // Adjust day because dayOfYear is 1-based
+      const requestTime = moment(request.time, format);
+  
+      console.log("Already created days are " + requestDay);
+      console.log("Hours and minute are " + requestTime.hour() + " " + requestTime.minute());
+  
+      if (chosenDay === requestDay && chosenYear === requestYear) {
+        console.log("They are the same day");
+  
+        // Add the taken hour and minute to the array
+        takenTimeSlots.push({
+          hour: requestTime.hour(),
+          minute: requestTime.minute(),
+        });
+      }
+    });
+  
+    console.log(takenTimeSlots);
+  
+    return takenTimeSlots;
+  };
+  
 
 
   return (
@@ -226,8 +289,7 @@ const CreateQuoteRequestAdmin = () => {
 
             <label className='form-label'>Time:</label>
             <TimePicker
-              showSecond={false}
-              defaultValue={formData.time && moment(formData.time, format)}
+              showSecond={false}            
               onChange={handleTimeChange}
               format={format}
               use12Hours
@@ -235,9 +297,14 @@ const CreateQuoteRequestAdmin = () => {
               allowEmpty={false}
               min={moment().hours(9).minutes(0)}
               max={moment().hours(19).minutes(59)}
-              disabledHours={() => isTimeValid()}
-              disabledMinutes={() => []}
+              minuteStep={15}
+
+             
+               disabledHours={() => closedHours()}
+              
+              disabledMinutes={(hour) => isTimeTaken().filter(slot => slot.hour === hour).map(slot => slot.minute)}
               disabledSeconds={() => []}
+
             />
 
             <button className='form-button' type="submit">Submit</button>
