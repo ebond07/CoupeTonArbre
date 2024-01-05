@@ -34,19 +34,19 @@ public class QuoteRequestController {
         return ResponseEntity.ok().body(quoteRequestService.getAllQuoteRequests());
     }
 
-//    @PreAuthorize("hasAuthority('Client')")
+    @PreAuthorize("hasAuthority('Client')")
     @GetMapping("/dates")
     public ResponseEntity<List<QuoteRequestDatesResponseDTO>> getAllQuoteRequestsDates(){
         return ResponseEntity.ok().body(quoteRequestService.getAllQuoteRequestsDates());
     }
 
-//    @PreAuthorize("hasAuthority('Admin')")
+    @PreAuthorize("hasAuthority('Admin')")
     @PostMapping()
     public ResponseEntity<QuoteRequestResponseDTO> adminCreateQuoteRequest(@RequestBody QuoteRequestRequestDTO quoteRequestRequestDTO){
         return ResponseEntity.status(HttpStatus.CREATED).body(quoteRequestService.adminCreateQuoteRequest(quoteRequestRequestDTO));
     }
 
-//    @PreAuthorize("hasAuthority('Client')")
+    @PreAuthorize("hasAuthority('Client')")
     @PostMapping("/client")
     public ResponseEntity<QuoteRequestResponseDTO> clientCreateQuoteRequest(@AuthenticationPrincipal OidcUser principal,
                                                                  @Valid @RequestBody QuoteRequestRequestDTO quoteRequestRequestDTO) {

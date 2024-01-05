@@ -65,7 +65,7 @@ const CreateQuoteRequestAdmin = () => {
     }
   }, []);
 
-  
+
   useEffect(() => {
     // Fetch existing quote requests
     axios.get("http://localhost:8080/quoteRequests", {
@@ -156,6 +156,8 @@ const CreateQuoteRequestAdmin = () => {
     axios.post('http://localhost:8080/quoteRequests', requestBody)
       .then(response => {
         console.log(response.data);
+        window.location.href = 'http://localhost:3000/';
+
       })
       .catch(error => {
         console.error('Error:', error);
@@ -286,8 +288,8 @@ const CreateQuoteRequestAdmin = () => {
               onChange={handleSearchTermChange}
               placeholder='Filter Client By Name'
             />
-            <select className='form-select' value={selectedClientId} onChange={handleClientChange}>
-              <option value="" disabled>Select a client</option>
+            <select className='form-select' id='client-select' value={selectedClientId} onChange={handleClientChange}>
+              <option value="" >Select a client</option>
               {renderClientOptions()}
             </select>
 
