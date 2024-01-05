@@ -153,7 +153,12 @@ const CreateQuoteRequestAdmin = () => {
       ...formData,
     };
 
-    axios.post('http://localhost:8080/quoteRequests', requestBody)
+    axios.post('http://localhost:8080/quoteRequests', requestBody, {
+      headers: {
+        // @ts-ignore
+        'X-XSRF-TOKEN': auth.getXsrfToken()
+      }
+    })
       .then(response => {
         console.log(response.data);
         window.location.href = 'http://localhost:3000/';
