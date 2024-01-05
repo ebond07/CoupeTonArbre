@@ -52,6 +52,14 @@ class QuoteRequestControllerIntegrationTest {
     }
 
     @Test
+    void getAllQuoteRequestsDates() throws Exception {
+        mockMvc.perform(get(BASE_URI_QUOTEREQUESTS + "/dates")
+                        .with(SecurityMockMvcRequestPostProcessors.oidcLogin().idToken(i -> i.subject("google|123456789")).authorities(new SimpleGrantedAuthority("Client")))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
     void adminCreateQuoteRequest() throws Exception {
 
         mockMvc.perform(post(BASE_URI_QUOTEREQUESTS)

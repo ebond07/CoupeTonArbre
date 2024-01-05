@@ -3,8 +3,10 @@ package com.example.coupetonarbrebackend.QuoteRequest.BusinessLayer;
 import com.example.coupetonarbrebackend.QuoteRequest.DataLayer.QuoteRequest;
 import com.example.coupetonarbrebackend.QuoteRequest.DataLayer.QuoteRequestRepository;
 
+import com.example.coupetonarbrebackend.QuoteRequest.DataMapperLayer.QuoteRequestDatesResponseMapper;
 import com.example.coupetonarbrebackend.QuoteRequest.DataMapperLayer.QuoteRequestRequestMapper;
 import com.example.coupetonarbrebackend.QuoteRequest.DataMapperLayer.QuoteRequestResponseMapper;
+import com.example.coupetonarbrebackend.QuoteRequest.PresentationLayer.QuoteRequestDatesResponseDTO;
 import com.example.coupetonarbrebackend.QuoteRequest.PresentationLayer.QuoteRequestRequestDTO;
 import com.example.coupetonarbrebackend.QuoteRequest.PresentationLayer.QuoteRequestResponseDTO;
 import com.example.coupetonarbrebackend.QuoteRequest.DataLayer.Service;
@@ -38,6 +40,9 @@ class QuoteRequestServiceImplUnitTest {
     private QuoteRequestResponseMapper quoteRequestResponseMapper;
 
     @Mock
+    private QuoteRequestDatesResponseMapper quoteRequestDatesResponseMapper;
+
+    @Mock
     private QuoteRequestRequestMapper quoteRequestRequestMapper;
 
     @InjectMocks
@@ -69,6 +74,26 @@ class QuoteRequestServiceImplUnitTest {
 //        // Assert
 //        assertEquals(expectedResponseDTOList, resultResponseDTOList);
 //    }
+
+        @Test
+    void getAllQuoteRequestsDates_shouldReturnQuoteRequestDatesResponseDTOList() {
+        // Arrange
+        List<QuoteRequest> mockQuoteRequestList = Arrays.asList(
+                new QuoteRequest(1, "1", "1", "firstName", "lastName", "9:00", new Date(), 100.00, "description", com.example.coupetonarbrebackend.QuoteRequest.DataLayer.Service.HedgeTrimming, com.example.coupetonarbrebackend.QuoteRequest.DataLayer.Status.PENDING),
+                new QuoteRequest(2, "2", "2", "firstName", "lastName", "10:00", new Date(), 200.00, "description", com.example.coupetonarbrebackend.QuoteRequest.DataLayer.Service.SmallTreeRemoval, com.example.coupetonarbrebackend.QuoteRequest.DataLayer.Status.PENDING)
+        );
+
+        List<QuoteRequestDatesResponseDTO> expectedResponseDTOList = Arrays.asList(
+                new QuoteRequestDatesResponseDTO("9:00", new Date()),
+                new QuoteRequestDatesResponseDTO("10:00", new Date())
+        );
+        // Act
+        when(quoteRequestRepository.findAll()).thenReturn(mockQuoteRequestList);
+        when(quoteRequestDatesResponseMapper.entityListToResponseModelList(mockQuoteRequestList)).thenReturn(expectedResponseDTOList);
+        List<QuoteRequestDatesResponseDTO> resultResponseDTOList = quoteRequestService.getAllQuoteRequestsDates();
+        // Assert
+        assertEquals(expectedResponseDTOList, resultResponseDTOList);
+    }
 
 
 

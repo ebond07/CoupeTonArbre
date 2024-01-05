@@ -26,6 +26,14 @@ function AccountsAdmin() {
 
   const auth = useAuth();
 
+  useEffect(() => {
+    // @ts-ignore
+    if (!auth.isAuthenticated) {
+      window.location.href = 'http://localhost:3000/';
+    }
+  }, []);
+
+
   const getAllAccounts = async () => {
     axios.get("http://localhost:8080/users/clients", {
         headers: {

@@ -90,7 +90,9 @@ public class SpringSecurityConfigBean {
 
                                 new AntPathRequestMatcher("/quoteRequests", HttpMethod.GET.toString()),
                                 new AntPathRequestMatcher("/quoteRequests", HttpMethod.POST.toString()),
-                                new AntPathRequestMatcher("/quoteRequests/client", HttpMethod.POST.toString())
+                                new AntPathRequestMatcher("/quoteRequests/client", HttpMethod.POST.toString()),
+                                new AntPathRequestMatcher("/quoteRequests/dates", HttpMethod.GET.toString())
+
 
 
 

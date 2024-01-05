@@ -3,8 +3,10 @@ package com.example.coupetonarbrebackend.QuoteRequest.BusinessLayer;
 import com.example.coupetonarbrebackend.QuoteRequest.DataLayer.QuoteRequest;
 import com.example.coupetonarbrebackend.QuoteRequest.DataLayer.QuoteRequestRepository;
 import com.example.coupetonarbrebackend.QuoteRequest.DataLayer.Status;
+import com.example.coupetonarbrebackend.QuoteRequest.DataMapperLayer.QuoteRequestDatesResponseMapper;
 import com.example.coupetonarbrebackend.QuoteRequest.DataMapperLayer.QuoteRequestRequestMapper;
 import com.example.coupetonarbrebackend.QuoteRequest.DataMapperLayer.QuoteRequestResponseMapper;
+import com.example.coupetonarbrebackend.QuoteRequest.PresentationLayer.QuoteRequestDatesResponseDTO;
 import com.example.coupetonarbrebackend.QuoteRequest.PresentationLayer.QuoteRequestRequestDTO;
 import com.example.coupetonarbrebackend.QuoteRequest.PresentationLayer.QuoteRequestResponseDTO;
 import com.example.coupetonarbrebackend.User.BusinessLayer.ClientService;
@@ -19,20 +21,30 @@ public class QuoteRequestServiceImpl implements QuoteRequestService{
     private QuoteRequestRepository quoteRequestRepository;
     private QuoteRequestRequestMapper quoteRequestRequestMapper;
     private QuoteRequestResponseMapper quoteRequestResponseMapper;
+
+    private QuoteRequestDatesResponseMapper quoteRequestDatesResponseMapper;
+
     private QuoteRequestRequestDTO quoteRequestRequestDTO;
 
     private ClientService clientService;
 
-    public QuoteRequestServiceImpl(QuoteRequestRepository quoteRequestRepository, QuoteRequestRequestMapper quoteRequestRequestMapper, QuoteRequestResponseMapper quoteRequestResponseMapper, ClientService clientService){
+    public QuoteRequestServiceImpl(QuoteRequestRepository quoteRequestRepository, QuoteRequestRequestMapper quoteRequestRequestMapper, QuoteRequestResponseMapper quoteRequestResponseMapper, ClientService clientService, QuoteRequestDatesResponseMapper quoteRequestDatesResponseMapper){
         this.quoteRequestRepository = quoteRequestRepository;
         this.quoteRequestRequestMapper = quoteRequestRequestMapper;
         this.quoteRequestResponseMapper = quoteRequestResponseMapper;
+        this.quoteRequestDatesResponseMapper = quoteRequestDatesResponseMapper;
+
         this.clientService = clientService;
     }
 
     @Override
     public List<QuoteRequestResponseDTO> getAllQuoteRequests() {
         return quoteRequestResponseMapper.entityListToResponseModelList(quoteRequestRepository.findAll());
+    }
+
+    @Override
+    public List<QuoteRequestDatesResponseDTO> getAllQuoteRequestsDates() {
+        return quoteRequestDatesResponseMapper.entityListToResponseModelList(quoteRequestRepository.findAll());
     }
 
     @Override

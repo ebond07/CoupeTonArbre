@@ -15,15 +15,22 @@ import { useAuth } from '../security/Components/AuthProvider';
 const format = 'h:mm a';
 
 const CreateQuoteRequestAdmin = () => {
+  //storing all clients
   const [clients, setClients] = useState([]);
+  //filtering clients
   const [filteredClients, setFilteredClients] = useState([]);
+  //storing the selected client
   const [selectedClientId, setSelectedClientId] = useState('');
+  //storing the details of the selected client
   const [selectedClientDetails, setSelectedClientDetails] = useState(null);
+  //filter 
   const [searchTerm, setSearchTerm] = useState('');
   const auth = useAuth();
 
+  //storing the existing quote requests
   const [existingQuoteRequests, setExistingQuoteRequests] = useState([]);
 
+  //storing data from form
   const [formData, setFormData] = useState({
     description: '',
     service: '',
@@ -33,25 +40,8 @@ const CreateQuoteRequestAdmin = () => {
 
   const { clientId } = useParams();
 
-  useEffect(() => {
-    // Fetch existing quote requests
-    axios.get("http://localhost:8080/quoteRequests", {
-      headers: {
-        // @ts-ignore
-        'X-XSRF-TOKEN': auth.getXsrfToken()
-      }
-    })
-      .then(response => {
-        setExistingQuoteRequests(response.data);
-      })
-      .catch(error => {
-        console.error('Error fetching existing quote requests:', error);
-      });
-  }, []);
-
-  
-
-  const serviceOptionsMapping = {
+   //Mapping the enum names to better named options
+   const serviceOptionsMapping = {
     'Hedge Trimming': 'HedgeTrimming',
     'Tree Trimming': 'TreeTrimming',
     'Tree Branch Removal': 'TreeBranchRemoval',
@@ -69,6 +59,33 @@ const CreateQuoteRequestAdmin = () => {
   };
 
   useEffect(() => {
+    // @ts-ignore
+    if (!auth.isAuthenticated) {
+      window.location.href = 'http://localhost:3000/';
+    }
+  }, []);
+
+  
+  useEffect(() => {
+    // Fetch existing quote requests
+    axios.get("http://localhost:8080/quoteRequests", {
+      headers: {
+        // @ts-ignore
+        'X-XSRF-TOKEN': auth.getXsrfToken()
+      }
+    })
+      .then(response => {
+        setExistingQuoteRequests(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching existing quote requests:', error);
+      });
+  }, []);
+
+  
+ 
+  //Getting and storing all the clients in the system
+  useEffect(() => {
     axios.get("http://localhost:8080/users/clients", {
       headers: {
         // @ts-ignore
@@ -84,6 +101,7 @@ const CreateQuoteRequestAdmin = () => {
       });
   }, [auth]);
 
+  //Gets the selected client and stores its details
   useEffect(() => {
     if (selectedClientId) {
       axios.get(`http://localhost:8080/users/clients/${selectedClientId}`, {
@@ -101,11 +119,14 @@ const CreateQuoteRequestAdmin = () => {
     }
   }, [selectedClientId]);
 
+
+  //handles when the client is changed to change the selected client
   const handleClientChange = (event) => {
     const clientId = event.target.value;
     setSelectedClientId(clientId);
   };
 
+  // handling the information changed in the form
   const handleInputChange = (name, value) => {
     setFormData({
       ...formData,
@@ -113,6 +134,7 @@ const CreateQuoteRequestAdmin = () => {
     });
   };
 
+  // handling if time was changed
   const handleTimeChange = (value) => {
     setFormData({
       ...formData,
@@ -120,6 +142,7 @@ const CreateQuoteRequestAdmin = () => {
     });
   };
 
+  //Creating a quote request with form data and selected client information
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -139,11 +162,13 @@ const CreateQuoteRequestAdmin = () => {
       });
   };
 
+  //Handling change in filtering
   const handleSearchTermChange = (event) => {
     setSearchTerm(event.target.value);
     filterClients(event.target.value);
   };
 
+  //Filtering functionality
   const filterClients = (term) => {
     const filtered = clients.filter(client =>
       client.firstName.toLowerCase().includes(term.toLowerCase()) ||
@@ -152,6 +177,7 @@ const CreateQuoteRequestAdmin = () => {
     setFilteredClients(filtered);
   };
 
+  //Dropdown for clients
   const renderClientOptions = () => {
     return filteredClients.map(client => (
       <option key={client.clientId} value={client.clientId}>
@@ -160,6 +186,7 @@ const CreateQuoteRequestAdmin = () => {
     ));
   };
 
+  //Dropdown for services
   const renderServiceOptions = () => {
     const serviceOptions = Object.keys(serviceOptionsMapping);
 
@@ -170,11 +197,13 @@ const CreateQuoteRequestAdmin = () => {
     ));
   };
 
+  //Checks if the day is valid
   const isDateValid = (date) => {
     return moment(date).isSameOrAfter(moment(), 'day');
   };
 
 
+  //Returns a list of hours that should be disabled
   const closedHours = () => {
     const dayOfWeek = moment(formData.date).day();
 
@@ -195,7 +224,7 @@ const CreateQuoteRequestAdmin = () => {
     return false;
   };
 
- 
+ //Returns time slots that are already taken
   const isTimeTaken = () => {
     const chosenDay = moment(formData.date).dayOfYear();
     const chosenYear = moment(formData.date).year();

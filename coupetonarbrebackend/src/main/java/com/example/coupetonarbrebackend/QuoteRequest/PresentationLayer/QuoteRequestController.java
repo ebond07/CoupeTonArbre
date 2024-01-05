@@ -34,6 +34,12 @@ public class QuoteRequestController {
         return ResponseEntity.ok().body(quoteRequestService.getAllQuoteRequests());
     }
 
+//    @PreAuthorize("hasAuthority('Client')")
+    @GetMapping("/dates")
+    public ResponseEntity<List<QuoteRequestDatesResponseDTO>> getAllQuoteRequestsDates(){
+        return ResponseEntity.ok().body(quoteRequestService.getAllQuoteRequestsDates());
+    }
+
 //    @PreAuthorize("hasAuthority('Admin')")
     @PostMapping()
     public ResponseEntity<QuoteRequestResponseDTO> adminCreateQuoteRequest(@RequestBody QuoteRequestRequestDTO quoteRequestRequestDTO){
