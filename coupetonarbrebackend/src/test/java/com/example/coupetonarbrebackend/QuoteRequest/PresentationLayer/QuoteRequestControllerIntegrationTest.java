@@ -73,6 +73,7 @@ class QuoteRequestControllerIntegrationTest {
                                 "    \"time\": \"9:00\",\n" +
                                 "    \"date\": \"2021-04-01\",\n" +
                                 "    \"description\": \"description\",\n" +
+                                "    \"address\": \"address\",\n" +
                                 "    \"service\": \"HedgeTrimming\"\n" +
                                 "}"))
                 .andExpect(status().isCreated());

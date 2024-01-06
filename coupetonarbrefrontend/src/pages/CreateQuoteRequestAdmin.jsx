@@ -150,6 +150,7 @@ const CreateQuoteRequestAdmin = () => {
       clientId: selectedClientId,
       clientFirstName: selectedClientDetails.firstName,
       clientLastName: selectedClientDetails.lastName,
+      address: selectedClientDetails.address,
       ...formData,
     };
 

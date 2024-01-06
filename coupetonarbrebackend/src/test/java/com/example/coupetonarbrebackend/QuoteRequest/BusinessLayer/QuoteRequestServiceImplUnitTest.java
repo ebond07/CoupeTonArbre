@@ -79,8 +79,8 @@ class QuoteRequestServiceImplUnitTest {
     void getAllQuoteRequestsDates_shouldReturnQuoteRequestDatesResponseDTOList() {
         // Arrange
         List<QuoteRequest> mockQuoteRequestList = Arrays.asList(
-                new QuoteRequest(1, "1", "1", "firstName", "lastName", "9:00", new Date(), 100.00, "description", com.example.coupetonarbrebackend.QuoteRequest.DataLayer.Service.HedgeTrimming, com.example.coupetonarbrebackend.QuoteRequest.DataLayer.Status.PENDING),
-                new QuoteRequest(2, "2", "2", "firstName", "lastName", "10:00", new Date(), 200.00, "description", com.example.coupetonarbrebackend.QuoteRequest.DataLayer.Service.SmallTreeRemoval, com.example.coupetonarbrebackend.QuoteRequest.DataLayer.Status.PENDING)
+                new QuoteRequest(1, "1", "1", "firstName", "lastName", "9:00", new Date(), 100.00, "description", "address", com.example.coupetonarbrebackend.QuoteRequest.DataLayer.Service.HedgeTrimming, com.example.coupetonarbrebackend.QuoteRequest.DataLayer.Status.PENDING),
+                new QuoteRequest(2, "2", "2", "firstName", "lastName", "10:00", new Date(), 200.00,"address", "description", com.example.coupetonarbrebackend.QuoteRequest.DataLayer.Service.SmallTreeRemoval, com.example.coupetonarbrebackend.QuoteRequest.DataLayer.Status.PENDING)
         );
 
         List<QuoteRequestDatesResponseDTO> expectedResponseDTOList = Arrays.asList(
@@ -108,6 +108,7 @@ class QuoteRequestServiceImplUnitTest {
                 .date(new Date())
                 .price(100.00)
                 .description("description")
+                .address("address")
                 .build();
 
 
@@ -120,6 +121,7 @@ class QuoteRequestServiceImplUnitTest {
                 .date(new Date())
                 .price(100.00)
                 .description("description")
+                .address("address")
                 .service(Service.HedgeTrimming)
                 .status(Status.QUOTE_SENT)
                 .build();

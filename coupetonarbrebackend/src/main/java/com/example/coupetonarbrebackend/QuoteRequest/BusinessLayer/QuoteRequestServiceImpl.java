@@ -67,6 +67,9 @@ public class QuoteRequestServiceImpl implements QuoteRequestService{
         quoteRequest.setClientId(clientResponseDTO.getClientId());
         quoteRequest.setClientFirstName(clientResponseDTO.getFirstName());
         quoteRequest.setClientLastName(clientResponseDTO.getLastName());
+        quoteRequest.setClientLastName(clientResponseDTO.getLastName());
+        quoteRequest.setAddress(clientResponseDTO.getAddress());
+
         quoteRequest.setStatus(Status.QUOTE_SENT);
 
 

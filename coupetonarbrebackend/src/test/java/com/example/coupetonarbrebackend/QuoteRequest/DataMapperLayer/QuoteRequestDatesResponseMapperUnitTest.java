@@ -32,8 +32,8 @@ class QuoteRequestDatesResponseMapperUnitTest {
     @Test
     void shouldMapEntityListToResponseModelList() {
         // Given
-        QuoteRequest quoteRequest1 = createQuoteRequest("1", "John", "Doe", "10:00", new Date(2023, 12, 30), 100, "Description");
-        QuoteRequest quoteRequest2 = createQuoteRequest("2", "Jane", "Doe", "12:00", new Date(2023, 12, 30), 150, "Another Description");
+        QuoteRequest quoteRequest1 = createQuoteRequest("1", "John", "Doe", "10:00", new Date(2023, 12, 30), 100, "Description", "Address");
+        QuoteRequest quoteRequest2 = createQuoteRequest("2", "Jane", "Doe", "12:00", new Date(2023, 12, 30), 150, "Another Description", "Another Address");
 
         // When
         List<QuoteRequestDatesResponseDTO> responseDTOList = mapper.entityListToResponseModelList(Arrays.asList(quoteRequest1, quoteRequest2));
@@ -51,7 +51,7 @@ class QuoteRequestDatesResponseMapperUnitTest {
     }
 
     private QuoteRequest createQuoteRequest(String quoteRequestId, String clientFirstName, String clientLastName,
-                                            String time, Date date, double price, String description) {
+                                            String time, Date date, double price, String description, String address) {
         QuoteRequest quoteRequest = new QuoteRequest();
         quoteRequest.setQuoteRequestId(quoteRequestId);
         quoteRequest.setClientFirstName(clientFirstName);
@@ -60,6 +60,7 @@ class QuoteRequestDatesResponseMapperUnitTest {
         quoteRequest.setDate(date);
         quoteRequest.setPrice(price);
         quoteRequest.setDescription(description);
+        quoteRequest.setAddress(address);
         return quoteRequest;
     }
 

@@ -38,6 +38,7 @@ class QuoteRequestResponseMapperUnitTest {
         assertEquals(quoteRequest.getDate(), result.getDate());
         assertEquals(quoteRequest.getPrice(), result.getPrice());
         assertEquals(quoteRequest.getDescription(), result.getDescription());
+        assertEquals(quoteRequest.getAddress(), result.getAddress());
         assertEquals(quoteRequest.getService(), result.getService());
         assertEquals(quoteRequest.getStatus(), result.getStatus());
     }
@@ -45,8 +46,8 @@ class QuoteRequestResponseMapperUnitTest {
     @Test
     void shouldMapEntityListToResponseModelList() {
         // Given
-        QuoteRequest quoteRequest1 = createQuoteRequest("1", "John", "Doe", "10:00", new Date(2023, 12, 30), 100, "Description");
-        QuoteRequest quoteRequest2 = createQuoteRequest("2", "Jane", "Doe", "12:00", new Date(2023, 12, 30), 150, "Another Description");
+        QuoteRequest quoteRequest1 = createQuoteRequest("1", "John", "Doe", "10:00", new Date(2023, 12, 30), 100, "Description", "Address");
+        QuoteRequest quoteRequest2 = createQuoteRequest("2", "Jane", "Doe", "12:00", new Date(2023, 12, 30), 150, "Another Description", "Another Address");
 
         // When
         List<QuoteRequestResponseDTO> responseDTOList = mapper.entityListToResponseModelList(Arrays.asList(quoteRequest1, quoteRequest2));
@@ -55,10 +56,10 @@ class QuoteRequestResponseMapperUnitTest {
         assertEquals(2, responseDTOList.size());
 
         QuoteRequestResponseDTO responseDTO1 = responseDTOList.get(0);
-        assertQuoteRequestResponseDTO(responseDTO1, "1", "John", "Doe", "10:00", new Date(2023, 12, 30), 100, "Description");
+        assertQuoteRequestResponseDTO(responseDTO1, "1", "John", "Doe", "10:00", new Date(2023, 12, 30), 100, "Description", "Address");
 
         QuoteRequestResponseDTO responseDTO2 = responseDTOList.get(1);
-        assertQuoteRequestResponseDTO(responseDTO2, "2", "Jane", "Doe", "12:00", new Date(2023, 12, 30), 150, "Another Description");
+        assertQuoteRequestResponseDTO(responseDTO2, "2", "Jane", "Doe", "12:00", new Date(2023, 12, 30), 150, "Another Description", "Another Address");
     }
 
     @Test
@@ -121,7 +122,7 @@ class QuoteRequestResponseMapperUnitTest {
     }
 
     private void assertQuoteRequestResponseDTO(QuoteRequestResponseDTO responseDTO, String quoteRequestId, String clientFirstName, String clientLastName,
-                                               String time, Date date, double price, String description) {
+                                               String time, Date date, double price, String description, String address) {
         assertEquals(quoteRequestId, responseDTO.getQuoteRequestId());
         assertEquals(clientFirstName, responseDTO.getClientFirstName());
         assertEquals(clientLastName, responseDTO.getClientLastName());
@@ -129,10 +130,11 @@ class QuoteRequestResponseMapperUnitTest {
         assertEquals(date, responseDTO.getDate());
         assertEquals(price, responseDTO.getPrice());
         assertEquals(description, responseDTO.getDescription());
+        assertEquals(address, responseDTO.getAddress());
     }
 
     private QuoteRequest createQuoteRequest(String quoteRequestId, String clientFirstName, String clientLastName,
-                                            String time, Date date, double price, String description) {
+                                            String time, Date date, double price, String description, String address) {
         QuoteRequest quoteRequest = new QuoteRequest();
         quoteRequest.setQuoteRequestId(quoteRequestId);
         quoteRequest.setClientFirstName(clientFirstName);
@@ -141,6 +143,7 @@ class QuoteRequestResponseMapperUnitTest {
         quoteRequest.setDate(date);
         quoteRequest.setPrice(price);
         quoteRequest.setDescription(description);
+        quoteRequest.setAddress(address);
         return quoteRequest;
     }
 }

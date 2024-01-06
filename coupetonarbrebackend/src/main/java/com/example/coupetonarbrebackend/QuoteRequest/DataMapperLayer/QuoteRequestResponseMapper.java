@@ -23,6 +23,7 @@ public interface QuoteRequestResponseMapper {
     @Mapping(source = "date", target = "date")
     @Mapping(source = "price", target = "price")
     @Mapping(source = "description", target = "description")
+    @Mapping(source = "address", target = "address")
     @Mapping(source = "service", target = "service", qualifiedByName = "mapServiceEnum")
     @Mapping(source = "status", target = "status", qualifiedByName = "mapStatusEnum")
 

@@ -28,6 +28,9 @@ public class QuoteRequest {
     public Date date;
     public Double price;
     public String description;
+    public String address;
+
+
     @Enumerated(EnumType.STRING)
     @Column(name = "service")
     public Service service;

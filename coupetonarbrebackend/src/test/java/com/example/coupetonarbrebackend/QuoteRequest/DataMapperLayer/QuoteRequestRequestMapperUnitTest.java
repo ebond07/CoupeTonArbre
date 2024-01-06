@@ -30,6 +30,7 @@ class QuoteRequestRequestMapperUnitTest {
         dto.setDate(new Date());
         dto.setPrice(100.0);
         dto.setDescription("Request description");
+        dto.setAddress("1234 Street");
         dto.setService(Service.HedgeTrimming);
         dto.setStatus(Status.PENDING);
 
@@ -44,6 +45,7 @@ class QuoteRequestRequestMapperUnitTest {
         assertEquals(dto.getDate(), entity.getDate());
         assertEquals(dto.getPrice(), entity.getPrice());
         assertEquals(dto.getDescription(), entity.getDescription());
+        assertEquals(dto.getAddress(), entity.getAddress());
     }
 
     @Test
