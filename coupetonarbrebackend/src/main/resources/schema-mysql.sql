@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS quote_requests (
     date DATE NOT NULL,
     price DOUBLE,
     description VARCHAR(255) NOT NULL,
+    address VARCHAR(255) NOT NULL,
     service VARCHAR(255) NOT NULL,
     status VARCHAR(255) NOT NULL
 )

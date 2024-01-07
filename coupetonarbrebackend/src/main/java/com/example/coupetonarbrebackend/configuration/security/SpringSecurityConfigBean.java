@@ -88,7 +88,13 @@ public class SpringSecurityConfigBean {
                                 new AntPathRequestMatcher("/users/clients/{clientId}", HttpMethod.PUT.toString()),
                                 new AntPathRequestMatcher("/users/clients/{clientId}", HttpMethod.DELETE.toString()),
 
-                                new AntPathRequestMatcher("/quoteRequests", HttpMethod.GET.toString())
+                                new AntPathRequestMatcher("/quoteRequests", HttpMethod.GET.toString()),
+                                new AntPathRequestMatcher("/quoteRequests", HttpMethod.POST.toString()),
+                                new AntPathRequestMatcher("/quoteRequests/client", HttpMethod.POST.toString()),
+                                new AntPathRequestMatcher("/quoteRequests/dates", HttpMethod.GET.toString())
+
+
+
 
 
                         )

@@ -16,6 +16,9 @@ import org.springframework.test.web.reactive.server.WebTestClient;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.http.MediaType;
 
+import java.util.Date;
+
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -46,5 +49,53 @@ class QuoteRequestControllerIntegrationTest {
                 .with(SecurityMockMvcRequestPostProcessors.oidcLogin().idToken(i -> i.subject("google|123456789")).authorities(new SimpleGrantedAuthority("Admin")))
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void getAllQuoteRequestsDates() throws Exception {
+        mockMvc.perform(get(BASE_URI_QUOTEREQUESTS + "/dates")
+                        .with(SecurityMockMvcRequestPostProcessors.oidcLogin().idToken(i -> i.subject("google|123456789")).authorities(new SimpleGrantedAuthority("Client")))
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void adminCreateQuoteRequest() throws Exception {
+
+        mockMvc.perform(post(BASE_URI_QUOTEREQUESTS)
+                        .with(SecurityMockMvcRequestPostProcessors.oidcLogin().idToken(i -> i.subject("google|newuser")).authorities(new SimpleGrantedAuthority("Admin")))
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\n" +
+                                "    \"clientId\": \"Generated\",\n" +
+                                "    \"clientFirstName\": \"david\",\n" +
+                                "    \"clientLastName\": \"rallo\",\n" +
+                                "    \"time\": \"9:00\",\n" +
+                                "    \"date\": \"2021-04-01\",\n" +
+                                "    \"description\": \"description\",\n" +
+                                "    \"address\": \"address\",\n" +
+                                "    \"service\": \"HedgeTrimming\"\n" +
+                                "}"))
+                .andExpect(status().isCreated());
+
+
+    }
+
+    @Test
+    void clientCreateQuoteRequest() throws Exception {
+
+        mockMvc.perform(post(BASE_URI_QUOTEREQUESTS + "/client")
+                        .with(SecurityMockMvcRequestPostProcessors.oidcLogin().idToken(i -> i.subject("google|newuser")).authorities(new SimpleGrantedAuthority("Client")))
+                        .with(csrf())
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{\n" +
+                                "    \"time\": \"9:00\",\n" +
+                                "    \"date\": \"2021-04-01\",\n" +
+                                "    \"description\": \"description\",\n" +
+                                "    \"service\": \"HedgeTrimming\"\n" +
+                                "}"))
+                .andExpect(status().isCreated());
+
+
     }
 }

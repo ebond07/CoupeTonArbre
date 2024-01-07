@@ -19,6 +19,7 @@ public class QuoteRequest {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+    @GeneratedValue(strategy = GenerationType.UUID)
     public String quoteRequestId;
     public String clientId;
     public String clientFirstName;
@@ -27,6 +28,9 @@ public class QuoteRequest {
     public Date date;
     public Double price;
     public String description;
+    public String address;
+
+
     @Enumerated(EnumType.STRING)
     @Column(name = "service")
     public Service service;

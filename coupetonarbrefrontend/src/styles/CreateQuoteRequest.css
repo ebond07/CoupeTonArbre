@@ -1,0 +1,67 @@
+/* CreateQuoteRequest.css */
+
+.container {
+    text-align: center;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .heading {
+    margin-bottom: 20px;
+  }
+  
+  .form-styles {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .form-label {
+    margin-bottom: 8px;
+  }
+
+  .form-date{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+
+  .form-time{
+    width: 20%;
+    padding: 10px;
+    margin-bottom: 16px;
+ 
+  }
+  
+  .form-select,
+  .form-input,
+  .form-button {
+    width: 20%;
+    padding: 10px;
+    margin-bottom: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-sizing: border-box;
+  }
+  
+ 
+
+  .form-button {
+    background-color: #2e332e;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .form-button:hover {
+    background-color: #45a049;
+  }
+  

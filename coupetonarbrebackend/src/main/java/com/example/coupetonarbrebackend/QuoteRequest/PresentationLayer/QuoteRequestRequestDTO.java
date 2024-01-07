@@ -21,6 +21,7 @@ public class QuoteRequestRequestDTO {
     private Date date;
     private Double price;
     private String description;
+    private String address;
     private Service service;
     private Status status;
 
